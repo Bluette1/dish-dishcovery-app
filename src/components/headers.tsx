@@ -1,76 +1,81 @@
-// components/Headers.tsx
-import { useState } from 'react';
 import Link from 'next/link';
-import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'; // Import Heroicons for menu icons
+import { useState, useEffect, useRef } from 'react';
+import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'; // Import Heroicons
 import Logo from './logo';
 
-const Headers: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  // Mock authentication state
+const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle login/logout
   const handleAuthClick = () => {
     if (isLoggedIn) {
       // Perform logout logic here
       setIsLoggedIn(false);
-      // Redirect or perform additional actions
     } else {
       // Perform login logic here
       setIsLoggedIn(true);
-      // Redirect or perform additional actions
     }
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+        setIsCategoriesOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <>
-      {/* Fixed Thin Header */}
-      <header className="bg-gray-800 text-white text-center py-2 fixed top-0 left-0 w-full z-40">
-        <div className="container mx-auto px-4">
-          <p className="text-sm font-medium">Coming Soon in Summer 2025</p>
-        </div>
+      {/* Fixed Header */}
+      <header className="bg-gray-800 text-white p-2 text-center text-sm">
+        Coming Soon in Summer 2025
       </header>
 
-      {/* Main Navigation Header */}
-      <header className="text-black md:relative relative mt-12 z-30">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold"><Logo /></Link>
-          <div className="hidden md:flex space-x-4 items-center">
-            <div className="relative">
+      {/* Main Navbar */}
+      <nav className="text-black">
+        <div className="container mx-auto p-4 flex items-center justify-between">
+          {/* Left Side: Logo and Categories */}
+          <div className="flex items-center">
+            {/* Logo */}
+            <Link href="/" className="text-2xl font-bold flex-shrink-0">
+              <Logo />
+            </Link>
+
+            {/* Desktop Categories Dropdown */}
+            <div className="relative hidden lg:flex items-center ml-6">
               <button
-                className="flex items-center space-x-2 hover:text-gray-300"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                className="flex items-center hover:text-gray-400"
               >
-                <span>Categories</span>
-                {isDropdownOpen ? <ChevronUpIcon className="w-5 h-5" /> : <ChevronDownIcon className="w-5 h-5" />}
+                Categories
+                {isCategoriesOpen ? (
+                  <ChevronUpIcon className="ml-2 w-4 h-4" />
+                ) : (
+                  <ChevronDownIcon className="ml-2 w-4 h-4" />
+                )}
               </button>
-              {isDropdownOpen && (
-                <div className="absolute text-white bg-[#883D1A] mt-2 rounded-lg shadow-lg w-48">
-                  <Link href="/category1" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Soup</Link>
-                  <Link href="/category2" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Vegan</Link>
-                  <Link href="/category3" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Dessert</Link>
+              {isCategoriesOpen && (
+                <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg">
+                  <Link href="/category/tech" className="block px-4 py-2 hover:bg-gray-600">Tech</Link>
+                  <Link href="/category/fashion" className="block px-4 py-2 hover:bg-gray-600">Fashion</Link>
+                  <Link href="/category/home" className="block px-4 py-2 hover:bg-gray-600">Home</Link>
                 </div>
               )}
             </div>
-            <Link href="/about" className="hover:text-gray-300">About</Link>
-            <Link href="/contact" className="hover:text-gray-300">Contact</Link>
-            <Link href="/track-order">
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Track Order
-            </button>
-          </Link>
-
-            <button
-              onClick={handleAuthClick}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              {isLoggedIn ? 'Logout' : 'Login'}
-            </button>
           </div>
+
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden flex items-center"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden focus:outline-none"
           >
             {isMenuOpen ? (
               <XIcon className="w-6 h-6" />
@@ -78,43 +83,84 @@ const Headers: React.FC = () => {
               <MenuIcon className="w-6 h-6" />
             )}
           </button>
-        </div>
-        {/* Mobile Menu */}
-        <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-blue-700`}>
-          <div className="relative">
-            <button
-              className="block px-4 py-2 w-full text-left hover:bg-blue-600"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              Categories
-              {isDropdownOpen ? <ChevronUpIcon className="w-5 h-5 inline ml-2" /> : <ChevronDownIcon className="w-5 h-5 inline ml-2" />}
-            </button>
-            {isDropdownOpen && (
-              <div className="bg-blue-800">
-                <Link href="/category1" className="block px-4 py-2 hover:bg-blue-600">Category 1</Link>
-                <Link href="/category2" className="block px-4 py-2 hover:bg-blue-600">Category 2</Link>
-                <Link href="/category3" className="block px-4 py-2 hover:bg-blue-600">Category 3</Link>
-              </div>
-            )}
-          </div>
-          <Link href="/about" className="block px-4 py-2 hover:bg-blue-600">About</Link>
-          <Link href="/contact" className="block px-4 py-2 hover:bg-blue-600">Contact</Link>
-          <Link href="/track-order">
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Track Order
-            </button>
-          </Link>
 
-          <button
-            onClick={handleAuthClick}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          {/* Right Side: Navigation Links and Buttons */}
+          <div className="hidden lg:flex items-center space-x-6 flex-grow justify-end">
+            {/* Navigation Links */}
+            <Link href="/" className="hover:text-gray-400">Home</Link>
+            <Link href="/about" className="hover:text-gray-400">About</Link>
+            <Link href="/contact" className="hover:text-gray-400">Contact</Link>
+            <Link href="/track-order">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Track Order
+              </button>
+            </Link>
+            <button
+              onClick={handleAuthClick}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              {isLoggedIn ? 'Logout' : 'Login'}
+            </button>
+          </div>
+
+          {/* Mobile Menu Items */}
+          <div
+            ref={menuRef}
+            className={`lg:hidden fixed inset-0 bg-gray-800 bg-opacity-75 z-50 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+              }`}
           >
-            {isLoggedIn ? 'Logout' : 'Login'}
-          </button>
+            <div className="flex flex-col h-full p-4">
+              {/* Mobile Categories */}
+              <div className="relative mt-4">
+                <button
+                  onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                  className="flex items-center text-white text-xl px-4 py-2 hover:bg-gray-700 w-full"
+                >
+                  Categories
+                  {isCategoriesOpen ? (
+                    <ChevronUpIcon className="ml-2 w-5 h-5" />
+                  ) : (
+                    <ChevronDownIcon className="ml-2 w-5 h-5" />
+                  )}
+                </button>
+                {isCategoriesOpen && (
+                  <div className="absolute left-0 mt-2 w-full bg-gray-700 text-white rounded shadow-lg">
+                    <Link href="/category/tech" className="block px-4 py-2 hover:bg-gray-600">Tech</Link>
+                    <Link href="/category/fashion" className="block px-4 py-2 hover:bg-gray-600">Fashion</Link>
+                    <Link href="/category/home" className="block px-4 py-2 hover:bg-gray-600">Home</Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Navigation Links */}
+              <div className="flex flex-col mt-4 space-y-4">
+                <Link href="/" className="text-white text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Home</Link>
+                <Link href="/about" className="text-white text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>About</Link>
+                <Link href="/contact" className="text-white text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                <Link href="/track-order">
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+                  >
+                    Track Order
+                  </button>
+                </Link>
+                <button
+                  onClick={() => {
+                    handleAuthClick();
+                    setIsMenuOpen(false);
+                  }}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                >
+                  {isLoggedIn ? 'Logout' : 'Login'}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </header>
+      </nav>
     </>
   );
 };
 
-export default Headers;
+export default Navbar;
