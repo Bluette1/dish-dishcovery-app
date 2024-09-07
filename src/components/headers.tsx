@@ -63,10 +63,10 @@ const Navbar: React.FC = () => {
                 )}
               </button>
               {isCategoriesOpen && (
-                <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg">
-                  <Link href="/category/tech" className="block px-4 py-2 hover:bg-gray-600">Tech</Link>
-                  <Link href="/category/fashion" className="block px-4 py-2 hover:bg-gray-600">Fashion</Link>
-                  <Link href="/category/home" className="block px-4 py-2 hover:bg-gray-600">Home</Link>
+                <div className="absolute left-0 mt-2 w-48 bg-[#883d1a] text-white rounded shadow-lg">
+                  <Link href="/category/soup" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Soup</Link>
+                  <Link href="/category/dessert" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Dessert</Link>
+                  <Link href="/category/vegan" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Vegan</Link>
                 </div>
               )}
             </div>
@@ -106,7 +106,7 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Items */}
           <div
             ref={menuRef}
-            className={`lg:hidden fixed inset-0 bg-gray-800 bg-opacity-75 z-50 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-50 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
               }`}
           >
             <div className="flex flex-col h-full p-4">
@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
               <div className="relative mt-4">
                 <button
                   onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                  className="flex items-center text-white text-xl px-4 py-2 hover:bg-gray-700 w-full"
+                  className="flex items-center text-xl px-4 py-2 hover:bg-gray-700 w-full"
                 >
                   Categories
                   {isCategoriesOpen ? (
@@ -124,19 +124,19 @@ const Navbar: React.FC = () => {
                   )}
                 </button>
                 {isCategoriesOpen && (
-                  <div className="absolute left-0 mt-2 w-full bg-gray-700 text-white rounded shadow-lg">
-                    <Link href="/category/tech" className="block px-4 py-2 hover:bg-gray-600">Tech</Link>
-                    <Link href="/category/fashion" className="block px-4 py-2 hover:bg-gray-600">Fashion</Link>
-                    <Link href="/category/home" className="block px-4 py-2 hover:bg-gray-600">Home</Link>
+                  <div className="absolute bg-[#883d1a] left-0 mt-2 w-full bg-gray-700 text-white rounded shadow-lg">
+                    <Link href="/category/soup" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Soup</Link>
+                    <Link href="/category/dessert" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Dessert</Link>
+                    <Link href="/category/vegan" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Vegan</Link>
                   </div>
                 )}
               </div>
 
               {/* Mobile Navigation Links */}
               <div className="flex flex-col mt-4 space-y-4">
-                <Link href="/" className="text-white text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Home</Link>
-                <Link href="/about" className="text-white text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>About</Link>
-                <Link href="/contact" className="text-white text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                <Link href="/" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Home</Link>
+                <Link href="/about" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>About</Link>
+                <Link href="/contact" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Contact</Link>
                 <Link href="/track-order">
                   <button
                     onClick={() => setIsMenuOpen(false)}

@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Headers from "@/components/headers";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <main className="pt-16"> {/* Padding to account for the fixed header */}
         <Component {...pageProps} />
       </main>
+      <Footer />
     </section>
   );;
 }
