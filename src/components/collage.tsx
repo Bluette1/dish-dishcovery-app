@@ -7,7 +7,7 @@ const Centerpiece: React.FC = () => {
         {/* Centerpiece Image */}
         <div className="col-span-1 row-span-1 md:col-span-2 md:row-span-2 relative w-full h-full">
           <Image
-            src="/images/center.jpg"
+            src="/images/centre.jpg"
             alt="Centerpiece"
             layout="fill" 
             objectFit="cover"

@@ -13,12 +13,12 @@ const categories = [
 const FlipCardsSection: React.FC = () => {
 
   return (
-    <section className="py-16 bg-gray-100 ">
+    <section className="py-16 bg-gray-100 grid">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-semibold text-center mb-12">
-          Discover some of our recipes
+          Discover some of our delicious recipes
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {categories.map((category) => (
             <div
               key={category.name}

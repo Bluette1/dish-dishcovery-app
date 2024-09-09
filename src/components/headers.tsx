@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'; // Import Heroicons
 import Logo from './logo';
+import Header from './header'
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,12 +36,17 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* Fixed Header */}
-      <header className="bg-gray-800 text-white p-2 text-center text-sm">
+      {/* <header className="bg-gray-800 text-white p-2 text-center text-sm">
         Coming Soon in Summer 2025
-      </header>
+      </header> */}
+      {/* <header className="bg-gray-800 text-white p-2 text-center text-sm fixed top-0 left-0 right-0 z-50">
+  Coming Soon in Summer 2025
+</header> */}
+
+      <Header/>
 
       {/* Main Navbar */}
-      <nav className="text-black">
+      <nav className="text-black mt-14 lg:mt-12 ">
         <div className="container mx-auto p-4 flex items-center justify-between">
           {/* Left Side: Logo and Categories */}
           <div className="flex items-center">
@@ -63,10 +69,10 @@ const Navbar: React.FC = () => {
                 )}
               </button>
               {isCategoriesOpen && (
-                <div className="absolute left-0 mt-2 w-48 bg-[#883d1a] text-white rounded shadow-lg">
-                  <Link href="/category/soup" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Soup</Link>
-                  <Link href="/category/dessert" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Dessert</Link>
-                  <Link href="/category/vegan" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Vegan</Link>
+                <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg">
+                  <Link href="/category/soup" className="block px-4 py-2 hover:bg-gray-600">Soup</Link>
+                  <Link href="/category/dessert" className="block px-4 py-2 hover:bg-gray-600">Dessert</Link>
+                  <Link href="/category/vegan" className="block px-4 py-2 hover:bg-gray-600">Vegan</Link>
                 </div>
               )}
             </div>
@@ -88,7 +94,7 @@ const Navbar: React.FC = () => {
           <div className="hidden lg:flex items-center space-x-6 flex-grow justify-end">
             {/* Navigation Links */}
             <Link href="/" className="hover:text-gray-400">Home</Link>
-            <Link href="/about" className="hover:text-gray-400">About</Link>
+            <Link href="/#about" className="hover:text-gray-400">About</Link>
             <Link href="/contact" className="hover:text-gray-400">Contact</Link>
             <Link href="/track-order">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
@@ -124,10 +130,10 @@ const Navbar: React.FC = () => {
                   )}
                 </button>
                 {isCategoriesOpen && (
-                  <div className="absolute bg-[#883d1a] left-0 mt-2 w-full bg-gray-700 text-white rounded shadow-lg">
-                    <Link href="/category/soup" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Soup</Link>
-                    <Link href="/category/dessert" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Dessert</Link>
-                    <Link href="/category/vegan" className="block hover:text-black px-4 py-2 hover:bg-[#a84d22]">Vegan</Link>
+                  <div className="absolute bg-gray-700 text-white left-0 mt-2 w-full bg-gray-700 text-white rounded shadow-lg">
+                    <Link href="/category/soup" className="block px-4 py-2 hover:bg-gray-600">Soup</Link>
+                    <Link href="/category/dessert" className="block px-4 py-2 hover:bg-gray-600">Dessert</Link>
+                    <Link href="/category/vegan" className="block px-4 py-2 hover:bg-gray-600">Vegan</Link>
                   </div>
                 )}
               </div>
@@ -135,7 +141,7 @@ const Navbar: React.FC = () => {
               {/* Mobile Navigation Links */}
               <div className="flex flex-col mt-4 space-y-4">
                 <Link href="/" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Home</Link>
-                <Link href="/about" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>About</Link>
+                <Link href="/#about" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>About</Link>
                 <Link href="/contact" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Contact</Link>
                 <Link href="/track-order">
                   <button

@@ -16,15 +16,23 @@ const FlipCard: React.FC<FlipCardProps> = ({ category }) => {
     <div className={styles.card}>
       <div className={styles.cardInner}>
         <div className={styles.cardFront}>
-          <div className="absolute w-full h-full bg-gray-800 text-white flex items-center justify-center text-xl font-semibold rotate-y-180 backface-hidden">
+          <div className="absolute w-full h-full bg-gray-800 text-white flex items-center justify-center font-semibold rotate-y-180 backface-hidden">
             <span>{category.name}</span>
           </div>
         </div>
         <div className={styles.cardBack}>
           <section className='flex-col'>
-            <article className='text-center'><Link className='underline text-center' href={'/meals/recipe'}>View Recipe</Link>
+            <article className='text-center'><Link className='text-yellow-100' href={'/meals/recipe'}>View Recipe <p className='flex justify-center'> <Image
+              className='rounded-lg p-1'
+              src="/icons/eye-alt-icon.svg"
+              alt="eye"
+              width={40}
+              height={24}
+              style={{ filter: 'invert(1)' }}
+            /></p></Link>
+
             </article>
-            <Image className='py-12' alt='' src={category.imageUrl} width={160} height={160} />
+            <Image className='' alt='' src={category.imageUrl} width={160} height={160} />
           </section>
 
         </div>

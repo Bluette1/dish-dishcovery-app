@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Social Media & Payment Section */}
-          <div>
+          <div className='md:px-8'>
             <h4 className="text-lg font-semibold mb-2">Follow Us</h4>
             <div className="flex space-x-4 mb-6">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
@@ -89,10 +89,10 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Text */}
-        <div className="text-center mt-8">
-          <p>
-            &copy; {new Date().getFullYear()} <Logo />. All rights reserved.
-          </p>
+         <div className="text-center mt-8">
+          <div className="container mx-auto text-center">
+            <p>&copy; {new Date().getFullYear()} DishDiscovery. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>
