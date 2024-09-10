@@ -2,6 +2,7 @@
 import { useState, FormEvent } from 'react';
 import Head from 'next/head';
 import styles from '../styles/trackorder.module.css'; // Import your CSS module
+import Meta from '@/components/meta';
 
 // Define the shape of the order status data
 interface OrderStatus {
@@ -41,10 +42,11 @@ const TrackOrderPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Track Your Order | Dish Discovery</title>
-        <meta name="description" content="Track your order status and updates for Meal Service." />
-      </Head>
+      <Meta
+        title="Track Your Order | Dish Discovery"
+        description="Track your order status and updates for Dish Discovery."
+        keywords="track, order, delicious, healthy, affordable, dish, discovery"
+      />
       <main className={styles.container}>
         <h1 className='py-6'>Track Your Order</h1>
         <form onSubmit={handleSubmit} className={styles.form}>

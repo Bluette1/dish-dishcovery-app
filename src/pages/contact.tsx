@@ -1,17 +1,23 @@
 // pages/contact.js
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
+import LoadingSpinner from '../components/loading-spinner'; // Optional, for loading state
+import Meta from '@/components/meta';
+// Dynamically import the Map component
+const Map = dynamic(() => import('../components/map'), {
+  loading: () => <LoadingSpinner />, // Fallback component while loading
+  ssr: false, // Disable server-side rendering for this component (optional)
+});
 
 const Contact = () => {
   return (
     <>
-      <Head>
-        <title>Contact Us | Meal Service</title>
-        <meta name="description" content="Contact us to get in touch or find our location." />
-      </Head>
-      
+      <Meta
+        title="Contact Us | Dish Discovery"
+        description="Contact us to get in touch or find our location."
+        keywords="contact, location, dish, discovery, delicious, healthy, affordable"
+      />
       <main>
-       
-
         {/* Contact Section */}
         <section id="contact" className="py-12 bg-white">
           <div className="container mx-auto px-6">
@@ -98,12 +104,14 @@ const Contact = () => {
               <h2 className="text-3xl font-semibold text-gray-800 mb-4">Find Us</h2>
               <p className="text-lg text-gray-600">Visit us at our location or use the map below to find your way.</p>
             </div>
-            <div className="relative w-full h-96">
-              <iframe 
+            <div className="relative w-full h-96 my-10">
+              {/* <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.779978951853!2d-122.40641738469003!3d37.785263979757704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808e6393f7f9%3A0x4271ae61db4381fc!2s1234%20Meal%20Street%2C%20San%20Francisco%2C%20CA%2094105!5e0!3m2!1sen!2sus!4v1634111615411!5m2!1sen!2sus"
                 className="absolute inset-0 w-full h-full border-0"
                 allowFullScreen=""
-                loading="lazy"></iframe>
+                loading="lazy"></iframe> */}
+              {/* <Map/> */}
+              <LoadingSpinner />
             </div>
           </div>
         </section>

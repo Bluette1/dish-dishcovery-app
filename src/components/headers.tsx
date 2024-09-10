@@ -46,7 +46,7 @@ const Navbar: React.FC = () => {
       <Header/>
 
       {/* Main Navbar */}
-      <nav className="text-black mt-14 lg:mt-12 ">
+      <nav className="text-black mt-20 ">
         <div className="container mx-auto p-4 flex items-center justify-between">
           {/* Left Side: Logo and Categories */}
           <div className="flex items-center">

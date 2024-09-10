@@ -2,6 +2,7 @@
 import { useState, FormEvent } from 'react';
 import Head from 'next/head';
 import styles from '../styles/auth.module.css'; // Import your CSS module
+import Meta from '@/components/meta';
 
 const SignupPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -45,10 +46,11 @@ const SignupPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Signup | MyApp</title>
-        <meta name="description" content="Create a new account." />
-      </Head>
+      <Meta
+        title="Login | Dish Discovery"
+        description="Create a new account."
+        keywords="signup, delicious, healthy, affordable, dish, discovery"
+      />
       <main className={styles.container}>
         <h1 className='py-6'>Signup</h1>
         <form onSubmit={handleSubmit} className={styles.form}>

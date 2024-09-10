@@ -2,6 +2,7 @@
 import { useState, FormEvent } from 'react';
 import Head from 'next/head';
 import styles from '../styles/auth.module.css'; // Import your CSS module
+import Meta from '@/components/meta';
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -38,10 +39,11 @@ const LoginPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Login | DishDiscovery</title>
-        <meta name="description" content="Login to your account." />
-      </Head>
+      <Meta
+        title="Login | Dish Discovery"
+        description=" Login to your account."
+        keywords="login, delicious, healthy, affordable, dish, discovery"
+      />
       <main className={styles.container}>
         <h1 className='py-6'>Login</h1>
         <form onSubmit={handleSubmit} className={styles.form}>

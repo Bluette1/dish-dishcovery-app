@@ -10,7 +10,7 @@ import Logo from './logo-transparent';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="bg-gray-800 text-white py-8 mt-56 lg:mt-12">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:justify-between">
           {/* About Section */}
