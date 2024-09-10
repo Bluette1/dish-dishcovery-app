@@ -1,18 +1,20 @@
 import Image from 'next/image';
+import Center from './centerpiece';
 
 const Centerpiece: React.FC = () => {
   return (
     <div className="relative h-screen">
       <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-3 grid-rows-3 gap-2">
         {/* Centerpiece Image */}
-        <div className="col-span-1 row-span-1 md:col-span-2 md:row-span-2 relative w-full h-full">
+        {/* <div className="col-span-1 row-span-1 md:col-span-2 md:row-span-2 relative w-full h-full">
           <Image
             src="/images/centre.jpg"
             alt="Centerpiece"
             layout="fill" 
             objectFit="cover"
           />
-        </div>
+        </div> */}
+        <Center />
         {/* Other Images */}
         <div className="relative w-full h-full">
           <Image
