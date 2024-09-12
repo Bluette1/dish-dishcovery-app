@@ -35,16 +35,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* Fixed Header */}
-      {/* <header className="bg-gray-800 text-white p-2 text-center text-sm">
-        Coming Soon in Summer 2025
-      </header> */}
-      {/* <header className="bg-gray-800 text-white p-2 text-center text-sm fixed top-0 left-0 right-0 z-50">
-  Coming Soon in Summer 2025
-</header> */}
-
       <Header/>
-
       {/* Main Navbar */}
       <nav className="text-black mt-20 ">
         <div className="container mx-auto p-4 flex items-center justify-between">
