@@ -1,14 +1,17 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'; // Import Heroicons
 import Logo from './logo';
 import Header from './header'
+
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
 
   const handleAuthClick = () => {
     if (isLoggedIn) {
@@ -35,7 +38,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <Header/>
+      <Header />
       {/* Main Navbar */}
       <nav className="text-black mt-20 ">
         <div className="container mx-auto p-4 flex items-center justify-between">
@@ -92,12 +95,17 @@ const Navbar: React.FC = () => {
                 Track Order
               </button>
             </Link>
-            <button
-              onClick={handleAuthClick}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              {isLoggedIn ? 'Logout' : 'Login'}
-            </button>
+            {!session ? (
+              <>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => signIn()}>Login</button>
+              </>
+            ) : (
+              <>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => signOut()}>Logout</button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Items */}
@@ -142,7 +150,7 @@ const Navbar: React.FC = () => {
                     Track Order
                   </button>
                 </Link>
-                <button
+                {/* <button
                   onClick={() => {
                     handleAuthClick();
                     setIsMenuOpen(false);
@@ -150,7 +158,8 @@ const Navbar: React.FC = () => {
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                 >
                   {isLoggedIn ? 'Logout' : 'Login'}
-                </button>
+                </button> */}
+                {!session ? <button onClick={() => signIn()} ></button> : <></>}
               </div>
             </div>
           </div>

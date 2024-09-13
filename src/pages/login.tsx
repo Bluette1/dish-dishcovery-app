@@ -1,8 +1,9 @@
-// pages/login.tsx
 import { useState, FormEvent } from 'react';
 import Head from 'next/head';
 import styles from '../styles/auth.module.css'; // Import your CSS module
 import Meta from '@/components/meta';
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -16,19 +17,18 @@ const LoginPage = () => {
     setError(null);
 
     try {
-      const response = await fetch('/api/login', { // Adjust API endpoint as needed
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      // Use NextAuth's signIn method with credentials
+      const result = await signIn('credentials', {
+        redirect: false, // Prevent automatic redirect
+        email,
+        password,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Handle successful login
-        // Redirect or show success message
-      } else {
-        setError(data.message || 'Login failed');
+      if (result?.error) {
+        setError(result.error);
+      } else if (result?.ok) {
+        // Redirect manually after successful login
+        window.location.href = '/'; // Redirect to home or dashboard
       }
     } catch (err) {
       setError('An error occurred');
@@ -41,7 +41,7 @@ const LoginPage = () => {
     <>
       <Meta
         title="Login | Dish Discovery"
-        description=" Login to your account."
+        description="Login to your account."
         keywords="login, delicious, healthy, affordable, dish, discovery"
       />
       <main className={styles.container}>
@@ -70,6 +70,23 @@ const LoginPage = () => {
           </button>
           {error && <p className={styles.error}>{error}</p>}
         </form>
+
+        <div className={styles.divider}>or</div>
+
+        <button
+          className={styles.googleButton}
+          onClick={() => signIn('google', { callbackUrl: "/" })}
+        >
+          <section className='flex'> <Image
+            src="/icons/google.png"
+            alt="Google icon"
+            width={24}
+            height={24}
+            className="mx-2"
+          />
+            Sign in with Google</section>
+
+        </button>
       </main>
     </>
   );

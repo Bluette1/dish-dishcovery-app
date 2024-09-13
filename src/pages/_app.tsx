@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import { useState, useEffect } from 'react';
 import { Router } from 'next/router';
 import LoadingSpinner from '../components/loading-spinner';
+import { SessionProvider } from 'next-auth/react';
 
 const barlow = localFont({
   src: "../../public/fonts/Barlow.ttf",
@@ -13,7 +14,7 @@ const barlow = localFont({
   weight: "400",
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <>
+    <SessionProvider session={session}>
       {loading && <LoadingSpinner />}
       <section className={`${barlow.variable}  font-[family-name:var(--font-barlow)]`}>
       <Headers />
@@ -43,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </main>
       <Footer />
     </section>
-    </>
+    </SessionProvider>
     
   );
 }
