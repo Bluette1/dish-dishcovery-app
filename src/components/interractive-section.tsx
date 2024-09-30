@@ -1,4 +1,3 @@
-// components/InteractiveCategorySection.tsx
 import Image from 'next/image';
 
 const categories = [
@@ -24,9 +23,8 @@ const InteractiveCategorySection: React.FC = () => {
                 <Image
                   src={category.imageUrl}
                   alt={category.name}
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform transform group-hover:scale-110"
+                  fill
+                  className="object-cover transition-transform transform group-hover:scale-110"
                 />
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

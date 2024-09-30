@@ -16,7 +16,7 @@ const Centerpiece = () => {
       const nextIndex = (index + 1) % images.length;
       setCurrentImage(images[nextIndex]);
       setIndex(nextIndex);
-    }, 3000); // Change image every 3 seconds
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [index]);
@@ -24,8 +24,8 @@ const Centerpiece = () => {
   return (
     <div className="col-span-1 row-span-1 md:col-span-2 md:row-span-2 relative w-full h-full">
       <Image
-        src={currentImage} alt="Centerpiece" layout="fill"
-        objectFit="cover" className="rounded-lg shadow-lg transition-all duration-500"
+        src={currentImage} alt="Centerpiece" fill
+        className="object-cover rounded-lg shadow-lg transition-all duration-500"
       />
     </div>
   );

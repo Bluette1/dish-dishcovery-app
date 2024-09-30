@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import Image from 'next/image';
 
 const categories = [
     { name: 'Pasta', imageUrl: '/images/pasta.jpg' },
@@ -47,7 +48,8 @@ const Carousel: React.FC = () => {
           {categories.map((category) => (
             <SwiperSlide key={category.name} className="relative">
               <div className="relative w-full h-64">
-                <img
+                <Image
+                  fill
                   src={category.imageUrl}
                   alt={category.name}
                   className="w-full h-full object-cover rounded-lg"

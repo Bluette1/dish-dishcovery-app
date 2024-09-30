@@ -1,27 +1,16 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'; // Import Heroicons
+import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon, UserIcon } from '@heroicons/react/outline'; // Import Heroicons
 import Logo from './logo';
-import Header from './header'
-
+import Header from './header';
 
 const Navbar: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
-
-  const handleAuthClick = () => {
-    if (isLoggedIn) {
-      // Perform logout logic here
-      setIsLoggedIn(false);
-    } else {
-      // Perform login logic here
-      setIsLoggedIn(true);
-    }
-  };
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -29,6 +18,7 @@ const Navbar: React.FC = () => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
         setIsCategoriesOpen(false);
+        setIsDropdownOpen(false);
       }
     };
 
@@ -96,15 +86,37 @@ const Navbar: React.FC = () => {
               </button>
             </Link>
             {!session ? (
-              <>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => signIn()}>Login</button>
-              </>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => signIn()}>Login</button>
             ) : (
-              <>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => signOut()}>Logout</button>
-              </>
+              <div className="relative">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center bg-gray-700 text-white rounded px-4 py-2 hover:bg-gray-600 focus:outline-none"
+                >
+                  <UserIcon className="w-5 h-5 mr-2" />
+                  Profile
+                  {isDropdownOpen ? (
+                    <ChevronUpIcon className="ml-2 w-4 h-4" />
+                  ) : (
+                    <ChevronDownIcon className="ml-2 w-4 h-4" />
+                  )}
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-10">
+                    <Link href="/dashboard" className="block px-4 py-2 hover:bg-gray-600">Dashboard</Link>
+                    <button
+                      onClick={() => {
+                        signOut();
+                        setIsDropdownOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-600"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
           </div>
 
@@ -129,7 +141,7 @@ const Navbar: React.FC = () => {
                   )}
                 </button>
                 {isCategoriesOpen && (
-                  <div className="absolute bg-gray-700 text-white left-0 mt-2 w-full bg-gray-700 text-white rounded shadow-lg">
+                  <div className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
                     <Link href="/category/soup" className="block px-4 py-2 hover:bg-gray-600">Soup</Link>
                     <Link href="/category/dessert" className="block px-4 py-2 hover:bg-gray-600">Dessert</Link>
                     <Link href="/category/vegan" className="block px-4 py-2 hover:bg-gray-600">Vegan</Link>
@@ -151,8 +163,24 @@ const Navbar: React.FC = () => {
                   </button>
                 </Link>
 
-                {!session ? <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-                  onClick={() => signIn()} >Login</button> : <button>Logout</button>}
+                {!session ? (
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                    onClick={() => signIn()}>Login</button>
+                ) : (
+                  <div>
+                    <Link href="/profile" className="block text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
+                    <button
+                      onClick={() => {
+                        signOut();
+                        setIsMenuOpen(false);
+                      }}
+                      className="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -163,3 +191,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
