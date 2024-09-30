@@ -150,16 +150,9 @@ const Navbar: React.FC = () => {
                     Track Order
                   </button>
                 </Link>
-                {/* <button
-                  onClick={() => {
-                    handleAuthClick();
-                    setIsMenuOpen(false);
-                  }}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-                >
-                  {isLoggedIn ? 'Logout' : 'Login'}
-                </button> */}
-                {!session ? <button onClick={() => signIn()} ></button> : <></>}
+
+                {!session ? <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                  onClick={() => signIn()} >Login</button> : <button>Logout</button>}
               </div>
             </div>
           </div>
