@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import Sidebar from './sidebar'; // Ensure the correct casing
-import ProfileMenuIcon from './menu-icon'; // Updated to use the new component
+import React, { useState } from "react";
+import Sidebar from "./sidebar"; // Ensure the correct casing
+import ProfileMenuIcon from "./menu-icon"; // Updated to use the new component
 
 const Dashboard: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -20,7 +20,9 @@ const Dashboard: React.FC = () => {
         <header className="bg-white shadow flex items-center px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center w-full">
             {/* Menu Icon for mobile */}
-            <ProfileMenuIcon toggleSidebar={toggleSidebar} className="block md:hidden mr-4" />
+            <section className="block md:hidden mr-4">
+              <ProfileMenuIcon toggleSidebar={toggleSidebar} />
+            </section>
 
             {/* Title for mobile and desktop */}
             <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 flex-1 text-center md:text-left">
@@ -45,11 +47,11 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Sidebar for mobile */}
-      {isSidebarOpen && <Sidebar className="fixed inset-0 z-40 md:hidden bg-gray-800 text-white" />}
+      {isSidebarOpen && (
+        <Sidebar className="fixed inset-0 z-40 md:hidden bg-gray-800 text-white" />
+      )}
     </div>
   );
 };
 
 export default Dashboard;
-
-

@@ -10,6 +10,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.8",
     "@heroicons/react": "v1",
     "@mui/icons-material": "^6.1.0",
     "@react-google-maps/api": "^2.19.3",

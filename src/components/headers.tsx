@@ -1,14 +1,15 @@
+import React from 'react';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon, UserIcon } from '@heroicons/react/outline'; // Import Heroicons
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
+import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon, UserIcon } from '@heroicons/react/outline';
 import Logo from './logo';
 import Header from './header';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
 
@@ -18,7 +19,6 @@ const Navbar: React.FC = () => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
         setIsCategoriesOpen(false);
-        setIsDropdownOpen(false);
       }
     };
 
@@ -76,7 +76,6 @@ const Navbar: React.FC = () => {
 
           {/* Right Side: Navigation Links and Buttons */}
           <div className="hidden lg:flex items-center space-x-6 flex-grow justify-end">
-            {/* Navigation Links */}
             <Link href="/" className="hover:text-gray-400">Home</Link>
             <Link href="/#about" className="hover:text-gray-400">About</Link>
             <Link href="/contact" className="hover:text-gray-400">Contact</Link>
@@ -86,45 +85,55 @@ const Navbar: React.FC = () => {
               </button>
             </Link>
             {!session ? (
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => signIn()}>Login</button>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => signIn()}>
+                Login
+              </button>
             ) : (
-              <div className="relative">
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center bg-gray-700 text-white rounded px-4 py-2 hover:bg-gray-600 focus:outline-none"
-                >
+              <Menu as="div" className="relative">
+                <MenuButton className="flex items-center bg-gray-700 text-white rounded px-4 py-2 hover:bg-gray-600 focus:outline-none">
                   <UserIcon className="w-5 h-5 mr-2" />
                   Profile
-                  {isDropdownOpen ? (
-                    <ChevronUpIcon className="ml-2 w-4 h-4" />
-                  ) : (
-                    <ChevronDownIcon className="ml-2 w-4 h-4" />
-                  )}
-                </button>
-                {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-10">
-                    <Link href="/dashboard" className="block px-4 py-2 hover:bg-gray-600">Dashboard</Link>
-                    <button
-                      onClick={() => {
-                        signOut();
-                        setIsDropdownOpen(false);
-                      }}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-600"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
+                  <ChevronDownIcon className="ml-2 w-4 h-4" />
+                </MenuButton>
+                <Transition
+                  as={React.Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <MenuItems className="absolute right-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-10">
+                    <MenuItem>
+                      {({ active }) => (
+                        <Link href="/profile" className={`block px-4 py-2 ${active ? 'bg-gray-600' : ''}`} onClick={() => setIsDropdownOpen(false)}>
+                          Dashboard
+                        </Link>
+                      )}
+                    </MenuItem>
+                    <MenuItem>
+                      {({ active }) => (
+                        <button
+                          onClick={() => {
+                            signOut();
+                          }}
+                          className={`block w-full text-left px-4 py-2 ${active ? 'bg-gray-600' : ''}`}
+                        >
+                          Logout
+                        </button>
+                      )}
+                    </MenuItem>
+                  </MenuItems>
+                </Transition>
+              </Menu>
             )}
           </div>
 
           {/* Mobile Menu Items */}
           <div
             ref={menuRef}
-            className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-50 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-              }`}
+            className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-50 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
           >
             <div className="flex flex-col h-full p-4">
               {/* Mobile Categories */}
@@ -175,7 +184,6 @@ const Navbar: React.FC = () => {
                         setIsMenuOpen(false);
                       }}
                       className="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-
                     >
                       Logout
                     </button>
@@ -191,4 +199,5 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
 
