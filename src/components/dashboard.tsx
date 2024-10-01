@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import Sidebar from "./sidebar";
 import ProfileMenuIcon from "./menu-icon";
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  Content: React.FC; // Accept a React component as a prop
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -42,9 +46,13 @@ const Dashboard: React.FC = () => {
 
         <main>
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            {/* Dashboard content goes here */}
             <div className="px-4 py-6 sm:px-0">
-              <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
+              <div className="border-4 border-dashed border-gray-200 rounded-lg h-96">
+                {/* Render the passed content here */}
+                <section className="flex items-center justify-center">
+                  <Content />
+                </section>
+              </div>
             </div>
           </div>
         </main>
@@ -54,10 +62,6 @@ const Dashboard: React.FC = () => {
       {isSidebarOpen && (
         <div className="relative inset-0 z-40 bg-gray-800 text-white">
           <Sidebar theme="md:hidden" closeSidebar={closeSidebar} />
-          {/* Close Button */}
-          <button className="absolute text-white" onClick={closeSidebar}>
-            X
-          </button>
         </div>
       )}
     </div>
