@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Sidebar from "./sidebar"; // Ensure the correct casing
-import ProfileMenuIcon from "./menu-icon"; // Updated to use the new component
+import Sidebar from "./sidebar";
+import ProfileMenuIcon from "./menu-icon";
 
 const Dashboard: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -9,11 +9,15 @@ const Dashboard: React.FC = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div className="flex">
       {/* Sidebar for desktop */}
       <article className="hidden md:block">
-        <Sidebar />
+        <Sidebar theme="" />
       </article>
 
       <div className="flex-1 min-h-screen bg-gray-100">
@@ -48,7 +52,13 @@ const Dashboard: React.FC = () => {
 
       {/* Sidebar for mobile */}
       {isSidebarOpen && (
-        <Sidebar className="fixed inset-0 z-40 md:hidden bg-gray-800 text-white" />
+        <div className="relative inset-0 z-40 bg-gray-800 text-white">
+          <Sidebar theme="md:hidden" closeSidebar={closeSidebar} />
+          {/* Close Button */}
+          <button className="absolute text-white" onClick={closeSidebar}>
+            X
+          </button>
+        </div>
       )}
     </div>
   );
