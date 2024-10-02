@@ -3,13 +3,13 @@ import { getSession } from "next-auth/react";
 
 const BASE_URL = "http://localhost:5000/categories";
 
-const saveCategory = async (name: string, token) => {
+const saveCategory = async (name: string, token: string) => {
   const response = await fetch(BASE_URL, {
     method: "POST",
     headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-  },
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ name }),
   });
 
@@ -75,11 +75,11 @@ const handlers: Record<
     const { name } = req.body;
     const session = await getSession({ req });
 
-    if (!session || !session.accessToken) {
-      return res.status(401).json({ error: 'Authorization token is required' });
+    if (!session || !session?.token) {
+      return res.status(401).json({ error: "Authorization token is required" });
     }
 
-    const token = session.accessToken; // Access the token from the session
+    const { token } = session.user; // Access the token from the session
 
     if (!name)
       return res.status(400).json({ error: "Category name is required" });
@@ -107,13 +107,11 @@ const handlers: Record<
     }
     try {
       await deleteCategory(id);
-      res.status(204).end(); 
+      res.status(204).end();
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          error: (error as Error).message || "Failed to delete category",
-        });
+      res.status(500).json({
+        error: (error as Error).message || "Failed to delete category",
+      });
     }
   },
   PUT: async (req, res) => {
@@ -129,11 +127,9 @@ const handlers: Record<
       const updatedCategory = await updateCategory(id, name);
       return res.status(200).json(updatedCategory);
     } catch (error) {
-      return res
-        .status(500)
-        .json({
-          error: (error as Error).message || "Failed to update category",
-        });
+      return res.status(500).json({
+        error: (error as Error).message || "Failed to update category",
+      });
     }
   },
 };
@@ -142,7 +138,7 @@ const handlers: Record<
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const method = req.method as HttpMethod;
   if (handlers[method]) {
-    await handlers[method](req, res); 
+    await handlers[method](req, res);
   } else {
     res.setHeader("Allow", ["POST", "GET", "PUT", "DELETE"]);
     res.status(405).end(`Method ${method} Not Allowed`);

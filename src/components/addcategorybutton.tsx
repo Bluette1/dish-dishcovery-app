@@ -14,6 +14,7 @@ const AddCategoryButton: React.FC = () => {
     try {
       const response = await fetch("/api/categories", {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
