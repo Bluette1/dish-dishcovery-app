@@ -2,9 +2,9 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Dashboard from "../../components/dashboard";
-import AddCategoryButton from "../../components/addcategorybutton"; // Import the button component
+import AddMealForm from "../../components/addmealform"; // Import the button component
 
-const CategoriesPage: React.FC = () => {
+const MealsPage: React.FC = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -19,9 +19,10 @@ const CategoriesPage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+
   return session ? (
-    <Dashboard user={session.user} Content={AddCategoryButton} />
+    <Dashboard user={session.user} Content={AddMealForm} />
   ) : null;
 };
 
-export default CategoriesPage;
+export default MealsPage;

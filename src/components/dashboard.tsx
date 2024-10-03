@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import Sidebar from "./sidebar";
 import ProfileMenuIcon from "./menu-icon";
+import { useSession, signIn } from "next-auth/react";
+import { User } from "next-auth";
 
 interface DashboardProps {
-  Content: React.FC; // Accept a React component as a prop
+  Content: React.FC; 
+  user: User;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
+const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
+  const { data: session } = useSession();
+  const {user : { role }} = user;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -17,11 +22,11 @@ const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
     setIsSidebarOpen(false);
   };
 
-  return (
+  return session ? (
     <div className="flex">
       {/* Sidebar for desktop */}
       <article className="hidden md:block">
-        <Sidebar theme="" />
+        <Sidebar theme="" role={role} />
       </article>
 
       <div className="flex-1 min-h-screen bg-gray-100">
@@ -34,7 +39,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
 
             {/* Title for mobile and desktop */}
             <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 flex-1 text-center md:text-left">
-              Admin Dashboard
+              {role === 'admin' && <span>Admin</span>} Dashboard
             </h1>
 
             {/* Optionally add other icons for desktop here */}
@@ -65,7 +70,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
         </div>
       )}
     </div>
-  );
+  ) : null;
 };
 
 export default Dashboard;

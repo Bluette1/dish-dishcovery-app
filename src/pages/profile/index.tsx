@@ -19,7 +19,9 @@ const ProfilePage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  return <Dashboard Content={AddCategoryButton} />;
+  return session ? (
+    <Dashboard user={session.user} Content={AddCategoryButton} />
+  ) : null;
 };
 
 export default ProfilePage;
