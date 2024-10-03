@@ -14,7 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*", "./src/types/*", "./node_modules/*"]
     },
     "plugins": [
       {
@@ -22,6 +22,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts, types/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

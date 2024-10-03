@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
-const BASE_URL = "http://localhost:5000/categories";
+const BASE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/categories`;
 
 const saveCategory = async (name: string, token: string) => {
   const response = await fetch(BASE_URL, {

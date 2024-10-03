@@ -1,17 +1,8 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  token?: string;
-}
-
-const BASE_URL= process.env.NEXT_PUBLIC_BASE_URL
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const login = async (email: string, password: string): Promise<User | null> => {
   try {
@@ -69,7 +60,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/login", 
+    signIn: "/login",
   },
   callbacks: {
     async jwt({ token, account, user, trigger, session }) {
@@ -80,7 +71,7 @@ export default NextAuth({
         if (account.id_token) {
           //Google signin
           // Create the user on the backend
-          token.id_token = account.id_token;
+          token.idToken = account.id_token;
           token.accessToken = account.access_token;
           const { email, name } = user;
 
@@ -113,7 +104,7 @@ export default NextAuth({
     },
     async session({ session, token }) {
       if (token.user) {
-        session.user = token.user as User;
+        session.user = token.user;
       }
 
       return session;
