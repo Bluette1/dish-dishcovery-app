@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 
 const AddCategoryButton: React.FC = () => {
@@ -14,12 +12,12 @@ const AddCategoryButton: React.FC = () => {
     try {
       const response = await fetch("/api/categories", {
         method: "POST",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: categoryName, 
+          name: categoryName,
         }),
       });
 
@@ -46,7 +44,7 @@ const AddCategoryButton: React.FC = () => {
         value={categoryName}
         onChange={(e) => setCategoryName(e.target.value)}
         placeholder="Enter category name"
-        className="border border-gray-300 rounded p-2 mb-2 mx-5"
+        className="border border-gray-300 rounded p-2 mb-2 mx-5 my-3"
       />
       <button
         onClick={handleAddCategory}

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 const BASE_URL = "http://localhost:5000/categories";
 
@@ -73,18 +73,25 @@ const handlers: Record<
 > = {
   POST: async (req, res) => {
     const { name } = req.body;
-    const session = await getSession({ req });
+    const token = await getToken({ req });
 
-    if (!session || !session?.token) {
+    if (!token) {
       return res.status(401).json({ error: "Authorization token is required" });
     }
 
-    const { token } = session.user; // Access the token from the session
+    const {
+      token: bearerToken,
+      user: { role },
+    } = token.user;
+
+    if (role !== "admin") {
+      return res.status(403).json({ error: "Access denied" });
+    }
 
     if (!name)
       return res.status(400).json({ error: "Category name is required" });
     try {
-      const newCategory = await saveCategory(name, token);
+      const newCategory = await saveCategory(name, bearerToken);
       res.status(201).json(newCategory);
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });

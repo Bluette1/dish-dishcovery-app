@@ -1,5 +1,4 @@
-// pages/api/auth/[...nextauth].ts
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -11,13 +10,12 @@ interface User {
   token?: string;
 }
 
-interface Session extends DefaultSession {
-  user: User;
-}
+const BASE_URL= process.env.NEXT_PUBLIC_BASE_URL
+
 
 const login = async (email: string, password: string): Promise<User | null> => {
   try {
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +69,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/login", // Custom sign-in page
+    signIn: "/login", 
   },
   callbacks: {
     async jwt({ token, account, user, trigger, session }) {
@@ -86,7 +84,7 @@ export default NextAuth({
           token.accessToken = account.access_token;
           const { email, name } = user;
 
-          const response = await fetch("http://localhost:5000/users", {
+          const response = await fetch(`${BASE_URL}/users`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -117,6 +115,7 @@ export default NextAuth({
       if (token.user) {
         session.user = token.user as User;
       }
+
       return session;
     },
   },
