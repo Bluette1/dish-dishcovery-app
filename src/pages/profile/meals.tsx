@@ -2,9 +2,10 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Dashboard from "../../components/dashboard";
-import AddMeal from "../../components/addmeal"; // Import the button component
+import AddMeal from "../../components/addmeal"; 
+import { NextComponentType } from "next";
 
-const MealsPage: React.FC = () => {
+const MealsPage: NextComponentType = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -26,3 +27,4 @@ const MealsPage: React.FC = () => {
 };
 
 export default MealsPage;
+MealsPage.auth = true;

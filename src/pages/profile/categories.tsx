@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Dashboard from "../../components/dashboard";
 import AddCategoryButton from "../../components/addcategorybutton"; // Import the button component
+import { NextComponentType } from "next";
 
-const CategoriesPage: React.FC = () => {
+const CategoriesPage: NextComponentType = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -25,3 +26,5 @@ const CategoriesPage: React.FC = () => {
 };
 
 export default CategoriesPage;
+
+CategoriesPage.auth = true;
