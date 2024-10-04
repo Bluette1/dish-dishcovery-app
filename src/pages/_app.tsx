@@ -4,10 +4,10 @@ import Headers from "@/components/headers";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
 import Router from "next/router";
 import LoadingSpinner from "../components/loading-spinner";
-import { SessionProvider, signIn, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 
 // Local font configuration
 const barlow = localFont({
@@ -16,55 +16,8 @@ const barlow = localFont({
   weight: "400",
 });
 
-// Define the Auth component for general user authentication
-interface AuthProps {
-  children: ReactNode;
-}
-
-function Auth({ children }: AuthProps) {
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      signIn();
-    },
-  });
-
-  if (status === "loading") {
-    return <div>Loading or not authenticated...</div>;
-  }
-
-  return <>{children}</>;
-}
-
-// Define the AdminAuth component for admin-specific authentication
-function AdminAuth({ children }: AuthProps) {
-  const { status, data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      signIn();
-    },
-  });
-
-  if (status === "loading") {
-    return <div>Loading or not authenticated...</div>;
-  }
-
-  // Check if the user is an admin
-  const isAdmin = session?.user?.user?.role === "admin";
-
-  if (!isAdmin) {
-    return (
-      <section className="h-screen flex justify-center">
-        <p>Admin login required!</p>
-      </section>
-    );
-  }
-
-  return <>{children}</>;
-}
-
-// Main MyApp component
-function MyApp({ Component, pageProps }: AppProps) {
+// Main App component
+function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -95,17 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <Headers />
         <main className="pt-16">
-          {Component.adminAuth ? (
-            <AdminAuth>
-              <Component {...pageProps} />
-            </AdminAuth>
-          ) : Component.auth ? (
-            <Auth>
-              <Component {...pageProps} />
-            </Auth>
-          ) : (
-            <Component {...pageProps} />
-          )}
+          <Component {...pageProps} />
         </main>
         <Footer />
       </section>
@@ -113,4 +56,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default App;

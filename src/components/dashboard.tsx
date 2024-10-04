@@ -6,14 +6,12 @@ import { User } from "next-auth";
 
 interface DashboardProps {
   Content: React.FC<{ user?: User }>;
-  user: User;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
+const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
   const { data: session } = useSession();
-  const {
-    user: { role },
-  } = user;
+
+  const role = session?.user?.user?.role;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -28,7 +26,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
     <div className="flex">
       {/* Sidebar for desktop */}
       <article className="hidden md:block">
-        <Sidebar theme="" role={role} />
+        {role && <Sidebar theme="" role={role} />}
       </article>
 
       <div className="flex-1 min-h-screen bg-gray-100">
@@ -57,7 +55,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
               <div className="border-4 border-dashed border-gray-200 rounded-lg h-96">
                 {/* Render the passed content here */}
                 <section className="flex items-center justify-center">
-                  <Content user={user} />
+                  <Content user={session.user} />
                 </section>
               </div>
             </div>
@@ -71,11 +69,11 @@ const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
             onClick={closeSidebar}
           ></div>
           <div className="h-screen absolute my-12 inset-0 z-40 bg-gray-800 text-white">
-            <Sidebar
+           { role && (<Sidebar
               role={role}
               theme="md:hidden"
               closeSidebar={closeSidebar}
-            />
+            />)}
           </div>
         </>
       )}

@@ -1,32 +1,9 @@
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import Dashboard from "../../components/dashboard";
 import Content from "@/components/user";
-import { NextComponentType } from "next";
+import withAuth from "@/hocs/with-hocs";
 
-const ProfilePage: NextComponentType = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "loading") return;
-    if (!session) {
-      router.push("/login");
-    }
-  }, [session, status, router]);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-  if (!session) {
-    return null;
-  }
-
-
-  return session ? <Dashboard user={session.user} Content={Content} /> : null;
+const ProfilePage: React.FC = () => {
+  return <Dashboard Content={Content} />;
 };
 
-export default ProfilePage;
-
-ProfilePage.auth = true;
+export default withAuth(ProfilePage);
