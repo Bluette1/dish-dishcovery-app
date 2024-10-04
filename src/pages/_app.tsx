@@ -16,7 +16,7 @@ const barlow = localFont({
   weight: "400",
 });
 
-// Define the Auth component
+// Define the Auth component for general user authentication
 interface AuthProps {
   children: ReactNode;
 }
@@ -31,6 +31,33 @@ function Auth({ children }: AuthProps) {
 
   if (status === "loading") {
     return <div>Loading or not authenticated...</div>;
+  }
+
+  return <>{children}</>;
+}
+
+// Define the AdminAuth component for admin-specific authentication
+function AdminAuth({ children }: AuthProps) {
+  const { status, data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      signIn();
+    },
+  });
+
+  if (status === "loading") {
+    return <div>Loading or not authenticated...</div>;
+  }
+
+  // Check if the user is an admin
+  const isAdmin = session?.user?.user?.role === "admin";
+
+  if (!isAdmin) {
+    return (
+      <section className="h-screen flex justify-center">
+        <p>Admin login required!</p>
+      </section>
+    );
   }
 
   return <>{children}</>;
@@ -68,7 +95,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <Headers />
         <main className="pt-16">
-          {Component.auth ? (
+          {Component.adminAuth ? (
+            <AdminAuth>
+              <Component {...pageProps} />
+            </AdminAuth>
+          ) : Component.auth ? (
             <Auth>
               <Component {...pageProps} />
             </Auth>

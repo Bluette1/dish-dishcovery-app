@@ -1,11 +1,11 @@
-
 // types/next.d.ts
-import 'next';
+import "next";
 
-declare module 'next' {
-  import { NextComponentType } from 'next';
+declare module "next" {
+  import { NextComponentType } from "next";
 
   interface NextComponentType {
     auth?: boolean;
+    adminAuth?: boolean;
   }
 }

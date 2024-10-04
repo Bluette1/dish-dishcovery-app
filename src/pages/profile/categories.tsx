@@ -27,4 +27,4 @@ const CategoriesPage: NextComponentType = () => {
 
 export default CategoriesPage;
 
-CategoriesPage.auth = true;
+CategoriesPage.adminAuth = true;

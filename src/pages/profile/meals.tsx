@@ -27,4 +27,4 @@ const MealsPage: NextComponentType = () => {
 };
 
 export default MealsPage;
-MealsPage.auth = true;
+MealsPage.adminAuth = true;
