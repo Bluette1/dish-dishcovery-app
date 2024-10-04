@@ -23,7 +23,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
   };
 
   return session ? (
-    <div className="flex">
+    <div className="flex relative">
       {/* Sidebar for desktop */}
       <article className="hidden md:block">
         {role && <Sidebar theme="" role={role} />}
@@ -68,7 +68,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
             className="absolute inset-0 bg-black opacity-50 z-30"
             onClick={closeSidebar}
           ></div>
-          <div className="h-screen absolute my-12 inset-0 z-40 bg-gray-800 text-white">
+          <div className="h-screen absolute my-12 inset-0 z-40 text-white">
            { role && (<Sidebar
               role={role}
               theme="md:hidden"

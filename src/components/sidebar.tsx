@@ -17,29 +17,29 @@ const Sidebar: React.FC<SidebarProps> = ({
     <div className={`${theme}`}>
       <ul>
         <Link href={"/profile"}>
-          <li className="p-4 hover:bg-gray-200 cursor-pointer">Dashboard</li>
+          <li className="p-4 hover:bg-gray-200 cursor-pointer font-bold">Dashboard</li>
         </Link>
 
         {role === "admin" && (
           <Link href={"/profile/categories"}>
-            <li className="p-4 hover:bg-gray-200 cursor-pointer">Categories</li>
+            <li className="p-4 hover:bg-gray-200 cursor-pointer font-bold">Categories</li>
           </Link>
         )}
 
         {role === "admin" && (
           <Link href={"/profile/meals"}>
-            <li className="p-4 hover:bg-gray-200 cursor-pointer">Meals</li>
+            <li className="p-4 hover:bg-gray-200 cursor-pointer font-bold">Meals</li>
           </Link>
         )}
 
         <Link href={"/profile/orders"}>
-          <li className="p-4 hover:bg-gray-200 cursor-pointer">Orders</li>
+          <li className="p-4 hover:bg-gray-200 cursor-pointer font-bold">Orders</li>
         </Link>
 
         {closeSidebar && (
           <li
             onClick={closeSidebar}
-            className="p-4 hover:bg-gray-200 cursor-pointer"
+            className="p-4 hover:bg-gray-200 cursor-pointer font-bold"
           >
             Back
           </li>

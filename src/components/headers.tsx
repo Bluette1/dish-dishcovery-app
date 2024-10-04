@@ -1,11 +1,23 @@
-import React from 'react';
-import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon, ChevronDownIcon, ChevronUpIcon, UserIcon } from '@heroicons/react/outline';
-import Logo from './logo';
-import Header from './header';
+import React from "react";
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
+import {
+  MenuIcon,
+  XIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  UserIcon,
+} from "@heroicons/react/outline";
+import Logo from "./logo";
+import Header from "./header";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,8 +34,8 @@ const Navbar: React.FC = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -54,9 +66,24 @@ const Navbar: React.FC = () => {
               </button>
               {isCategoriesOpen && (
                 <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg">
-                  <Link href="/category/soup" className="block px-4 py-2 hover:bg-gray-600">Soup</Link>
-                  <Link href="/category/dessert" className="block px-4 py-2 hover:bg-gray-600">Dessert</Link>
-                  <Link href="/category/vegan" className="block px-4 py-2 hover:bg-gray-600">Vegan</Link>
+                  <Link
+                    href="/category/soup"
+                    className="block px-4 py-2 hover:bg-gray-600"
+                  >
+                    Soup
+                  </Link>
+                  <Link
+                    href="/category/dessert"
+                    className="block px-4 py-2 hover:bg-gray-600"
+                  >
+                    Dessert
+                  </Link>
+                  <Link
+                    href="/category/vegan"
+                    className="block px-4 py-2 hover:bg-gray-600"
+                  >
+                    Vegan
+                  </Link>
                 </div>
               )}
             </div>
@@ -68,7 +95,7 @@ const Navbar: React.FC = () => {
             className="lg:hidden focus:outline-none"
           >
             {isMenuOpen ? (
-              <XIcon className="w-6 h-6" />
+              <XIcon className="w-6 h-6 cursor:pointer" />
             ) : (
               <MenuIcon className="w-6 h-6" />
             )}
@@ -76,16 +103,25 @@ const Navbar: React.FC = () => {
 
           {/* Right Side: Navigation Links and Buttons */}
           <div className="hidden lg:flex items-center space-x-6 flex-grow justify-end">
-            <Link href="/" className="hover:text-gray-400">Home</Link>
-            <Link href="/#about" className="hover:text-gray-400">About</Link>
-            <Link href="/contact" className="hover:text-gray-400">Contact</Link>
+            <Link href="/" className="hover:text-gray-400">
+              Home
+            </Link>
+            <Link href="/#about" className="hover:text-gray-400">
+              About
+            </Link>
+            <Link href="/contact" className="hover:text-gray-400">
+              Contact
+            </Link>
             <Link href="/track-order">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Track Order
               </button>
             </Link>
             {!session ? (
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => signIn()}>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => signIn()}
+              >
                 Login
               </button>
             ) : (
@@ -107,7 +143,12 @@ const Navbar: React.FC = () => {
                   <MenuItems className="absolute right-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-10">
                     <MenuItem>
                       {({ active }) => (
-                        <Link href="/profile" className={`block px-4 py-2 ${active ? 'bg-gray-600' : ''}`} onClick={() => setIsDropdownOpen(false)}>
+                        <Link
+                          href="/profile"
+                          className={`block px-4 py-2 ${
+                            active ? "bg-gray-600" : ""
+                          }`}
+                        >
                           Dashboard
                         </Link>
                       )}
@@ -118,7 +159,9 @@ const Navbar: React.FC = () => {
                           onClick={() => {
                             signOut();
                           }}
-                          className={`block w-full text-left px-4 py-2 ${active ? 'bg-gray-600' : ''}`}
+                          className={`block w-full text-left px-4 py-2 ${
+                            active ? "bg-gray-600" : ""
+                          }`}
                         >
                           Logout
                         </button>
@@ -133,14 +176,16 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Items */}
           <div
             ref={menuRef}
-            className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-50 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+            className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-50 transition-transform transform ${
+              isMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
           >
             <div className="flex flex-col h-full p-4">
               {/* Mobile Categories */}
               <div className="relative mt-4">
                 <button
                   onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                  className="flex items-center text-xl px-4 py-2 hover:bg-gray-700 w-full"
+                  className="flex items-center text-xl px-4 py-2 hover:bg-gray-700 w-full mt-5"
                 >
                   Categories
                   {isCategoriesOpen ? (
@@ -151,18 +196,51 @@ const Navbar: React.FC = () => {
                 </button>
                 {isCategoriesOpen && (
                   <div className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
-                    <Link href="/category/soup" className="block px-4 py-2 hover:bg-gray-600">Soup</Link>
-                    <Link href="/category/dessert" className="block px-4 py-2 hover:bg-gray-600">Dessert</Link>
-                    <Link href="/category/vegan" className="block px-4 py-2 hover:bg-gray-600">Vegan</Link>
+                    <Link
+                      href="/category/soup"
+                      className="block px-4 py-2 hover:bg-gray-600"
+                    >
+                      Soup
+                    </Link>
+                    <Link
+                      href="/category/dessert"
+                      className="block px-4 py-2 hover:bg-gray-600"
+                    >
+                      Dessert
+                    </Link>
+                    <Link
+                      href="/category/vegan"
+                      className="block px-4 py-2 hover:bg-gray-600"
+                    >
+                      Vegan
+                    </Link>
                   </div>
                 )}
               </div>
 
               {/* Mobile Navigation Links */}
               <div className="flex flex-col mt-4 space-y-4">
-                <Link href="/" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Home</Link>
-                <Link href="/#about" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>About</Link>
-                <Link href="/contact" className="text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                <Link
+                  href="/"
+                  className="text-xl py-2 hover:bg-gray-700 px-4"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Home
+                </Link>
+                <Link
+                  href="/#about"
+                  className="text-xl py-2 hover:bg-gray-700 px-4"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  About
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-xl py-2 hover:bg-gray-700 px-4"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contact
+                </Link>
                 <Link href="/track-order">
                   <button
                     onClick={() => setIsMenuOpen(false)}
@@ -173,11 +251,21 @@ const Navbar: React.FC = () => {
                 </Link>
 
                 {!session ? (
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-                    onClick={() => signIn()}>Login</button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                    onClick={() => signIn()}
+                  >
+                    Login
+                  </button>
                 ) : (
                   <div>
-                    <Link href="/profile" className="block text-xl py-2 hover:bg-gray-700 px-4" onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
+                    <Link
+                      href="/profile"
+                      className="block text-xl py-2 hover:bg-gray-700 px-4"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
                     <button
                       onClick={() => {
                         signOut();
@@ -199,5 +287,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-
-
