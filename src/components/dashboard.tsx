@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import Sidebar from "./sidebar";
 import ProfileMenuIcon from "./menu-icon";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { User } from "next-auth";
 
 interface DashboardProps {
-  Content: React.FC; 
+  Content: React.FC<{ user?: User }>;
   user: User;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
   const { data: session } = useSession();
-  const {user : { role }} = user;
+  const {
+    user: { role },
+  } = user;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -39,7 +41,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
 
             {/* Title for mobile and desktop */}
             <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 flex-1 text-center md:text-left">
-              {role === 'admin' && <span>Admin</span>} Dashboard
+              {role === "admin" && <span>Admin</span>} Dashboard
             </h1>
 
             {/* Optionally add other icons for desktop here */}
@@ -55,19 +57,27 @@ const Dashboard: React.FC<DashboardProps> = ({ Content, user }) => {
               <div className="border-4 border-dashed border-gray-200 rounded-lg h-96">
                 {/* Render the passed content here */}
                 <section className="flex items-center justify-center">
-                  <Content />
+                  <Content user={user} />
                 </section>
               </div>
             </div>
           </div>
         </main>
       </div>
-
-      {/* Sidebar for mobile */}
       {isSidebarOpen && (
-        <div className="relative inset-0 z-40 bg-gray-800 text-white">
-          <Sidebar theme="md:hidden" closeSidebar={closeSidebar} />
-        </div>
+        <>
+          <div
+            className="absolute inset-0 bg-black opacity-50 z-30"
+            onClick={closeSidebar}
+          ></div>
+          <div className="h-screen absolute my-12 inset-0 z-40 bg-gray-800 text-white">
+            <Sidebar
+              role={role}
+              theme="md:hidden"
+              closeSidebar={closeSidebar}
+            />
+          </div>
+        </>
       )}
     </div>
   ) : null;

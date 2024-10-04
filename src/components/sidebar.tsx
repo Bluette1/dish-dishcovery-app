@@ -16,7 +16,9 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div className={`${theme}`}>
       <ul>
-        <li className="p-4 hover:bg-gray-200 cursor-pointer">Dashboard</li>
+        <Link href={"/profile"}>
+          <li className="p-4 hover:bg-gray-200 cursor-pointer">Dashboard</li>
+        </Link>
 
         {role === "admin" && (
           <Link href={"/profile/categories"}>
@@ -34,14 +36,14 @@ const Sidebar: React.FC<SidebarProps> = ({
           <li className="p-4 hover:bg-gray-200 cursor-pointer">Orders</li>
         </Link>
 
-        <Link href={"/"}>
+        {closeSidebar && (
           <li
             onClick={closeSidebar}
             className="p-4 hover:bg-gray-200 cursor-pointer"
           >
             Back
           </li>
-        </Link>
+        )}
       </ul>
     </div>
   );

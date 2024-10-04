@@ -4,6 +4,7 @@ const AddCategoryButton: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [categoryName, setCategoryName] = useState<string>("");
+  const [showInput, setShowInput] = useState<boolean>(false);
 
   const handleAddCategory = async () => {
     setLoading(true);
@@ -24,7 +25,8 @@ const AddCategoryButton: React.FC = () => {
       if (response.ok) {
         const newCategory = await response.json();
         alert(`Category created successfully: ${newCategory.name}`);
-        // Optionally, you can trigger a refresh or update the UI
+        setCategoryName("");
+        setShowInput(false); // Hide input after successful addition
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Failed to create category.");
@@ -38,22 +40,33 @@ const AddCategoryButton: React.FC = () => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={categoryName}
-        onChange={(e) => setCategoryName(e.target.value)}
-        placeholder="Enter category name"
-        className="border border-gray-300 rounded p-2 mb-2 mx-5 my-3"
-      />
-      <button
-        onClick={handleAddCategory}
-        disabled={loading}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        {loading ? "Adding..." : "Add Category"}
-      </button>
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="flex flex-col items-center">
+      {!showInput ? (
+        <button
+          onClick={() => setShowInput(true)}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+        >
+          Create a Category
+        </button>
+      ) : (
+        <>
+          <input
+            type="text"
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            placeholder="Enter category name"
+            className="border border-gray-300 rounded p-2 mb-2 mx-5 my-3"
+          />
+          <button
+            onClick={handleAddCategory}
+            disabled={loading}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            {loading ? "Adding..." : "Add Category"}
+          </button>
+          {error && <p className="text-red-500">{error}</p>}
+        </>
+      )}
     </div>
   );
 };

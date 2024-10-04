@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Dashboard from "../../components/dashboard";
-import AddCategoryButton from "@/components/addcategorybutton";
+import Content from "@/components/user";
 
 const ProfilePage: React.FC = () => {
   const { data: session, status } = useSession();
@@ -20,7 +20,7 @@ const ProfilePage: React.FC = () => {
   }
 
   return session ? (
-    <Dashboard user={session.user} Content={AddCategoryButton} />
+    <Dashboard user={session.user} Content={Content} />
   ) : null;
 };
 

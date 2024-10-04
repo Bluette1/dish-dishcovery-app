@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Dashboard from "../../components/dashboard";
-import AddMealForm from "../../components/addmealform"; // Import the button component
+import AddMeal from "../../components/addmeal"; // Import the button component
 
 const MealsPage: React.FC = () => {
   const { data: session, status } = useSession();
@@ -21,7 +21,7 @@ const MealsPage: React.FC = () => {
 
 
   return session ? (
-    <Dashboard user={session.user} Content={AddMealForm} />
+    <Dashboard user={session.user} Content={AddMeal} />
   ) : null;
 };
 
