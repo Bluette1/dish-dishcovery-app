@@ -6,4 +6,5 @@ const CategoriesPage: React.FC = () => {
   return <Dashboard Content={AddCategoryButton} />;
 };
 
-export default withAuth(CategoriesPage, "admin");
+const WithAuthCategoriesPage = withAuth(CategoriesPage, "admin");
+export default WithAuthCategoriesPage;

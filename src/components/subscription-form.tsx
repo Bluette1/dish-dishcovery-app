@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styles from './SubscriptionForm.module.css'; // Import styles if using CSS modules
 
 const SubscriptionForm = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [email, setEmail] = useState<string>('');

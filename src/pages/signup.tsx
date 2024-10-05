@@ -1,6 +1,5 @@
 // pages/signup.tsx
 import { useState, FormEvent } from 'react';
-import Head from 'next/head';
 import styles from '../styles/auth.module.css'; // Import your CSS module
 import Meta from '@/components/meta';
 

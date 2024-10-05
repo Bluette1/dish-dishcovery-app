@@ -3,10 +3,7 @@ import Link from 'next/link';
 import FacebookIcon from '../../public/icons/facebook-icon.svg';
 import TwitterIcon from '../../public/icons/twitter-icon.svg';
 import InstagramIcon from '../../public/icons/instagram-icon.svg';
-import VisaIcon from '../../public/icons/visa-icon.svg';
-import MasterCardIcon from '../../public/icons/mastercard-icon.svg';
 import Image from 'next/image';
-import Logo from './logo-transparent';
 
 const Footer: React.FC = () => {
   return (

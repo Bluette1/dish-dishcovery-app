@@ -2,6 +2,8 @@
 import dynamic from "next/dynamic";
 import LoadingSpinner from "../components/loading-spinner"; // Optional, for loading state
 import Meta from "@/components/meta";
+import Image from "next/image";
+
 // Dynamically import the Map component
 const Map = dynamic(() => import("../components/map"), {
   loading: () => <LoadingSpinner />, // Fallback component while loading
@@ -25,7 +27,7 @@ const Contact = () => {
                 Contact Us
               </h1>
               <p className="text-lg text-gray-600">
-                We'd love to hear from you! Get in touch with us using the
+                We&apos;d love to hear from you! Get in touch with us using the
                 contact form below or through our social media channels.
               </p>
             </div>
@@ -114,7 +116,7 @@ const Contact = () => {
                     <textarea
                       id="message"
                       name="message"
-                      rows="4"
+                      rows={4}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                       required
                     ></textarea>
@@ -144,7 +146,7 @@ const Contact = () => {
             </div>
             <div className="flex flex-col md:flex-row items-center justify-center">
               <div className="md:w-1/3 mb-6 md:mb-0">
-                <img
+                <Image
                   src="/images/founder.jpg"
                   alt="Founder"
                   className="w-full h-auto rounded-full shadow-lg"
@@ -160,7 +162,7 @@ const Contact = () => {
                   perfecting recipes that delight our customers.
                 </p>
                 <p className="text-gray-600 mb-4">
-                  When not in the kitchen, Jane enjoys exploring local farmers'
+                  When not in the kitchen, Jane enjoys exploring local farmers&apos;
                   markets and developing new recipes. She is committed to
                   sustainability and community, making every meal a reflection
                   of these values.

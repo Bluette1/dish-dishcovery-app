@@ -142,7 +142,7 @@ const handlers: Record<
 };
 
 // Main API handler
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const CategoriesAPIHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method = req.method as HttpMethod;
   if (handlers[method]) {
     await handlers[method](req, res);
@@ -151,3 +151,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).end(`Method ${method} Not Allowed`);
   }
 };
+
+
+export default CategoriesAPIHandler;

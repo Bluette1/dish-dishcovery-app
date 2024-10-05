@@ -6,4 +6,5 @@ const MealsPage: React.FC = () => {
   return <Dashboard Content={AddMeal} />;
 };
 
-export default withAuth(MealsPage, "admin");
+const WithAuthMealsPage = withAuth(MealsPage, "admin");
+export default WithAuthMealsPage;

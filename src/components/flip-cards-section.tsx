@@ -1,5 +1,4 @@
 // components/FlipCardSection.tsx
-import Image from "next/image";
 import FlipCardSection from './flip-card-section';
 
 
