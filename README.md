@@ -1,40 +1,103 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Dish Discovery App
+
+## Overview
+
+The Dish Discovery App is a web application designed to help users explore and discover various dishes from around the world. Built using Next.js and integrated with NextAuth for authentication, this app allows users to create accounts, log in, and manage their favorite dishes.
+
+![Home Page Image](./public/images/screenshot-home-page.png)
+
+[Dish Discovery Deployment Link](https://dish-dishcovery-44ihk8a1j-bluette1s-projects.vercel.app/)
+
+[Dish Discovery API Sourcecode](https://github.com/Bluette1/dish-discovery-api)
+
+[Dish Discovery API Link](https://dish-discovery-api-3a9612859754.herokuapp.com)
+
+## Features
+
+- User authentication with NextAuth
+- Role-based access for admin users
+- Dish discovery with detailed views
+- User-friendly interface with responsive design
+- Admin dashboard for managing dishes and users
+
+## Technologies Used
+
+- **Frontend**: Next.js, React
+- **Styling**: Tailwind CSS (or any other CSS framework you prefer)
+- **Authentication**: NextAuth
+- **Database**: MongoDB
+- **State Management**: React Context API
 
 ## Getting Started
 
-First, run the development server:
+To get a local copy of the project up and running, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js (version X.X.X)
+- npm (version X.X.X) or Yarn
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1. Clone the repository:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+   ```bash
+   git clone https://github.com/Bluette1/dish-dishcovery-app.git
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. Navigate to the project directory:
 
-## Learn More
+   ```bash
+   cd dish-dishcovery-app
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. Install dependencies:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. Set up environment variables:
 
-## Deploy on Vercel
+   Create a `.env.local` file in the root of the project and add your environment variables. An example is provided in `.env.example`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. Run the development server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+6. Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+
+## Usage
+
+- **User Authentication**: Users can sign up and log in to manage their favorite dishes.
+- **Admin Panel**: Admin users can manage dishes and user accounts.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push to your branch.
+5. Open a pull request.
+
+## User Stories
+
+For a comprehensive overview of the user stories for the DishDiscovery app, please refer to our [Notion User Stories](https://www.notion.so/User-Stories-116e6a4d98f280a48a02db13508c943f?pvs=4).
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Inspiration and resources from various online tutorials and documentation.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [NextAuth Documentation](https://next-auth.js.org/getting-started/introduction)
