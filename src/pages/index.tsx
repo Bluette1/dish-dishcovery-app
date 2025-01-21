@@ -1,4 +1,3 @@
-// pages/index.tsx
 import { NextPage } from 'next';
 import Collage from '@/components/collage';
 import About from '@/components/about';
