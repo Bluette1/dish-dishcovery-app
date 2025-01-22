@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./Categories.module.css"; // Import CSS module
+import styles from "../../../styles/categories.module.css"; // Import CSS module
 
 export async function getStaticProps() {
   // Fetch categories from an API or database
@@ -30,7 +30,7 @@ const Categories = ({ categories }) => {
           <li key={category.id} className={styles.categoryItem}>
             <Link
               className={styles.categoryLink}
-              href={`/categories/${encodeURIComponent(
+              href={`/browse/categories/${encodeURIComponent(
                 category.name.toLowerCase()
               )}`}
             >
