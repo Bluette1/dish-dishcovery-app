@@ -25,6 +25,18 @@ const Navbar: React.FC = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
 
+  const categories = [
+    { id: 1, name: "Pasta", imageUrl: "/images/pasta.jpg" },
+    { id: 2, name: "Beef", imageUrl: "/images/beef.jpg" },
+    { id: 3, name: "Fish", imageUrl: "/images/fish.jpg" },
+    { id: 4, name: "Desserts", imageUrl: "/images/dessert.jpg" },
+    { id: 5, name: "Pasta", imageUrl: "/images/pasta.jpg" },
+    { id: 6, name: "Beef", imageUrl: "/images/beef.jpg" },
+    { id: 7, name: "Fish", imageUrl: "/images/fish.jpg" },
+    { id: 8, name: "Desserts", imageUrl: "/images/dessert.jpg" },
+    { id: 9, name: "Appetizers", imageUrl: "/images/pasta.jpg" },
+  ];
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -65,25 +77,16 @@ const Navbar: React.FC = () => {
                 )}
               </button>
               {isCategoriesOpen && (
-                <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg">
-                  <Link
-                    href="/category/soup"
-                    className="block px-4 py-2 hover:bg-gray-600"
-                  >
-                    Soup
-                  </Link>
-                  <Link
-                    href="/category/dessert"
-                    className="block px-4 py-2 hover:bg-gray-600"
-                  >
-                    Dessert
-                  </Link>
-                  <Link
-                    href="/category/vegan"
-                    className="block px-4 py-2 hover:bg-gray-600"
-                  >
-                    Vegan
-                  </Link>
+                <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-40">
+                  {categories.map((category) => (
+                     <Link
+                     href={`/browse/categories/${encodeURIComponent(
+                      category.name.toLowerCase())}`}
+                     className="block px-4 py-2 hover:bg-gray-600"
+                   >
+                     {category.name}
+                   </Link>
+                  ))}
                 </div>
               )}
             </div>

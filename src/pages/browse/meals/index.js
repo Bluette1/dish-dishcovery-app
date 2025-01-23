@@ -1,10 +1,10 @@
 import Link from "next/link";
-
 import Image from "next/image";
+import { useState } from "react";
+import { SearchIcon } from "@heroicons/react/outline";
+
 
 export async function getStaticProps() {
-  // Fetch data for all the meals
-  // For now, we’ll use a static object here
   const mealsData = {
     dishes: [
       { id: 1, name: "Pasta", imageUrl: "/images/pasta.jpg" },
@@ -26,44 +26,67 @@ export async function getStaticProps() {
   };
 }
 
-const Category = ({ mealsData }) => {
-  if (!mealsData) return <div>Loading...</div>;
+const Meals = ({ mealsData }) => {
   const { dishes } = mealsData;
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter dishes based on the search term
+  const filteredDishes = dishes.filter((dish) =>
+    dish.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div>
-      {/* Render dishes related to the category */}
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {dishes.map((dish) => (
-              <div key={dish.name} className="relative group">
-                <Link
-                  href={`/browse/meals/${encodeURIComponent(
-                    dish.name.toLowerCase()
-                  )}`}
-                >
-                  <div className="relative w-full h-64 overflow-hidden rounded-lg">
-                    <Image
-                      src={dish.imageUrl}
-                      alt={dish.name}
-                      fill
-                      className="object-cover transition-transform transform group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white text-xl font-semibold">
-                      {dish.name}
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
+    <>
+      <div>
+        <div className="py-4 flex">
+
+          <input
+            type="text"
+            placeholder="Search for dishes..."
+            className="w-3/4 md:w-1/2 p-2 border border-gray-300 rounded my-4 mx-4 md:mx-8"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <SearchIcon className="w-6 h-6 mt-6 mx-2 text-gray-300" />
         </div>
-      </section>
-    </div>
+        <section className="py-16 bg-gray-100">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {filteredDishes.length > 0 ? (
+                filteredDishes.map((dish) => (
+                  <div key={dish.id} className="relative group">
+                    <Link
+                      href={`/browse/meals/${encodeURIComponent(
+                        dish.name.toLowerCase()
+                      )}`}
+                    >
+                      <div className="relative w-full h-64 overflow-hidden rounded-lg">
+                        <Image
+                          src={dish.imageUrl}
+                          alt={dish.name}
+                          fill
+                          className="object-cover transition-transform transform group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="text-white text-xl font-semibold">
+                          {dish.name}
+                        </span>
+                      </div>
+                    </Link>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full text-center text-lg text-gray-500">
+                  No dishes found.
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 };
 
-export default Category;
+export default Meals;

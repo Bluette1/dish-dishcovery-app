@@ -52,17 +52,23 @@ const Carousel: React.FC = () => {
           {categories.map((category) => (
             <SwiperSlide key={category.name} className="relative">
               <div className="relative w-full h-64">
-                <Image
-                  fill
-                  src={category.imageUrl}
-                  alt={category.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-white text-xl font-semibold">
-                    {category.name}
-                  </span>
-                </div>
+                <Link
+                  href={`/browse/categories/${encodeURIComponent(
+                    category.name.toLowerCase()
+                  )}`}
+                >
+                  <Image
+                    fill
+                    src={category.imageUrl}
+                    alt={category.name}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-white text-xl font-semibold">
+                      {category.name}
+                    </span>
+                  </div>
+                </Link>
               </div>
             </SwiperSlide>
           ))}
