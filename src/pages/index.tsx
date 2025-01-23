@@ -7,7 +7,7 @@ import InterractiveSection from "@/components/interractive-section";
 import FlipCardsSection from "@/components/flip-cards-section";
 import Meta from "@/components/meta";
 import Link from "next/link";
-import { SearchIcon } from "@heroicons/react/outline";
+import { SearchIcon, ArrowUpIcon } from "@heroicons/react/outline";
 
 const Home: NextPage = () => {
   return (
@@ -24,15 +24,18 @@ const Home: NextPage = () => {
       <section className="flex justify-center">
         <FlipCardsSection />
       </section>
-      <InterractiveSection />
       <Link href={"/browse/meals"}>
-        <section className="flex justify-center hover:underline hover:text-[#883D1A]">
+        <section className="pt-6 pb-2 flex justify-center hover:underline hover:text-[#883D1A]">
           <SearchIcon className="w-6 h-6 mt-2 mx-2" />
-          <h2 className="text-3xl  font-semibold text-center mb-12">
+          <h2 className="text-3xl  font-semibold text-center">
             Find a Meal...
           </h2>
         </section>
+        <section className="flex justify-center mb-12">
+          <ArrowUpIcon className="w-6 h-6 text-[#883D1A]" />
+        </section>
       </Link>
+      <InterractiveSection />
     </>
   );
 };

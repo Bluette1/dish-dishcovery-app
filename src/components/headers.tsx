@@ -79,13 +79,16 @@ const Navbar: React.FC = () => {
               {isCategoriesOpen && (
                 <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-40">
                   {categories.map((category) => (
-                     <Link
-                     href={`/browse/categories/${encodeURIComponent(
-                      category.name.toLowerCase())}`}
-                     className="block px-4 py-2 hover:bg-gray-600"
-                   >
-                     {category.name}
-                   </Link>
+                    <Link
+                      key={`${category.id}-desktop`}
+                      href={`/browse/categories/${encodeURIComponent(
+                        category.name.toLowerCase()
+                      )}`}
+                      className="block px-4 py-2 hover:bg-gray-600"
+                      onClick={() => setIsCategoriesOpen(false)}
+                    >
+                      {category.name}
+                    </Link>
                   ))}
                 </div>
               )}
@@ -199,24 +202,21 @@ const Navbar: React.FC = () => {
                 </button>
                 {isCategoriesOpen && (
                   <div className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
-                    <Link
-                      href="/category/soup"
-                      className="block px-4 py-2 hover:bg-gray-600"
-                    >
-                      Soup
-                    </Link>
-                    <Link
-                      href="/category/dessert"
-                      className="block px-4 py-2 hover:bg-gray-600"
-                    >
-                      Dessert
-                    </Link>
-                    <Link
-                      href="/category/vegan"
-                      className="block px-4 py-2 hover:bg-gray-600"
-                    >
-                      Vegan
-                    </Link>
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/browse/categories/${encodeURIComponent(
+                          category.name.toLowerCase()
+                        )}`}
+                        className="block px-4 py-2 hover:bg-gray-600"
+                        onClick={() => {
+                          setIsCategoriesOpen(false);
+                          setIsMenuOpen(false);
+                        }}
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
                   </div>
                 )}
               </div>
