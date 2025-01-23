@@ -23,7 +23,6 @@ const Carousel: React.FC = () => {
     <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <Link href={"/browse/categories"}>
-          {" "}
           <h2 className="text-3xl font-semibold text-center mb-12 hover:underline hover:text-[#883D1A]">
             Our Food Categories
           </h2>
