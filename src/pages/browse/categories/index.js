@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "../../../styles/categories.module.css";
+import Image from "next/image";
 
 export async function getStaticProps() {
   // Fetch categories from an API or database
@@ -27,21 +28,22 @@ const Categories = ({ categories }) => {
     <div className={styles.container}>
       <ul className={styles.categoryList}>
         {categories.map((category) => (
-          <li key={category.id} className={styles.categoryItem}>
-            <Link
-              className={styles.categoryLink}
-              href={`/browse/categories/${encodeURIComponent(
-                category.name.toLowerCase()
-              )}`}
-            >
-              <img
-                src={category.imageUrl}
-                alt={category.name}
-                className={styles.categoryImage}
-              />
-              <h2 className={styles.categoryName}>{category.name}</h2>
-            </Link>
-          </li>
+          <Link
+            key={category.id}
+            className={styles.categoryItem}
+            href={`/browse/categories/${encodeURIComponent(
+              category.name.toLowerCase()
+            )}`}
+          >
+            <Image
+              src={category.imageUrl}
+              alt={category.name}
+              className={styles.categoryImage}
+              width={500}
+              height={500}
+            />
+            <h2 className={styles.categoryName}>{category.name}</h2>
+          </Link>
         ))}
       </ul>
     </div>
