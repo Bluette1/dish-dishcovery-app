@@ -25,6 +25,18 @@ const Navbar: React.FC = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
 
+  const categories = [
+    { id: 1, name: "Pasta", imageUrl: "/images/pasta.jpg" },
+    { id: 2, name: "Beef", imageUrl: "/images/beef.jpg" },
+    { id: 3, name: "Fish", imageUrl: "/images/fish.jpg" },
+    { id: 4, name: "Desserts", imageUrl: "/images/dessert.jpg" },
+    { id: 5, name: "Pasta", imageUrl: "/images/pasta.jpg" },
+    { id: 6, name: "Beef", imageUrl: "/images/beef.jpg" },
+    { id: 7, name: "Fish", imageUrl: "/images/fish.jpg" },
+    { id: 8, name: "Desserts", imageUrl: "/images/dessert.jpg" },
+    { id: 9, name: "Appetizers", imageUrl: "/images/pasta.jpg" },
+  ];
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -50,42 +62,50 @@ const Navbar: React.FC = () => {
             <Link href="/" className="text-2xl font-bold flex-shrink-0">
               <Logo />
             </Link>
-
             {/* Desktop Categories Dropdown */}
             <div className="relative hidden lg:flex items-center ml-6">
-              <button
-                onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                className="flex items-center hover:text-gray-400"
-              >
-                Categories
-                {isCategoriesOpen ? (
-                  <ChevronUpIcon className="ml-2 w-4 h-4" />
-                ) : (
-                  <ChevronDownIcon className="ml-2 w-4 h-4" />
-                )}
-              </button>
-              {isCategoriesOpen && (
-                <div className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg">
-                  <Link
-                    href="/category/soup"
-                    className="block px-4 py-2 hover:bg-gray-600"
-                  >
-                    Soup
-                  </Link>
-                  <Link
-                    href="/category/dessert"
-                    className="block px-4 py-2 hover:bg-gray-600"
-                  >
-                    Dessert
-                  </Link>
-                  <Link
-                    href="/category/vegan"
-                    className="block px-4 py-2 hover:bg-gray-600"
-                  >
-                    Vegan
-                  </Link>
-                </div>
-              )}
+              <Menu as="div" className="relative inline-block text-left">
+                <MenuButton
+                  onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                  className="flex items-center hover:text-gray-400"
+                >
+                  Categories
+                  {isCategoriesOpen ? (
+                    <ChevronUpIcon className="ml-2 w-4 h-4" />
+                  ) : (
+                    <ChevronDownIcon className="ml-2 w-4 h-4" />
+                  )}
+                </MenuButton>
+                <Transition
+                  as={React.Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-40">
+                    {categories.map((category) => (
+                      <Menu.Item key={`${category.id}-desktop`}>
+                        {({ active }) => (
+                          <Link
+                            href={`/browse/categories/${encodeURIComponent(
+                              category.name.toLowerCase()
+                            )}`}
+                            className={`block px-4 py-2 ${
+                              active ? "bg-gray-600" : ""
+                            }`}
+                            onClick={() => setIsCategoriesOpen(false)}
+                          >
+                            {category.name}
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </Menu.Items>
+                </Transition>
+              </Menu>
             </div>
           </div>
 
@@ -183,39 +203,54 @@ const Navbar: React.FC = () => {
             <div className="flex flex-col h-full p-4">
               {/* Mobile Categories */}
               <div className="relative mt-4">
-                <button
-                  onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                  className="flex items-center text-xl px-4 py-2 hover:bg-gray-700 w-full mt-5"
+                <Menu
+                  as="div"
+                  className="relative inline-block text-left w-full"
                 >
-                  Categories
-                  {isCategoriesOpen ? (
-                    <ChevronUpIcon className="ml-2 w-5 h-5" />
-                  ) : (
-                    <ChevronDownIcon className="ml-2 w-5 h-5" />
-                  )}
-                </button>
-                {isCategoriesOpen && (
-                  <div className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
-                    <Link
-                      href="/category/soup"
-                      className="block px-4 py-2 hover:bg-gray-600"
-                    >
-                      Soup
-                    </Link>
-                    <Link
-                      href="/category/dessert"
-                      className="block px-4 py-2 hover:bg-gray-600"
-                    >
-                      Dessert
-                    </Link>
-                    <Link
-                      href="/category/vegan"
-                      className="block px-4 py-2 hover:bg-gray-600"
-                    >
-                      Vegan
-                    </Link>
-                  </div>
-                )}
+                  <MenuButton
+                    onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                    className="flex items-center text-xl px-4 py-2 hover:bg-gray-700 w-full mt-5"
+                  >
+                    Categories
+                    {isCategoriesOpen ? (
+                      <ChevronUpIcon className="ml-2 w-4 h-4" />
+                    ) : (
+                      <ChevronDownIcon className="ml-2 w-4 h-4" />
+                    )}
+                  </MenuButton>
+                  <Transition
+                    as={React.Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
+                      {categories.map((category) => (
+                        <Menu.Item key={category.id}>
+                          {({ active }) => (
+                            <Link
+                              href={`/browse/categories/${encodeURIComponent(
+                                category.name.toLowerCase()
+                              )}`}
+                              className={`block px-4 py-2 ${
+                                active ? "bg-gray-600" : ""
+                              }`}
+                              onClick={() => {
+                                setIsMenuOpen(false);
+                                setIsCategoriesOpen(false);
+                              }}
+                            >
+                              {category.name}
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
 
               {/* Mobile Navigation Links */}

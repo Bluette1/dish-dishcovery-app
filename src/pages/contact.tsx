@@ -149,6 +149,8 @@ const Contact = () => {
                 <Image
                   src="/images/founder.jpg"
                   alt="Founder"
+                  width={500} // Specify the width
+                  height={500}
                   className="w-full h-auto rounded-full shadow-lg"
                 />
               </div>
