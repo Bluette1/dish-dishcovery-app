@@ -6,17 +6,8 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Image from "next/image";
 import Link from "next/link";
-
-const categories = [
-  { name: "Pasta", imageUrl: "/images/pasta.jpg" },
-  { name: "Beef", imageUrl: "/images/beef.jpg" },
-  { name: "Fish", imageUrl: "/images/fish.jpg" },
-  { name: "Desserts", imageUrl: "/images/dessert.jpg" },
-  { name: "Pasta", imageUrl: "/images/pasta.jpg" },
-  { name: "Beef", imageUrl: "/images/beef.jpg" },
-  { name: "Fish", imageUrl: "/images/fish.jpg" },
-  { name: "Desserts", imageUrl: "/images/dessert.jpg" },
-];
+import categories from "../data/categories";
+import slugify from "../helpers/slugify";
 
 const Carousel: React.FC = () => {
   return (
@@ -54,7 +45,7 @@ const Carousel: React.FC = () => {
               <div className="relative w-full h-64">
                 <Link
                   href={`/browse/categories/${encodeURIComponent(
-                    category.name.toLowerCase()
+                    slugify(category.name)
                   )}`}
                 >
                   <Image

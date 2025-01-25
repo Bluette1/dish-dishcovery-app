@@ -1,16 +1,8 @@
+import slugify from "@/helpers/slugify";
 import Image from "next/image";
 import Link from "next/link";
+import meals from "../data/meals";
 
-const dishes = [
-  { name: "Pasta", imageUrl: "/images/pasta.jpg" },
-  { name: "Beef", imageUrl: "/images/beef.jpg" },
-  { name: "Fish", imageUrl: "/images/fish.jpg" },
-  { name: "Desserts", imageUrl: "/images/dessert.jpg" },
-  { name: "Pasta", imageUrl: "/images/pasta.jpg" },
-  { name: "Beef", imageUrl: "/images/beef.jpg" },
-  { name: "Fish", imageUrl: "/images/fish.jpg" },
-  { name: "Desserts", imageUrl: "/images/dessert.jpg" },
-];
 const InteractiveCategorySection: React.FC = () => {
   return (
     <section className="py-16 bg-gray-100">
@@ -19,24 +11,24 @@ const InteractiveCategorySection: React.FC = () => {
           Our Most Cherished Meals at a Glance
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {dishes.map((dish) => (
-            <div key={dish.name} className="relative group">
+          {meals.map((meal) => (
+            <div key={meal.name} className="relative group">
               <Link
                 href={`/browse/meals/${encodeURIComponent(
-                  dish.name.toLowerCase()
+                  slugify(meal.name)
                 )}`}
               >
                 <div className="relative w-full h-64 overflow-hidden rounded-lg">
                   <Image
-                    src={dish.imageUrl}
-                    alt={dish.name}
+                    src={meal.imageUrl}
+                    alt={meal.name}
                     fill
                     className="object-cover transition-transform transform group-hover:scale-110"
                   />
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <span className="text-white text-xl font-semibold">
-                    {dish.name}
+                    {meal.name}
                   </span>
                 </div>
               </Link>

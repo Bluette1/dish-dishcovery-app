@@ -1,26 +1,16 @@
 import Image from "next/image";
-function capitalizeWordsRegex(string) {
-  return string.replace(/\b\w/g, (char) => char.toUpperCase());
-}
 import { TruckIcon, HeartIcon } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
 import DishIcon from "../../../components/dish-icon";
+import slugify from "../../../helpers/slugify";
+import deslugify from "../../../helpers/deslugify";
 
 export async function getStaticPaths() {
-  // Fetch meals to generate paths
-  const dishes = [
-    { id: 1, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-    { id: 2, name: "Beef", imageUrl: "/images/beef.jpg" },
-    { id: 3, name: "Fish", imageUrl: "/images/fish.jpg" },
-    { id: 4, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-    { id: 5, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-    { id: 6, name: "Beef", imageUrl: "/images/beef.jpg" },
-    { id: 7, name: "Fish", imageUrl: "/images/fish.jpg" },
-    { id: 8, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-    { id: 9, name: "Appetizers", imageUrl: "/images/pasta.jpg" },
-  ];
-  const paths = dishes.map((dish) => ({
-    params: { mealName: encodeURIComponent(dish.name.toLowerCase()) },
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const response = await fetch(`${BASE_URL}/meals`);
+  const meals = await response.json();
+  const paths = meals.map((meal) => ({
+    params: { mealName: encodeURIComponent(slugify(meal.name)) },
   }));
 
   return { paths, fallback: false };
@@ -29,42 +19,25 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { mealName } = params;
 
-  // Fetch data for the specific category based on mealName
-  // For now, we’ll use a static object here
-  const dishes = [
-    { id: 1, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-    { id: 2, name: "Beef", imageUrl: "/images/beef.jpg" },
-    { id: 3, name: "Fish", imageUrl: "/images/fish.jpg" },
-    { id: 4, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-    { id: 5, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-    { id: 6, name: "Beef", imageUrl: "/images/beef.jpg" },
-    { id: 7, name: "Fish", imageUrl: "/images/fish.jpg" },
-    { id: 8, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-    { id: 9, name: "Appetizers", imageUrl: "/images/pasta.jpg" },
-  ];
-  const dish = dishes.find(
-    (dis) => encodeURIComponent(dis.name.toLowerCase()) == mealName
-  );
-  console.log("DishPPPPPPPPPP", dish);
-  const mealData = {
-    name: mealName,
-    dish,
-  };
+  // Fetch data for the specific meal based on mealName
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const response = await fetch(`${BASE_URL}/meals?name=${deslugify(mealName)}`);
+  const mealData = await response.json();
+  const meal = mealData[0];
 
   return {
     props: {
-      mealData,
+      meal,
     },
   };
 }
 
-const Meal = ({ mealData }) => {
-  if (!mealData) return <div>Loading...</div>;
-  const { dish } = mealData;
+const Meal = ({ meal }) => {
+  if (!meal) return <div>Loading...</div>;
 
   return (
     <div>
-      {/* Render dish */}
+      {/* Render meal */}
       <section className="py-16 bg-gray-100">
         <div className="container mx-auto px-4">
           <section className="flex justify-center">
@@ -72,7 +45,7 @@ const Meal = ({ mealData }) => {
               <DishIcon />
             </span>
             <h2 className="text-3xl font-semibold text-center mb-12 text-[#883D1A]">
-              {`${capitalizeWordsRegex(decodeURIComponent(mealData.name))}`}{" "}
+              {meal.name}
             </h2>
 
             <div class="flex items-center -mt-10 ">
@@ -84,11 +57,11 @@ const Meal = ({ mealData }) => {
           </section>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-24 lg:gap-36">
-            <div key={dish.name} className="relative group">
+            <div key={meal.name} className="relative group">
               <div className="relative w-full h-96 overflow-hidden rounded-lg">
                 <Image
-                  src={dish.imageUrl}
-                  alt={dish.name}
+                  src={meal.imageUrl}
+                  alt={meal.name}
                   fill
                   className="object-cover transition-transform transform group-hover:scale-110"
                 />
@@ -96,19 +69,22 @@ const Meal = ({ mealData }) => {
             </div>
             <div className="text-2xl px-2 lg:px-8">
               <h4 className="my-6">
-                <span className="font-semibold">Description:</span> Something
-                nice to eat
+                <span className="font-semibold">Description:</span>{" "}
+                {meal.description}
               </h4>
               <p className="my-6">
-                <span className="font-semibold">Price:</span> $40
+                <span className="font-semibold">Price:</span> ${meal.price}
               </p>
               <p className="my-6 flex">
                 <span className="font-semibold">Delivery</span>{" "}
                 <TruckIcon className="w-6 h-6 mt-2 mx-2" />: At your door step
+                in approx. 1 hr
               </p>
-              <p className="my-6">
-                <span className="font-semibold">Serves:</span> 1
-              </p>
+              {meal.serves > 1 && (
+                <p className="my-6">
+                  <span className="font-semibold">Serves:</span> {meal.serves}
+                </p>
+              )}
               <button className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Order Now
               </button>
