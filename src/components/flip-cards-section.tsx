@@ -1,16 +1,13 @@
-// components/FlipCardSection.tsx
-import FlipCardSection from './flip-card-section';
-
+import FlipCardSection from "./flip-card-section";
 
 const categories = [
   { name: "Pasta", imageUrl: "/images/pasta.jpg" },
   { name: "Beef", imageUrl: "/images/beef.jpg" },
-  { name: "Fish", imageUrl: "/images/fish.jpg" },
-  { name: "Desserts", imageUrl: "/images/dessert.jpg" },
+  { name: "Seafood", imageUrl: "/images/fish.jpg" },
+  { name: "Dessert", imageUrl: "/images/dessert.jpg" },
 ];
 
 const FlipCardsSection: React.FC = () => {
-
   return (
     <section className="py-16 bg-gray-100 grid">
       <div className="container mx-auto px-4">
@@ -24,9 +21,7 @@ const FlipCardsSection: React.FC = () => {
               className="relative w-full h-64 perspective"
             >
               <div className="relative w-full h-full transform-style-preserve-3d transition-transform duration-500 hover:rotate-y-180">
-
-                <FlipCardSection category={category}  />
-
+                <FlipCardSection category={category} />
               </div>
             </div>
           ))}

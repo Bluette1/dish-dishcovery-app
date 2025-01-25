@@ -1,14 +1,13 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import styles from '../styles/flipcard.module.css'; // Correct import path for CSS module
-
+import Image from "next/image";
+import Link from "next/link";
+import styles from "../styles/flipcard.module.css";
 interface Category {
-  name: string,
-  imageUrl: string
+  name: string;
+  imageUrl: string;
 }
 
 interface FlipCardProps {
-  category: Category
+  category: Category;
 }
 
 const FlipCard: React.FC<FlipCardProps> = ({ category }) => {
@@ -21,20 +20,31 @@ const FlipCard: React.FC<FlipCardProps> = ({ category }) => {
           </div>
         </div>
         <div className={styles.cardBack}>
-          <section className='flex-col'>
-            <article className='text-center'><Link className='text-yellow-100' href={'/meals/recipe'}>View Recipe <p className='flex justify-center'> <Image
-              className='rounded-lg p-1'
-              src="/icons/eye-alt-icon.svg"
-              alt="eye"
-              width={40}
-              height={24}
-              style={{ filter: 'invert(1)' }}
-            /></p></Link>
-
+          <section className="flex-col">
+            <article className="text-center">
+              <Link className="text-yellow-100" href={"/meals/recipe"}>
+                View Recipe{" "}
+                <p className="flex justify-center">
+                  {" "}
+                  <Image
+                    className="rounded-lg p-1"
+                    src="/icons/eye-alt-icon.svg"
+                    alt="eye"
+                    width={40}
+                    height={24}
+                    style={{ filter: "invert(1)" }}
+                  />
+                </p>
+              </Link>
             </article>
-            <Image className='' alt='' src={category.imageUrl} width={160} height={160} />
+            <Image
+              className=""
+              alt=""
+              src={category.imageUrl}
+              width={160}
+              height={160}
+            />
           </section>
-
         </div>
       </div>
     </div>

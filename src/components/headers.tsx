@@ -18,24 +18,13 @@ import {
 } from "@heroicons/react/outline";
 import Logo from "./logo";
 import Header from "./header";
+import categories from "../data/categories";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
-
-  const categories = [
-    { id: 1, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-    { id: 2, name: "Beef", imageUrl: "/images/beef.jpg" },
-    { id: 3, name: "Fish", imageUrl: "/images/fish.jpg" },
-    { id: 4, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-    { id: 5, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-    { id: 6, name: "Beef", imageUrl: "/images/beef.jpg" },
-    { id: 7, name: "Fish", imageUrl: "/images/fish.jpg" },
-    { id: 8, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-    { id: 9, name: "Appetizers", imageUrl: "/images/pasta.jpg" },
-  ];
 
   // Close menu when clicking outside
   useEffect(() => {

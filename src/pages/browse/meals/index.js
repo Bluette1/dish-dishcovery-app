@@ -2,44 +2,30 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
-
+import slugify from "../../../helpers/slugify";
 
 export async function getStaticProps() {
-  const mealsData = {
-    dishes: [
-      { id: 1, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-      { id: 2, name: "Beef", imageUrl: "/images/beef.jpg" },
-      { id: 3, name: "Fish", imageUrl: "/images/fish.jpg" },
-      { id: 4, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-      { id: 5, name: "Pasta", imageUrl: "/images/pasta.jpg" },
-      { id: 6, name: "Beef", imageUrl: "/images/beef.jpg" },
-      { id: 7, name: "Fish", imageUrl: "/images/fish.jpg" },
-      { id: 8, name: "Desserts", imageUrl: "/images/dessert.jpg" },
-      { id: 9, name: "Appetizers", imageUrl: "/images/pasta.jpg" },
-    ],
-  };
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const response = await fetch(`${BASE_URL}/meals`);
+  const meals = await response.json();
 
   return {
-    props: {
-      mealsData,
-    },
+    props: { meals },
   };
 }
 
-const Meals = ({ mealsData }) => {
-  const { dishes } = mealsData;
+const Meals = ({ meals }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filter dishes based on the search term
-  const filteredDishes = dishes.filter((dish) =>
-    dish.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredMeals = meals.filter((meal) =>
+    meal.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <>
       <div>
         <div className="py-4 flex">
-
           <input
             type="text"
             placeholder="Search for dishes..."
@@ -52,25 +38,25 @@ const Meals = ({ mealsData }) => {
         <section className="py-16 bg-gray-100">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {filteredDishes.length > 0 ? (
-                filteredDishes.map((dish) => (
-                  <div key={dish.id} className="relative group">
+              {filteredMeals.length > 0 ? (
+                filteredMeals.map((meal) => (
+                  <div key={meal.id} className="relative group">
                     <Link
                       href={`/browse/meals/${encodeURIComponent(
-                        dish.name.toLowerCase()
+                        slugify(meal.name)
                       )}`}
                     >
                       <div className="relative w-full h-64 overflow-hidden rounded-lg">
                         <Image
-                          src={dish.imageUrl}
-                          alt={dish.name}
+                          src={meal.imageUrl}
+                          alt={meal.name}
                           fill
                           className="object-cover transition-transform transform group-hover:scale-110"
                         />
                       </div>
                       <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <span className="text-white text-xl font-semibold">
-                          {dish.name}
+                          {meal.name}
                         </span>
                       </div>
                     </Link>
