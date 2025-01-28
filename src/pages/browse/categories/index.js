@@ -6,7 +6,6 @@ import { SWRConfig } from "swr";
 import fetchCategories from "../../../services/categories";
 import useCategories from "../../../hooks/use-categories";
 
-
 export async function getStaticProps() {
   const categories = await fetchCategories();
 
@@ -18,28 +17,35 @@ export async function getStaticProps() {
 }
 
 const Categories = () => {
-  const { categories } = useCategories();
+  const categoryData = useCategories();
+
+  const { categories } = categoryData;
+
+  if (!categoryData) return <div>Loading...</div>;
+
   return (
     <div className={styles.container}>
       <ul className={styles.categoryList}>
-        {categories.map((category) => (
-          <Link
-            key={category.id}
-            className={styles.categoryItem}
-            href={`/browse/categories/${encodeURIComponent(
-              slugify(category.name)
-            )}`}
-          >
-            <Image
-              src={category.imageUrl}
-              alt={category.name}
-              className={styles.categoryImage}
-              width={500}
-              height={500}
-            />
-            <h2 className={styles.categoryName}>{category.name}</h2>
-          </Link>
-        ))}
+        {categories &&
+          categories.length > 0 &&
+          categories.map((category) => (
+            <Link
+              key={category.id}
+              className={styles.categoryItem}
+              href={`/browse/categories/${encodeURIComponent(
+                slugify(category.name)
+              )}`}
+            >
+              <Image
+                src={category.imageUrl}
+                alt={category.name}
+                className={styles.categoryImage}
+                width={500}
+                height={500}
+              />
+              <h2 className={styles.categoryName}>{category.name}</h2>
+            </Link>
+          ))}
       </ul>
     </div>
   );
