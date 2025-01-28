@@ -17,7 +17,6 @@ export async function getStaticProps() {
 
 const Meals = () => {
   const mealData = useMeals();
-  if (!mealData) return <div>Loading...</div>;
 
   const { meals } = mealData;
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +27,8 @@ const Meals = () => {
     meals.filter((meal) =>
       meal.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    
+  if (!mealData) return <div>Loading...</div>;
 
   return (
     <>
