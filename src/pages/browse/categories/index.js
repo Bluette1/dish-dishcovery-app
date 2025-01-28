@@ -2,20 +2,23 @@ import Link from "next/link";
 import styles from "../../../styles/categories.module.css";
 import Image from "next/image";
 import slugify from "../../../helpers/slugify";
+import { SWRConfig } from "swr";
+import fetchCategories from "../../../services/categories";
+import useCategories from "../../../hooks/use-categories";
+
 
 export async function getStaticProps() {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${BASE_URL}/categories`);
-  const categories = await response.json();
+  const categories = await fetchCategories();
 
   return {
     props: {
-      categories,
+      fallback: categories,
     },
   };
 }
 
-const Categories = ({ categories }) => {
+const Categories = () => {
+  const { categories } = useCategories();
   return (
     <div className={styles.container}>
       <ul className={styles.categoryList}>
@@ -42,4 +45,10 @@ const Categories = ({ categories }) => {
   );
 };
 
-export default Categories;
+export default function CategoriesPage({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Categories />
+    </SWRConfig>
+  );
+}

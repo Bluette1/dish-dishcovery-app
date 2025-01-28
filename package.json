@@ -20,7 +20,8 @@
     "next-sitemap": "^4.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "swiper": "^11.1.12"
+    "swiper": "^11.1.12",
+    "swr": "^2.3.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.5.0",
