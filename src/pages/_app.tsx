@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import LoadingSpinner from "../components/loading-spinner";
 import { SessionProvider } from "next-auth/react";
+import { SWRProvider } from "../swr-provider";
 
 // Local font configuration
 const barlow = localFont({
@@ -37,22 +38,24 @@ function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <SessionProvider
-      refetchInterval={1 * 45 * 60} // Should be less than session maxAge
-      refetchOnWindowFocus={true}
-      session={pageProps.session}
-    >
-      {loading && <LoadingSpinner />}
-      <section
-        className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
+    <SWRProvider>
+      <SessionProvider
+        refetchInterval={1 * 45 * 60} // Should be less than session maxAge
+        refetchOnWindowFocus={true}
+        session={pageProps.session}
       >
-        <Headers />
-        <main className="pt-16">
-          <Component {...pageProps} />
-        </main>
-        <Footer />
-      </section>
-    </SessionProvider>
+        {loading && <LoadingSpinner />}
+        <section
+          className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
+        >
+          <Headers />
+          <main className="pt-16">
+            <Component {...pageProps} />
+          </main>
+          <Footer />
+        </section>
+      </SessionProvider>
+    </SWRProvider>
   );
 }
 

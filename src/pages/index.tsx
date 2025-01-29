@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       <Link href={"/browse/meals"}>
         <section className="pt-6 pb-2 flex justify-center hover:underline hover:text-[#883D1A]">
           <SearchIcon className="w-6 h-6 mt-2 mx-2" />
-          <h2 className="text-3xl  font-semibold text-center">
+          <h2 className="text-3xl font-semibold text-center">
             Find a Meal...
           </h2>
         </section>

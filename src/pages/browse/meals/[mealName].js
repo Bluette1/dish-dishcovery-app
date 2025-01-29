@@ -3,39 +3,44 @@ import { TruckIcon, HeartIcon } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
 import DishIcon from "../../../components/dish-icon";
 import slugify from "../../../helpers/slugify";
+import { SWRConfig } from "swr";
+import fetchMeals from "../../../services/meals";
+import useMeals from "../../../hooks/use-meals";
 import deslugify from "../../../helpers/deslugify";
 
 export async function getStaticPaths() {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${BASE_URL}/meals`);
-  const meals = await response.json();
+  const meals = await fetchMeals();
   const paths = meals.map((meal) => ({
     params: { mealName: encodeURIComponent(slugify(meal.name)) },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 }
 
 export async function getStaticProps({ params }) {
   const { mealName } = params;
 
   // Fetch data for the specific meal based on mealName
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const response = await fetch(`${BASE_URL}/meals?name=${deslugify(mealName)}`);
-  const mealData = await response.json();
-  const meal = mealData[0];
+  const meal = await fetchMeals(`?name=${deslugify(mealName)}`);
 
   return {
     props: {
-      meal,
+      fallback: meal,
+      name: mealName,
     },
   };
 }
 
-const Meal = ({ meal }) => {
-  if (!meal) return <div>Loading...</div>;
+const Meal = ({ name }) => {
+  const mealData = useMeals({ name });
+  if (!mealData) return <div>Loading...</div>;
+  const { meals } = mealData;
+  let meal;
+  if (meals) {
+    meal = meals[0];
+  }
 
-  return (
+  return meal ? (
     <div>
       {/* Render meal */}
       <section className="py-16 bg-gray-100">
@@ -48,10 +53,10 @@ const Meal = ({ meal }) => {
               {meal.name}
             </h2>
 
-            <div class="flex items-center -mt-10 ">
-              <div class="relative">
-                <HeartIcon class="w-14 h-14 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out hover:opacity-0" />
-                <HeartIconSolid class="w-14 h-14 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100" />
+            <div className="flex items-center -mt-10 ">
+              <div className="relative">
+                <HeartIcon className="w-14 h-14 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out hover:opacity-0" />
+                <HeartIconSolid className="w-14 h-14 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100" />
               </div>
             </div>
           </section>
@@ -93,7 +98,15 @@ const Meal = ({ meal }) => {
         </div>
       </section>
     </div>
+  ) : (
+    <></>
   );
 };
 
-export default Meal;
+export default function MealPage({ fallback, name }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Meal name={name} />
+    </SWRConfig>
+  );
+}
