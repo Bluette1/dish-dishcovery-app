@@ -6,10 +6,13 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Image from "next/image";
 import Link from "next/link";
-import categories from "../data/categories";
+import { DataContext } from "../context/data";
 import slugify from "../helpers/slugify";
+import { useContext } from "react";
 
 const Carousel: React.FC = () => {
+  const { categories } = useContext(DataContext);
+
   return (
     <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
@@ -40,7 +43,7 @@ const Carousel: React.FC = () => {
           scrollbar={{ draggable: true }}
           modules={[Navigation, Pagination, Scrollbar]}
         >
-          {categories.map((category) => (
+          {categories && categories.map((category) => (
             <SwiperSlide key={category.name} className="relative">
               <div className="relative w-full h-64">
                 <Link

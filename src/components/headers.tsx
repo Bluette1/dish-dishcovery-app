@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -18,13 +18,14 @@ import {
 } from "@heroicons/react/outline";
 import Logo from "./logo";
 import Header from "./header";
-import categories from "../data/categories";
+import { DataContext } from "../context/data";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
+  const { categories } = useContext(DataContext);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -75,7 +76,7 @@ const Navbar: React.FC = () => {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-40">
-                    {categories.map((category) => (
+                    {categories && categories.map((category) => (
                       <Menu.Item key={`${category.id}-desktop`}>
                         {({ active }) => (
                           <Link
@@ -217,7 +218,7 @@ const Navbar: React.FC = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
-                      {categories.map((category) => (
+                      {categories && categories.map((category) => (
                         <Menu.Item key={category.id}>
                           {({ active }) => (
                             <Link

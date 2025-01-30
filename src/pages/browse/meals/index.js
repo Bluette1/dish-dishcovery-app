@@ -10,15 +10,19 @@ import { SWRConfig } from "swr";
 export async function getStaticProps() {
   const meals = await fetchMeals();
 
+  const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals`;
+
+  const data = {};
+  data[urlMeals] = meals;
+
   return {
-    props: { fallback: meals },
+    props: { fallback: data },
   };
 }
 
 const Meals = () => {
-  const mealData = useMeals();
+  const { data: meals, isLoading } = useMeals();
 
-  const { meals } = mealData;
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filter dishes based on the search term
@@ -27,8 +31,8 @@ const Meals = () => {
     meals.filter((meal) =>
       meal.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
-  if (!mealData) return <div>Loading...</div>;
+
+  if (isLoading) return <div className="min-h-96">Loading...</div>;
 
   return (
     <>

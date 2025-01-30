@@ -1,9 +1,13 @@
 import slugify from "@/helpers/slugify";
 import Image from "next/image";
 import Link from "next/link";
-import meals from "../data/meals";
+import { useContext } from "react";
+import { DataContext } from "../context/data";
+
 
 const InteractiveCategorySection: React.FC = () => {
+  const { meals } = useContext(DataContext);
+
   return (
     <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
@@ -11,7 +15,7 @@ const InteractiveCategorySection: React.FC = () => {
           Our Most Cherished Meals at a Glance
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {meals.map((meal) => (
+          {meals && meals.slice(0, 12).map((meal) => (
             <div key={meal.name} className="relative group">
               <Link
                 href={`/browse/meals/${encodeURIComponent(

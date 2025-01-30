@@ -23,22 +23,30 @@ export async function getStaticProps({ params }) {
   // Fetch data for the specific meal based on mealName
   const meal = await fetchMeals(`?name=${deslugify(mealName)}`);
 
+  const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals?name=${deslugify(
+    mealName
+  )}`;
+
+  const data = {};
+  data[urlMeals] = meal;
+
   return {
     props: {
-      fallback: meal,
+      fallback: data,
       name: mealName,
     },
   };
 }
 
 const Meal = ({ name }) => {
-  const mealData = useMeals({ name });
-  if (!mealData) return <div>Loading...</div>;
-  const { meals } = mealData;
+  const { data: meals, isLoading } = useMeals({ name });
+
   let meal;
   if (meals) {
     meal = meals[0];
   }
+
+  if (isLoading) return <div className="min-h-96">Loading...</div>;
 
   return meal ? (
     <div>

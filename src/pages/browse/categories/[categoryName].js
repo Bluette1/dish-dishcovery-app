@@ -19,25 +19,27 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { categoryName } = params;
   const meals = await fetchMeals(`?category=${deslugify(categoryName)}`);
+  const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals?category=${deslugify(categoryName)}`;
 
+  const data = {}
+  data[urlMeals] = meals
   return {
     props: {
-      fallback: meals,
+      fallback: data,
       name: categoryName,
     },
   };
 }
 
 const Category = ({ name }) => {
-  const mealData = useMeals({ category: name });
-  if (!mealData) return <div>Loading...</div>;
+  const {data: meals, isLoading} = useMeals( { category: name });
+  if (isLoading) return <div className="min-h-96">Loading...</div>;
 
-  const { meals } = mealData;
 
   return (
-    <div>
+    <div className="h-full">
       {/* Render dishes related to the category */}
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-gray-100 min-h-full">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-semibold text-center mb-12">{`${deslugify(
             decodeURIComponent(name)

@@ -15,6 +15,6 @@ export default function useMeals(queryParams) {
     }
   }
   const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals${queryStr}`;
-  const { data: meals } = useSWR(urlMeals);
-  return { meals };
+  const responseMeals = useSWR(urlMeals);
+  return responseMeals;
 }

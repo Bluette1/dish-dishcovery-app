@@ -9,6 +9,7 @@ import Router from "next/router";
 import LoadingSpinner from "../components/loading-spinner";
 import { SessionProvider } from "next-auth/react";
 import { SWRProvider } from "../swr-provider";
+import DataProvider from "../context/data";
 
 // Local font configuration
 const barlow = localFont({
@@ -44,16 +45,18 @@ function App({ Component, pageProps }: AppProps) {
         refetchOnWindowFocus={true}
         session={pageProps.session}
       >
-        {loading && <LoadingSpinner />}
-        <section
-          className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
-        >
-          <Headers />
-          <main className="pt-16">
-            <Component {...pageProps} />
-          </main>
-          <Footer />
-        </section>
+        <DataProvider>
+          {loading && <LoadingSpinner />}
+          <section
+            className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
+          >
+            <Headers />
+            <main className="pt-16">
+              <Component {...pageProps} />
+            </main>
+            <Footer />
+          </section>
+        </DataProvider>
       </SessionProvider>
     </SWRProvider>
   );

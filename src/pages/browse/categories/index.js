@@ -8,20 +8,21 @@ import useCategories from "../../../hooks/use-categories";
 
 export async function getStaticProps() {
   const categories = await fetchCategories();
+  const urlCategories = `${process.env.NEXT_PUBLIC_BASE_URL}/categories`;
 
+  const data = {};
+  data[urlCategories] = categories;
   return {
     props: {
-      fallback: categories,
+      fallback: data,
     },
   };
 }
 
 const Categories = () => {
-  const categoryData = useCategories();
+  const { data: categories, isLoading } = useCategories();
 
-  const { categories } = categoryData;
-
-  if (!categoryData) return <div>Loading...</div>;
+  if (isLoading) return <div className="min-h-96">Loading...</div>;
 
   return (
     <div className={styles.container}>
