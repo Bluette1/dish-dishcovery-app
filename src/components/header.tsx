@@ -1,5 +1,5 @@
-import { useState } from "react";
-import SubscriptionForm from "./subscription-form";
+import { useState } from 'react';
+import SubscriptionForm from './subscription-form';
 
 const Header = () => {
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
@@ -12,7 +12,7 @@ const Header = () => {
       <header className="bg-gray-800 text-white p-4 text-sm fixed top-0 left-0 right-0 z-50 flex flex-col items-center">
         <div className="flex justify-between items-center w-full max-w-screen-lg">
           <span className="flex-1 text-center">
-            Don’t miss out on this season’s exclusive deals!
+            Don’t miss out on today’s special deals!
           </span>
           <button
             onClick={handleOpenForm}

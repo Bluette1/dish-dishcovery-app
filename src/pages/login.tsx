@@ -1,13 +1,13 @@
-import React, { useState, FormEvent } from "react";
-import styles from "../styles/auth.module.css";
-import Meta from "@/components/meta";
-import { signIn } from "next-auth/react";
-import Image from "next/image";
-import { Button } from "@headlessui/react"; 
+import React, { useState, FormEvent } from 'react';
+import styles from '../styles/auth.module.css';
+import Meta from '@/components/meta';
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+import { Button } from '@headlessui/react';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
     setError(null);
 
     try {
-      const result = await signIn("credentials", {
+      const result = await signIn('credentials', {
         redirect: false,
         email,
         password,
@@ -26,10 +26,10 @@ const LoginPage = () => {
       if (result?.error) {
         setError(result.error);
       } else if (result?.ok) {
-        window.location.href = "/";
+        window.location.href = '/';
       }
     } catch (err) {
-      setError("An error occurred");
+      setError('An error occurred');
     } finally {
       setLoading(false);
     }
@@ -37,7 +37,7 @@ const LoginPage = () => {
 
   const handleGoogleSignIn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    signIn("google", { callbackUrl: "/" });
+    signIn('google', { callbackUrl: '/' });
   };
 
   return (
@@ -73,7 +73,7 @@ const LoginPage = () => {
             className={styles.input}
           />
           <Button type="submit" disabled={loading} className={styles.button}>
-            {loading ? "Logging in..." : "Login"}
+            {loading ? 'Logging in...' : 'Login'}
           </Button>
           {error && <p className={styles.error}>{error}</p>}
         </form>

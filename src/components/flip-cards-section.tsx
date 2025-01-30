@@ -1,10 +1,10 @@
-import FlipCardSection from "./flip-card-section";
+import FlipCardSection from './flip-card-section';
 
 const categories = [
-  { name: "Pasta", imageUrl: "/images/pasta.jpg" },
-  { name: "Beef", imageUrl: "/images/beef.jpg" },
-  { name: "Seafood", imageUrl: "/images/fish.jpg" },
-  { name: "Dessert", imageUrl: "/images/dessert.jpg" },
+  { name: 'Pasta', imageUrl: '/images/pasta.jpg' },
+  { name: 'Beef', imageUrl: '/images/beef.jpg' },
+  { name: 'Seafood', imageUrl: '/images/fish.jpg' },
+  { name: 'Dessert', imageUrl: '/images/dessert.jpg' },
 ];
 
 const FlipCardsSection: React.FC = () => {

@@ -43,4 +43,3 @@ const ProfileMenuIcon: React.FC<ProfileMenuIconProps> = ({ toggleSidebar }) => {
 };
 
 export default ProfileMenuIcon;
-

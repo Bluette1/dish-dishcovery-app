@@ -1,6 +1,6 @@
 // user.tsx
-import { User } from "next-auth";
-import React from "react";
+import { User } from 'next-auth';
+import React from 'react';
 
 interface UserProps {
   user?: User;

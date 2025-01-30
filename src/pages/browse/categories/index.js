@@ -1,27 +1,28 @@
-import Link from "next/link";
-import styles from "../../../styles/categories.module.css";
-import Image from "next/image";
-import slugify from "../../../helpers/slugify";
-import { SWRConfig } from "swr";
-import fetchCategories from "../../../services/categories";
-import useCategories from "../../../hooks/use-categories";
+import Link from 'next/link';
+import styles from '../../../styles/categories.module.css';
+import Image from 'next/image';
+import slugify from '../../../helpers/slugify';
+import { SWRConfig } from 'swr';
+import fetchCategories from '../../../services/categories';
+import useCategories from '../../../hooks/use-categories';
 
 export async function getStaticProps() {
   const categories = await fetchCategories();
+  const urlCategories = `${process.env.NEXT_PUBLIC_BASE_URL}/categories`;
 
+  const data = {};
+  data[urlCategories] = categories;
   return {
     props: {
-      fallback: categories,
+      fallback: data,
     },
   };
 }
 
 const Categories = () => {
-  const categoryData = useCategories();
+  const { data: categories, isLoading } = useCategories();
 
-  const { categories } = categoryData;
-
-  if (!categoryData) return <div>Loading...</div>;
+  if (isLoading) return <div className="min-h-96">Loading...</div>;
 
   return (
     <div className={styles.container}>
@@ -33,7 +34,7 @@ const Categories = () => {
               key={category.id}
               className={styles.categoryItem}
               href={`/browse/categories/${encodeURIComponent(
-                slugify(category.name)
+                slugify(category.name),
               )}`}
             >
               <Image

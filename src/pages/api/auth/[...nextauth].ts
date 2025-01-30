@@ -1,7 +1,7 @@
-import NextAuth, { User } from "next-auth";
-import { JWT } from "next-auth/jwt";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+import NextAuth, { User } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -16,27 +16,27 @@ async function refreshAccessToken(token: JWT) {
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
     if (!clientId || !clientSecret) {
-      throw new Error("Missing Google client ID or secret.");
+      throw new Error('Missing Google client ID or secret.');
     }
 
     if (!token.refreshToken) {
-      throw new Error("Missing a refresh token.");
+      throw new Error('Missing a refresh token.');
     }
 
     const url =
-      "https://oauth2.googleapis.com/token?" +
+      'https://oauth2.googleapis.com/token?' +
       new URLSearchParams({
         client_id: clientId,
         client_secret: clientSecret,
-        grant_type: "refresh_token",
+        grant_type: 'refresh_token',
         refresh_token: token.refreshToken,
       });
 
     const response = await fetch(url, {
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      method: "POST",
+      method: 'POST',
     });
 
     const refreshedTokens = await response.json();
@@ -57,7 +57,7 @@ async function refreshAccessToken(token: JWT) {
 
     return {
       ...token,
-      error: "RefreshAccessTokenError",
+      error: 'RefreshAccessTokenError',
     };
   }
 }
@@ -65,21 +65,21 @@ async function refreshAccessToken(token: JWT) {
 const login = async (email: string, password: string): Promise<User | null> => {
   try {
     const response = await fetch(`${BASE_URL}/login`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
     });
     const responseData = await response.json();
 
     if (!response.ok) {
-      throw new Error("Network response was not ok", responseData);
+      throw new Error('Network response was not ok', responseData);
     }
 
     return responseData;
   } catch (error) {
-    console.error("Error logging in user", error);
+    console.error('Error logging in user', error);
     return null;
   }
 };
@@ -87,10 +87,10 @@ const login = async (email: string, password: string): Promise<User | null> => {
 export default NextAuth({
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials) {
@@ -110,9 +110,9 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       authorization: {
         params: {
-          access_type: "offline",
-          prompt: "consent",
-          scope: "openid email profile",
+          access_type: 'offline',
+          prompt: 'consent',
+          scope: 'openid email profile',
         },
       },
     }),
@@ -121,7 +121,7 @@ export default NextAuth({
     maxAge: 1 * 60 * 60,
   },
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
   callbacks: {
     async jwt({ token, account, user, trigger, session }) {
@@ -143,9 +143,9 @@ export default NextAuth({
           const { email, name } = user;
 
           const response = await fetch(`${BASE_URL}/users`, {
-            method: "POST",
+            method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, name }),
           });
@@ -153,18 +153,18 @@ export default NextAuth({
           const responseData = await response.json();
 
           if (!response.ok) {
-            throw new Error("Network response was not ok", responseData);
+            throw new Error('Network response was not ok', responseData);
           }
 
           //Override user with this user data
           token.user = { user: responseData, token: account.id_token };
           try {
           } catch (error) {
-            console.error("Error creating new user", error);
+            console.error('Error creating new user', error);
           }
         }
       }
-      if (trigger === "update" && session) {
+      if (trigger === 'update' && session) {
         token.user = session.user;
       }
 

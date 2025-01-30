@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getToken } from 'next-auth/jwt';
 
 interface Meal {
   name: string;
@@ -14,17 +14,17 @@ const BASE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/meals`;
 
 const saveMeal = async (meal: Meal, token: string) => {
   const response = await fetch(BASE_URL, {
-    method: "POST",
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(meal),
   });
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || "Failed to create category");
+    throw new Error(errorData.error || 'Failed to create category');
   }
 
   const newMeal = await response.json();
@@ -35,7 +35,7 @@ const getMeals = async () => {
   const response = await fetch(BASE_URL);
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || "Failed to fetch meals");
+    throw new Error(errorData.error || 'Failed to fetch meals');
   }
 
   const meals = await response.json();
@@ -44,16 +44,16 @@ const getMeals = async () => {
 
 const updateMeal = async (id: string, name: string) => {
   const response = await fetch(`${BASE_URL}/${id}`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name }),
   });
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || "Failed to update category");
+    throw new Error(errorData.error || 'Failed to update category');
   }
 
   const updatedMeal = await response.json();
@@ -62,19 +62,19 @@ const updateMeal = async (id: string, name: string) => {
 
 const deleteMeal = async (id: string) => {
   const response = await fetch(`${BASE_URL}/${id}`, {
-    method: "DELETE",
+    method: 'DELETE',
   });
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || "Failed to delete category");
+    throw new Error(errorData.error || 'Failed to delete category');
   }
 
-  return { message: "Meal deleted successfully" };
+  return { message: 'Meal deleted successfully' };
 };
 
 // Define a type for HTTP methods
-type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 const handlers: Record<
   HttpMethod,
@@ -85,7 +85,7 @@ const handlers: Record<
     const token = await getToken({ req });
 
     if (!token) {
-      return res.status(401).json({ error: "Authorization token is required" });
+      return res.status(401).json({ error: 'Authorization token is required' });
     }
 
     const {
@@ -93,12 +93,11 @@ const handlers: Record<
       user: { role },
     } = token.user;
 
-    if (role !== "admin") {
-      return res.status(403).json({ error: "Access denied" });
+    if (role !== 'admin') {
+      return res.status(403).json({ error: 'Access denied' });
     }
 
-    if (!meal)
-      return res.status(400).json({ error: "Meal body is required" });
+    if (!meal) return res.status(400).json({ error: 'Meal body is required' });
     try {
       const newMeal = await saveMeal(meal, bearerToken);
       res.status(201).json(newMeal);
@@ -119,14 +118,14 @@ const handlers: Record<
   DELETE: async (req, res) => {
     const { id } = req.body;
     if (!id) {
-      return res.status(400).json({ error: "Meal ID is required" });
+      return res.status(400).json({ error: 'Meal ID is required' });
     }
     try {
       await deleteMeal(id);
       res.status(204).end();
     } catch (error) {
       res.status(500).json({
-        error: (error as Error).message || "Failed to delete category",
+        error: (error as Error).message || 'Failed to delete category',
       });
     }
   },
@@ -134,9 +133,7 @@ const handlers: Record<
     const { id, name } = req.body;
 
     if (!id || !name) {
-      return res
-        .status(400)
-        .json({ error: "Meal ID and name are required" });
+      return res.status(400).json({ error: 'Meal ID and name are required' });
     }
 
     try {
@@ -144,7 +141,7 @@ const handlers: Record<
       return res.status(200).json(updatedMeal);
     } catch (error) {
       return res.status(500).json({
-        error: (error as Error).message || "Failed to update category",
+        error: (error as Error).message || 'Failed to update category',
       });
     }
   },
@@ -156,7 +153,7 @@ const mealsAPIHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (handlers[method]) {
     await handlers[method](req, res);
   } else {
-    res.setHeader("Allow", ["POST", "GET", "PUT", "DELETE"]);
+    res.setHeader('Allow', ['POST', 'GET', 'PUT', 'DELETE']);
     res.status(405).end(`Method ${method} Not Allowed`);
   }
 };

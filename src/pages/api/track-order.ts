@@ -15,14 +15,14 @@ const orders: Record<string, OrderStatus> = {
     orderNumber: '12345',
     status: 'Shipped',
     estimatedDelivery: '2024-09-10',
-    details: 'Your order is on the way!'
+    details: 'Your order is on the way!',
   },
   '67890': {
     orderNumber: '67890',
     status: 'Delivered',
     estimatedDelivery: '2024-09-05',
-    details: 'Your order has been delivered.'
-  }
+    details: 'Your order has been delivered.',
+  },
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -7,7 +7,12 @@ import { Meal } from '../types'; // Import your type definitions
 
 const mockMeales: Meal[] = [
   { id: 1, name: 'Pizza', description: 'Cheesy goodness', image: 'pizza.jpg' },
-  { id: 2, name: 'Burger', description: 'Juicy and delicious', image: 'burger.jpg' },
+  {
+    id: 2,
+    name: 'Burger',
+    description: 'Juicy and delicious',
+    image: 'burger.jpg',
+  },
 ];
 
 describe('MealList Component', () => {
@@ -15,7 +20,7 @@ describe('MealList Component', () => {
     render(<MealList meales={mockMeales} />);
 
     // Check that each meal is rendered
-    mockMeales.forEach(meal => {
+    mockMeales.forEach((meal) => {
       expect(screen.getByText(meal.name)).toBeInTheDocument();
       expect(screen.getByText(meal.description)).toBeInTheDocument();
     });
@@ -23,7 +28,7 @@ describe('MealList Component', () => {
 
   it('displays a message when no meales are available', () => {
     render(<MealList meales={[]} />);
-    
+
     expect(screen.getByText('No meales available')).toBeInTheDocument();
   });
 });

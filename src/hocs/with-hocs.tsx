@@ -1,5 +1,5 @@
-import { useSession, signIn } from "next-auth/react";
-import { ComponentType } from "react";
+import { useSession, signIn } from 'next-auth/react';
+import { ComponentType } from 'react';
 
 interface WithAuthProps {
   role?: string;
@@ -7,7 +7,7 @@ interface WithAuthProps {
 
 const withAuth = <P extends object>(
   WrappedComponent: ComponentType<P>,
-  role?: string
+  role?: string,
 ) => {
   const AuthHOC = (props: P & WithAuthProps) => {
     const { status, data: session } = useSession({
@@ -17,7 +17,7 @@ const withAuth = <P extends object>(
       },
     });
 
-    if (status === "loading") {
+    if (status === 'loading') {
       return <div>Loading...</div>;
     }
 

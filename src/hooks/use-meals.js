@@ -1,9 +1,9 @@
-import useSWR from "swr";
-import deslugify from "../helpers/deslugify";
+import useSWR from 'swr';
+import deslugify from '../helpers/deslugify';
 
 export default function useMeals(queryParams) {
-  let queryStr = "";
-  let name = "";
+  let queryStr = '';
+  let name = '';
   if (queryParams) {
     if (queryParams.category) {
       name = queryParams.category;
@@ -15,6 +15,6 @@ export default function useMeals(queryParams) {
     }
   }
   const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals${queryStr}`;
-  const { data: meals } = useSWR(urlMeals);
-  return { meals };
+  const responseMeals = useSWR(urlMeals);
+  return responseMeals;
 }

@@ -1,34 +1,38 @@
-import Link from "next/link";
-import Image from "next/image";
-import { useState } from "react";
-import { SearchIcon } from "@heroicons/react/outline";
-import slugify from "../../../helpers/slugify";
-import fetchMeals from "../../../services/meals";
-import useMeals from "../../../hooks/use-meals";
-import { SWRConfig } from "swr";
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState } from 'react';
+import { SearchIcon } from '@heroicons/react/outline';
+import slugify from '../../../helpers/slugify';
+import fetchMeals from '../../../services/meals';
+import useMeals from '../../../hooks/use-meals';
+import { SWRConfig } from 'swr';
 
 export async function getStaticProps() {
   const meals = await fetchMeals();
 
+  const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals`;
+
+  const data = {};
+  data[urlMeals] = meals;
+
   return {
-    props: { fallback: meals },
+    props: { fallback: data },
   };
 }
 
 const Meals = () => {
-  const mealData = useMeals();
+  const { data: meals, isLoading } = useMeals();
 
-  const { meals } = mealData;
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Filter dishes based on the search term
   const filteredMeals =
     meals &&
     meals.filter((meal) =>
-      meal.name.toLowerCase().includes(searchTerm.toLowerCase())
+      meal.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
-    
-  if (!mealData) return <div>Loading...</div>;
+
+  if (isLoading) return <div className="min-h-96">Loading...</div>;
 
   return (
     <>
@@ -51,7 +55,7 @@ const Meals = () => {
                   <div key={meal._id} className="relative group">
                     <Link
                       href={`/browse/meals/${encodeURIComponent(
-                        slugify(meal.name)
+                        slugify(meal.name),
                       )}`}
                     >
                       <div className="relative w-full h-64 overflow-hidden rounded-lg">

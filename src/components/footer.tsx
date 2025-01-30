@@ -14,7 +14,9 @@ const Footer: React.FC = () => {
           <div className="mb-6 md:mb-0">
             <h4 className="text-lg font-semibold mb-2">About Us</h4>
             <p>
-              We are committed to providing high-quality, nutritious, and affordable meals for everyone. Our mission is to make healthy eating easy and accessible.
+              We are committed to providing high-quality, nutritious, and
+              affordable meals for everyone. Our mission is to make healthy
+              eating easy and accessible.
             </p>
           </div>
 
@@ -46,24 +48,49 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Social Media & Payment Section */}
-          <div className='md:px-8'>
+          <div className="md:px-8">
             <h4 className="text-lg font-semibold mb-2">Follow Us</h4>
             <div className="flex space-x-4 mb-6">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <FacebookIcon style={{ filter: 'invert(1)' }} className="w-6 h-6 text-white hover:text-gray-400" />
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FacebookIcon
+                  style={{ filter: 'invert(1)' }}
+                  className="w-6 h-6 text-white hover:text-gray-400"
+                />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <TwitterIcon style={{ filter: 'invert(1)' }} className="w-6 h-6 text-white hover:text-gray-400" />
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <TwitterIcon
+                  style={{ filter: 'invert(1)' }}
+                  className="w-6 h-6 text-white hover:text-gray-400"
+                />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <InstagramIcon style={{ filter: 'invert(1)' }} className="w-6 h-6 text-white hover:text-gray-400" />
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <InstagramIcon
+                  style={{ filter: 'invert(1)' }}
+                  className="w-6 h-6 text-white hover:text-gray-400"
+                />
               </a>
             </div>
 
             {/* Payment Methods */}
             <h4 className="text-lg font-semibold mb-2">We Accept</h4>
             <div className="flex space-x-4">
-              <a href="https://www.mastercard.us/" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.mastercard.us/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Image
                   src="/icons/mastercard-icon.svg"
                   alt="Mastercard"
@@ -71,9 +98,13 @@ const Footer: React.FC = () => {
                   height={24}
                 />
               </a>
-              <a href="https://www.visa.com/" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.visa.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Image
-                  className='rounded-lg p-1'
+                  className="rounded-lg p-1"
                   src="/icons/visa-icon.svg"
                   alt="Visa"
                   width={40}
@@ -86,9 +117,12 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Text */}
-         <div className="text-center mt-8">
+        <div className="text-center mt-8">
           <div className="container mx-auto text-center">
-            <p>&copy; {new Date().getFullYear()} DishDiscovery. All rights reserved.</p>
+            <p>
+              &copy; {new Date().getFullYear()} DishDiscovery. All rights
+              reserved.
+            </p>
           </div>
         </div>
       </div>

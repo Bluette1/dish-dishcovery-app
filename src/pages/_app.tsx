@@ -1,20 +1,21 @@
 // src/pages/_app.tsx
-import Footer from "@/components/footer";
-import Headers from "@/components/headers";
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import localFont from "next/font/local";
-import { useState, useEffect } from "react";
-import Router from "next/router";
-import LoadingSpinner from "../components/loading-spinner";
-import { SessionProvider } from "next-auth/react";
-import { SWRProvider } from "../swr-provider";
+import Footer from '@/components/footer';
+import Headers from '@/components/headers';
+import '@/styles/globals.css';
+import type { AppProps } from 'next/app';
+import localFont from 'next/font/local';
+import { useState, useEffect } from 'react';
+import Router from 'next/router';
+import LoadingSpinner from '../components/loading-spinner';
+import { SessionProvider } from 'next-auth/react';
+import { SWRProvider } from '../swr-provider';
+import DataProvider from '../context/data';
 
 // Local font configuration
 const barlow = localFont({
-  src: "../../public/fonts/Barlow.ttf",
-  variable: "--font-barlow",
-  weight: "400",
+  src: '../../public/fonts/Barlow.ttf',
+  variable: '--font-barlow',
+  weight: '400',
 });
 
 // Main App component
@@ -26,14 +27,14 @@ function App({ Component, pageProps }: AppProps) {
     const handleComplete = () => setLoading(false);
     const handleError = () => setLoading(false);
 
-    Router.events.on("routeChangeStart", handleStart);
-    Router.events.on("routeChangeComplete", handleComplete);
-    Router.events.on("routeChangeError", handleError);
+    Router.events.on('routeChangeStart', handleStart);
+    Router.events.on('routeChangeComplete', handleComplete);
+    Router.events.on('routeChangeError', handleError);
 
     return () => {
-      Router.events.off("routeChangeStart", handleStart);
-      Router.events.off("routeChangeComplete", handleComplete);
-      Router.events.off("routeChangeError", handleError);
+      Router.events.off('routeChangeStart', handleStart);
+      Router.events.off('routeChangeComplete', handleComplete);
+      Router.events.off('routeChangeError', handleError);
     };
   }, []);
 
@@ -44,16 +45,18 @@ function App({ Component, pageProps }: AppProps) {
         refetchOnWindowFocus={true}
         session={pageProps.session}
       >
-        {loading && <LoadingSpinner />}
-        <section
-          className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
-        >
-          <Headers />
-          <main className="pt-16">
-            <Component {...pageProps} />
-          </main>
-          <Footer />
-        </section>
+        <DataProvider>
+          {loading && <LoadingSpinner />}
+          <section
+            className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
+          >
+            <Headers />
+            <main className="pt-16">
+              <Component {...pageProps} />
+            </main>
+            <Footer />
+          </section>
+        </DataProvider>
       </SessionProvider>
     </SWRProvider>
   );
