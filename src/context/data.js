@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from 'react';
 
 export const DataContext = createContext();
 
@@ -16,10 +16,10 @@ const DataProvider = ({ children }) => {
 
   useEffect(() => {
     const storedCategories = JSON.parse(
-      window.localStorage.getItem("categories")
+      window.localStorage.getItem('categories'),
     );
     storedCategories && setCategories(storedCategories);
-    const storedMeals = JSON.parse(window.localStorage.getItem("meals"));
+    const storedMeals = JSON.parse(window.localStorage.getItem('meals'));
     storedMeals && setMeals(storedMeals);
   }, []);
 

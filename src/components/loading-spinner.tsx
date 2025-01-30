@@ -1,6 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import styles from "../styles/loading-spinner.module.css";
+import React from 'react';
+import Image from 'next/image';
+import styles from '../styles/loading-spinner.module.css';
 
 const LoadingSpinner: React.FC = () => {
   return (

@@ -1,11 +1,11 @@
 // pages/contact.js
-import dynamic from "next/dynamic";
-import LoadingSpinner from "../components/loading-spinner"; // Optional, for loading state
-import Meta from "@/components/meta";
-import Image from "next/image";
+import dynamic from 'next/dynamic';
+import LoadingSpinner from '../components/loading-spinner'; // Optional, for loading state
+import Meta from '@/components/meta';
+import Image from 'next/image';
 
 // Dynamically import the Map component
-const Map = dynamic(() => import("../components/map"), {
+const Map = dynamic(() => import('../components/map'), {
   loading: () => <LoadingSpinner />, // Fallback component while loading
   ssr: false, // Disable server-side rendering for this component (optional)
 });
@@ -164,10 +164,10 @@ const Contact = () => {
                   perfecting recipes that delight our customers.
                 </p>
                 <p className="text-gray-600 mb-4">
-                  When not in the kitchen, Jane enjoys exploring local farmers&apos;
-                  markets and developing new recipes. She is committed to
-                  sustainability and community, making every meal a reflection
-                  of these values.
+                  When not in the kitchen, Jane enjoys exploring local
+                  farmers&apos; markets and developing new recipes. She is
+                  committed to sustainability and community, making every meal a
+                  reflection of these values.
                 </p>
                 <a
                   href="mailto:jane.doe@example.com"

@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "prettify": "yarn prettier --write .",
+    "lintify": "yarn prettify && yarn lint",
     "postbuild": "next-sitemap"
   },
   "dependencies": {
@@ -36,6 +38,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8",
+    "prettier": "^3.4.2",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.2.5",
     "typescript": "^5.6.2"

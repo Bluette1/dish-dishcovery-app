@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import styles from "../styles/flipcard.module.css";
+import Image from 'next/image';
+import Link from 'next/link';
+import styles from '../styles/flipcard.module.css';
 interface Category {
   name: string;
   imageUrl: string;
@@ -22,17 +22,17 @@ const FlipCard: React.FC<FlipCardProps> = ({ category }) => {
         <div className={styles.cardBack}>
           <section className="flex-col">
             <article className="text-center">
-              <Link className="text-yellow-100" href={"/meals/recipe"}>
-                View Recipe{" "}
+              <Link className="text-yellow-100" href={'/meals/recipe'}>
+                View Recipe{' '}
                 <p className="flex justify-center">
-                  {" "}
+                  {' '}
                   <Image
                     className="rounded-lg p-1"
                     src="/icons/eye-alt-icon.svg"
                     alt="eye"
                     width={40}
                     height={24}
-                    style={{ filter: "invert(1)" }}
+                    style={{ filter: 'invert(1)' }}
                   />
                 </p>
               </Link>

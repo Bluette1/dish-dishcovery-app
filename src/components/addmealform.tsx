@@ -20,7 +20,9 @@ const AddMealForm: React.FC = () => {
     region: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setMeal((prev) => ({
       ...prev,
@@ -72,7 +74,10 @@ const AddMealForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-md mx-auto p-4 bg-white rounded shadow-md"
+    >
       <h2 className="text-xl font-bold mb-4">Add a New Meal</h2>
 
       <div className="mb-4">
@@ -88,7 +93,9 @@ const AddMealForm: React.FC = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Description</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Description
+        </label>
         <textarea
           name="description"
           value={meal.description}
@@ -99,7 +106,9 @@ const AddMealForm: React.FC = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Recipe</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Recipe
+        </label>
         <textarea
           name="recipe"
           value={meal.recipe}
@@ -110,7 +119,9 @@ const AddMealForm: React.FC = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Category</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Category
+        </label>
         <input
           type="text"
           name="category"
@@ -122,7 +133,9 @@ const AddMealForm: React.FC = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Ingredients</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Ingredients
+        </label>
         {meal.ingredients.map((ingredient, index) => (
           <div key={index} className="flex mb-2">
             <input
@@ -134,13 +147,19 @@ const AddMealForm: React.FC = () => {
             />
           </div>
         ))}
-        <button type="button" onClick={addIngredient} className="text-blue-600 hover:underline">
+        <button
+          type="button"
+          onClick={addIngredient}
+          className="text-blue-600 hover:underline"
+        >
           Add Another Ingredient
         </button>
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">Region</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Region
+        </label>
         <input
           type="text"
           name="region"
@@ -150,7 +169,10 @@ const AddMealForm: React.FC = () => {
         />
       </div>
 
-      <button type="submit" className="w-full bg-blue-600 text-white rounded p-2">
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white rounded p-2"
+      >
         Add Meal
       </button>
     </form>

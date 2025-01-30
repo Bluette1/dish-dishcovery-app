@@ -1,24 +1,24 @@
-import React, { useContext } from "react";
-import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import React, { useContext } from 'react';
+import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import {
   Menu,
   MenuButton,
   MenuItem,
   MenuItems,
   Transition,
-} from "@headlessui/react";
+} from '@headlessui/react';
 import {
   MenuIcon,
   XIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   UserIcon,
-} from "@heroicons/react/outline";
-import Logo from "./logo";
-import Header from "./header";
-import { DataContext } from "../context/data";
+} from '@heroicons/react/outline';
+import Logo from './logo';
+import Header from './header';
+import { DataContext } from '../context/data';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,8 +36,8 @@ const Navbar: React.FC = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -76,23 +76,24 @@ const Navbar: React.FC = () => {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Menu.Items className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-40">
-                    {categories && categories.map((category) => (
-                      <Menu.Item key={`${category.id}-desktop`}>
-                        {({ active }) => (
-                          <Link
-                            href={`/browse/categories/${encodeURIComponent(
-                              category.name.toLowerCase()
-                            )}`}
-                            className={`block px-4 py-2 ${
-                              active ? "bg-gray-600" : ""
-                            }`}
-                            onClick={() => setIsCategoriesOpen(false)}
-                          >
-                            {category.name}
-                          </Link>
-                        )}
-                      </Menu.Item>
-                    ))}
+                    {categories &&
+                      categories.map((category) => (
+                        <Menu.Item key={`${category.id}-desktop`}>
+                          {({ active }) => (
+                            <Link
+                              href={`/browse/categories/${encodeURIComponent(
+                                category.name.toLowerCase(),
+                              )}`}
+                              className={`block px-4 py-2 ${
+                                active ? 'bg-gray-600' : ''
+                              }`}
+                              onClick={() => setIsCategoriesOpen(false)}
+                            >
+                              {category.name}
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      ))}
                   </Menu.Items>
                 </Transition>
               </Menu>
@@ -156,7 +157,7 @@ const Navbar: React.FC = () => {
                         <Link
                           href="/profile"
                           className={`block px-4 py-2 ${
-                            active ? "bg-gray-600" : ""
+                            active ? 'bg-gray-600' : ''
                           }`}
                         >
                           Dashboard
@@ -170,7 +171,7 @@ const Navbar: React.FC = () => {
                             signOut();
                           }}
                           className={`block w-full text-left px-4 py-2 ${
-                            active ? "bg-gray-600" : ""
+                            active ? 'bg-gray-600' : ''
                           }`}
                         >
                           Logout
@@ -187,7 +188,7 @@ const Navbar: React.FC = () => {
           <div
             ref={menuRef}
             className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-50 transition-transform transform ${
-              isMenuOpen ? "translate-x-0" : "translate-x-full"
+              isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
             <div className="flex flex-col h-full p-4">
@@ -218,26 +219,27 @@ const Navbar: React.FC = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
-                      {categories && categories.map((category) => (
-                        <Menu.Item key={category.id}>
-                          {({ active }) => (
-                            <Link
-                              href={`/browse/categories/${encodeURIComponent(
-                                category.name.toLowerCase()
-                              )}`}
-                              className={`block px-4 py-2 ${
-                                active ? "bg-gray-600" : ""
-                              }`}
-                              onClick={() => {
-                                setIsMenuOpen(false);
-                                setIsCategoriesOpen(false);
-                              }}
-                            >
-                              {category.name}
-                            </Link>
-                          )}
-                        </Menu.Item>
-                      ))}
+                      {categories &&
+                        categories.map((category) => (
+                          <Menu.Item key={category.id}>
+                            {({ active }) => (
+                              <Link
+                                href={`/browse/categories/${encodeURIComponent(
+                                  category.name.toLowerCase(),
+                                )}`}
+                                className={`block px-4 py-2 ${
+                                  active ? 'bg-gray-600' : ''
+                                }`}
+                                onClick={() => {
+                                  setIsMenuOpen(false);
+                                  setIsCategoriesOpen(false);
+                                }}
+                              >
+                                {category.name}
+                              </Link>
+                            )}
+                          </Menu.Item>
+                        ))}
                     </Menu.Items>
                   </Transition>
                 </Menu>

@@ -1,10 +1,10 @@
-import Link from "next/link";
-import styles from "../../../styles/categories.module.css";
-import Image from "next/image";
-import slugify from "../../../helpers/slugify";
-import { SWRConfig } from "swr";
-import fetchCategories from "../../../services/categories";
-import useCategories from "../../../hooks/use-categories";
+import Link from 'next/link';
+import styles from '../../../styles/categories.module.css';
+import Image from 'next/image';
+import slugify from '../../../helpers/slugify';
+import { SWRConfig } from 'swr';
+import fetchCategories from '../../../services/categories';
+import useCategories from '../../../hooks/use-categories';
 
 export async function getStaticProps() {
   const categories = await fetchCategories();
@@ -34,7 +34,7 @@ const Categories = () => {
               key={category.id}
               className={styles.categoryItem}
               href={`/browse/categories/${encodeURIComponent(
-                slugify(category.name)
+                slugify(category.name),
               )}`}
             >
               <Image

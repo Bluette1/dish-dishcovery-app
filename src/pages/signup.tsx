@@ -22,7 +22,8 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await fetch('/api/signup', { // Adjust API endpoint as needed
+      const response = await fetch('/api/signup', {
+        // Adjust API endpoint as needed
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -51,9 +52,11 @@ const SignupPage = () => {
         keywords="signup, delicious, healthy, affordable, dish, discovery"
       />
       <main className={styles.container}>
-        <h1 className='py-6'>Signup</h1>
+        <h1 className="py-6">Signup</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label htmlFor="email" className={styles.label}>Email</label>
+          <label htmlFor="email" className={styles.label}>
+            Email
+          </label>
           <input
             type="email"
             id="email"
@@ -62,7 +65,9 @@ const SignupPage = () => {
             required
             className={styles.input}
           />
-          <label htmlFor="password" className={styles.label}>Password</label>
+          <label htmlFor="password" className={styles.label}>
+            Password
+          </label>
           <input
             type="password"
             id="password"
@@ -71,7 +76,9 @@ const SignupPage = () => {
             required
             className={styles.input}
           />
-          <label htmlFor="confirmPassword" className={styles.label}>Confirm Password</label>
+          <label htmlFor="confirmPassword" className={styles.label}>
+            Confirm Password
+          </label>
           <input
             type="password"
             id="confirmPassword"

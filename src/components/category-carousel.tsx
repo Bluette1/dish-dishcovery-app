@@ -1,14 +1,14 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import Image from "next/image";
-import Link from "next/link";
-import { DataContext } from "../context/data";
-import slugify from "../helpers/slugify";
-import { useContext } from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import Image from 'next/image';
+import Link from 'next/link';
+import { DataContext } from '../context/data';
+import slugify from '../helpers/slugify';
+import { useContext } from 'react';
 
 const Carousel: React.FC = () => {
   const { categories } = useContext(DataContext);
@@ -16,7 +16,7 @@ const Carousel: React.FC = () => {
   return (
     <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
-        <Link href={"/browse/categories"}>
+        <Link href={'/browse/categories'}>
           <h2 className="text-3xl font-semibold text-center mb-12 hover:underline hover:text-[#883D1A]">
             Our Food Categories
           </h2>
@@ -43,29 +43,30 @@ const Carousel: React.FC = () => {
           scrollbar={{ draggable: true }}
           modules={[Navigation, Pagination, Scrollbar]}
         >
-          {categories && categories.map((category) => (
-            <SwiperSlide key={category.name} className="relative">
-              <div className="relative w-full h-64">
-                <Link
-                  href={`/browse/categories/${encodeURIComponent(
-                    slugify(category.name)
-                  )}`}
-                >
-                  <Image
-                    fill
-                    src={category.imageUrl}
-                    alt={category.name}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white text-xl font-semibold">
-                      {category.name}
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            </SwiperSlide>
-          ))}
+          {categories &&
+            categories.map((category) => (
+              <SwiperSlide key={category.name} className="relative">
+                <div className="relative w-full h-64">
+                  <Link
+                    href={`/browse/categories/${encodeURIComponent(
+                      slugify(category.name),
+                    )}`}
+                  >
+                    <Image
+                      fill
+                      src={category.imageUrl}
+                      alt={category.name}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-white text-xl font-semibold">
+                        {category.name}
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
     </section>

@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 function meaList() {
-  return (
-    <div>meal-list</div>
-  )
+  return <div>meal-list</div>;
 }
 
-export default meaList
+export default meaList;

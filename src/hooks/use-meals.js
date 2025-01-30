@@ -1,9 +1,9 @@
-import useSWR from "swr";
-import deslugify from "../helpers/deslugify";
+import useSWR from 'swr';
+import deslugify from '../helpers/deslugify';
 
 export default function useMeals(queryParams) {
-  let queryStr = "";
-  let name = "";
+  let queryStr = '';
+  let name = '';
   if (queryParams) {
     if (queryParams.category) {
       name = queryParams.category;

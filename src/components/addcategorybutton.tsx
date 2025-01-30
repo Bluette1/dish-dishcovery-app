@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const AddCategoryButton: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [categoryName, setCategoryName] = useState<string>("");
+  const [categoryName, setCategoryName] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
 
   const handleAddCategory = async () => {
@@ -11,11 +11,11 @@ const AddCategoryButton: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch("/api/categories", {
-        method: "POST",
-        credentials: "include",
+      const response = await fetch('/api/categories', {
+        method: 'POST',
+        credentials: 'include',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           name: categoryName,
@@ -25,14 +25,14 @@ const AddCategoryButton: React.FC = () => {
       if (response.ok) {
         const newCategory = await response.json();
         alert(`Category created successfully: ${newCategory.name}`);
-        setCategoryName("");
+        setCategoryName('');
         setShowInput(false); // Hide input after successful addition
       } else {
         const errorData = await response.json();
-        setError(errorData.error || "Failed to create category.");
+        setError(errorData.error || 'Failed to create category.');
       }
     } catch (err) {
-      setError("An error occurred while creating the category.");
+      setError('An error occurred while creating the category.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -62,7 +62,7 @@ const AddCategoryButton: React.FC = () => {
             disabled={loading}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {loading ? "Adding..." : "Add Category"}
+            {loading ? 'Adding...' : 'Add Category'}
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </>

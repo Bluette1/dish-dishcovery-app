@@ -24,13 +24,17 @@ const TrackOrderPage = () => {
 
     try {
       // Replace with your API endpoint
-      const response = await fetch(`/api/track-order?orderNumber=${orderNumber}`);
+      const response = await fetch(
+        `/api/track-order?orderNumber=${orderNumber}`,
+      );
       const data: OrderStatus | { message: string } = await response.json();
 
       if (response.ok) {
         setOrderStatus(data as OrderStatus);
       } else {
-        setError((data as { message: string }).message || 'Something went wrong');
+        setError(
+          (data as { message: string }).message || 'Something went wrong',
+        );
       }
     } catch (err) {
       setError('An error occurred');
@@ -47,9 +51,11 @@ const TrackOrderPage = () => {
         keywords="track, order, delicious, healthy, affordable, dish, discovery"
       />
       <main className={styles.container}>
-        <h1 className='py-6'>Track Your Order</h1>
+        <h1 className="py-6">Track Your Order</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label htmlFor="orderNumber" className={styles.label}>Order Number</label>
+          <label htmlFor="orderNumber" className={styles.label}>
+            Order Number
+          </label>
           <input
             type="text"
             id="orderNumber"
@@ -66,10 +72,19 @@ const TrackOrderPage = () => {
         {orderStatus && (
           <div className={styles.status}>
             <h2>Order Status</h2>
-            <p><strong>Order Number:</strong> {orderStatus.orderNumber}</p>
-            <p><strong>Status:</strong> {orderStatus.status}</p>
-            <p><strong>Estimated Delivery:</strong> {orderStatus.estimatedDelivery}</p>
-            <p><strong>Details:</strong> {orderStatus.details}</p>
+            <p>
+              <strong>Order Number:</strong> {orderStatus.orderNumber}
+            </p>
+            <p>
+              <strong>Status:</strong> {orderStatus.status}
+            </p>
+            <p>
+              <strong>Estimated Delivery:</strong>{' '}
+              {orderStatus.estimatedDelivery}
+            </p>
+            <p>
+              <strong>Details:</strong> {orderStatus.details}
+            </p>
           </div>
         )}
       </main>

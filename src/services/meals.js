@@ -1,10 +1,10 @@
-import initialMeals from "@/data/meals";
+import initialMeals from '@/data/meals';
 
-const fetchMeals = async (queryString = "") => {
+const fetchMeals = async (queryString = '') => {
   let meals = initialMeals || [];
   try {
     const responseMeals = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/meals${queryString}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/meals${queryString}`,
     );
 
     meals = await responseMeals.json();

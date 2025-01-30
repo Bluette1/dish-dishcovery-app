@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 const DishIcon = (
-  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>
+  props: React.JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>,
 ) => (
   <svg
     id="_x32_"
@@ -20,7 +20,7 @@ const DishIcon = (
       strokeLinejoin="round"
     />
     <g id="SVGRepo_iconCarrier">
-      <style type="text/css">{"  .st0{fill:#000000;}  "}</style>
+      <style type="text/css">{'  .st0{fill:#000000;}  '}</style>
       <g>
         <path
           className="st0"

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import SubscriptionForm from "./subscription-form";
+import { useState } from 'react';
+import SubscriptionForm from './subscription-form';
 
 const Header = () => {
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);

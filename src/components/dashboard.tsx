@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Sidebar from "./sidebar";
-import ProfileMenuIcon from "./menu-icon";
-import { useSession } from "next-auth/react";
-import { User } from "next-auth";
+import React, { useState } from 'react';
+import Sidebar from './sidebar';
+import ProfileMenuIcon from './menu-icon';
+import { useSession } from 'next-auth/react';
+import { User } from 'next-auth';
 
 interface DashboardProps {
   Content: React.FC<{ user?: User }>;
@@ -39,7 +39,7 @@ const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
 
             {/* Title for mobile and desktop */}
             <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 flex-1 text-center md:text-left">
-              {role === "admin" && <span>Admin</span>} Dashboard
+              {role === 'admin' && <span>Admin</span>} Dashboard
             </h1>
 
             {/* Optionally add other icons for desktop here */}
@@ -69,11 +69,13 @@ const Dashboard: React.FC<DashboardProps> = ({ Content }) => {
             onClick={closeSidebar}
           ></div>
           <div className="h-40 absolute my-12 inset-0 z-40 text-white mt-40">
-           { role && (<Sidebar
-              role={role}
-              theme="md:hidden"
-              closeSidebar={closeSidebar}
-            />)}
+            {role && (
+              <Sidebar
+                role={role}
+                theme="md:hidden"
+                closeSidebar={closeSidebar}
+              />
+            )}
           </div>
         </>
       )}

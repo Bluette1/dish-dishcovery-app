@@ -1,12 +1,12 @@
-import Image from "next/image";
-import { TruckIcon, HeartIcon } from "@heroicons/react/outline";
-import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
-import DishIcon from "../../../components/dish-icon";
-import slugify from "../../../helpers/slugify";
-import { SWRConfig } from "swr";
-import fetchMeals from "../../../services/meals";
-import useMeals from "../../../hooks/use-meals";
-import deslugify from "../../../helpers/deslugify";
+import Image from 'next/image';
+import { TruckIcon, HeartIcon } from '@heroicons/react/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid';
+import DishIcon from '../../../components/dish-icon';
+import slugify from '../../../helpers/slugify';
+import { SWRConfig } from 'swr';
+import fetchMeals from '../../../services/meals';
+import useMeals from '../../../hooks/use-meals';
+import deslugify from '../../../helpers/deslugify';
 
 export async function getStaticPaths() {
   const meals = await fetchMeals();
@@ -24,7 +24,7 @@ export async function getStaticProps({ params }) {
   const meal = await fetchMeals(`?name=${deslugify(mealName)}`);
 
   const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals?name=${deslugify(
-    mealName
+    mealName,
   )}`;
 
   const data = {};
@@ -82,14 +82,14 @@ const Meal = ({ name }) => {
             </div>
             <div className="text-2xl px-2 lg:px-8">
               <h4 className="my-6">
-                <span className="font-semibold">Description:</span>{" "}
+                <span className="font-semibold">Description:</span>{' '}
                 {meal.description}
               </h4>
               <p className="my-6">
                 <span className="font-semibold">Price:</span> ${meal.price}
               </p>
               <p className="my-6 flex">
-                <span className="font-semibold">Delivery</span>{" "}
+                <span className="font-semibold">Delivery</span>{' '}
                 <TruckIcon className="w-6 h-6 mt-2 mx-2" />: At your door step
                 in approx. 1 hr
               </p>

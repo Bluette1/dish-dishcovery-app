@@ -24,7 +24,9 @@ const Centerpiece = () => {
   return (
     <div className="col-span-1 row-span-1 md:col-span-2 md:row-span-2 relative w-full h-full">
       <Image
-        src={currentImage} alt="Centerpiece" fill
+        src={currentImage}
+        alt="Centerpiece"
+        fill
         className="object-cover rounded-lg shadow-lg transition-all duration-500"
       />
     </div>

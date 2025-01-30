@@ -54,5 +54,3 @@ const Centerpiece: React.FC = () => {
 };
 
 export default Centerpiece;
-
-
