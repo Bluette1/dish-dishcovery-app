@@ -21,9 +21,10 @@ export async function getStaticProps() {
 
   const meals = await fetchMeals();
 
-  const data = {};
   const urlCategories = `${process.env.NEXT_PUBLIC_BASE_URL}/categories`;
   const urlMeals = `${process.env.NEXT_PUBLIC_BASE_URL}/meals`;
+
+  const data: { [key: string]: object } = {};
 
   data[urlCategories] = categories;
   data[urlMeals] = meals;
@@ -88,8 +89,11 @@ const Home: NextPage = () => {
   );
 };
 
-// export default Home;
-export default function HomePage({ fallback }) {
+interface HomePageProps {
+  fallback: object;
+}
+
+export default function HomePage({ fallback }: HomePageProps) {
   return (
     <SWRConfig value={{ fallback }}>
       <Home />

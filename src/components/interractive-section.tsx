@@ -4,6 +4,11 @@ import Link from 'next/link';
 import { useContext } from 'react';
 import { DataContext } from '../context/data';
 
+interface Meal {
+  name: string;
+  imageUrl: string;
+}
+
 const InteractiveCategorySection: React.FC = () => {
   const { meals } = useContext(DataContext);
 
@@ -15,7 +20,7 @@ const InteractiveCategorySection: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {meals &&
-            meals.slice(0, 12).map((meal) => (
+            meals.slice(0, 12).map((meal: Meal) => (
               <div key={meal.name} className="relative group">
                 <Link
                   href={`/browse/meals/${encodeURIComponent(

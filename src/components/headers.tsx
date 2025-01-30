@@ -20,6 +20,12 @@ import Logo from './logo';
 import Header from './header';
 import { DataContext } from '../context/data';
 
+interface Category {
+  name: string;
+  imageUrl: string;
+  _id: string;
+}
+
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
@@ -77,8 +83,8 @@ const Navbar: React.FC = () => {
                 >
                   <Menu.Items className="absolute left-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg z-40">
                     {categories &&
-                      categories.map((category) => (
-                        <Menu.Item key={`${category.id}-desktop`}>
+                      categories.map((category: Category) => (
+                        <Menu.Item key={`${category._id}-desktop`}>
                           {({ active }) => (
                             <Link
                               href={`/browse/categories/${encodeURIComponent(
@@ -220,8 +226,8 @@ const Navbar: React.FC = () => {
                   >
                     <Menu.Items className="absolute bg-gray-700 text-white left-0 mt-2 w-full rounded shadow-lg">
                       {categories &&
-                        categories.map((category) => (
-                          <Menu.Item key={category.id}>
+                        categories.map((category: Category) => (
+                          <Menu.Item key={`${category._id}-mobile`}>
                             {({ active }) => (
                               <Link
                                 href={`/browse/categories/${encodeURIComponent(

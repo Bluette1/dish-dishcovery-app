@@ -10,6 +10,11 @@ import { DataContext } from '../context/data';
 import slugify from '../helpers/slugify';
 import { useContext } from 'react';
 
+interface Category {
+  name: string;
+  imageUrl: string;
+}
+
 const Carousel: React.FC = () => {
   const { categories } = useContext(DataContext);
 
@@ -44,7 +49,7 @@ const Carousel: React.FC = () => {
           modules={[Navigation, Pagination, Scrollbar]}
         >
           {categories &&
-            categories.map((category) => (
+            categories.map((category: Category) => (
               <SwiperSlide key={category.name} className="relative">
                 <div className="relative w-full h-64">
                   <Link
