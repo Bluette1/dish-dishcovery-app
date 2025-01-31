@@ -4,6 +4,7 @@ import Meta from '@/components/meta';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from '@headlessui/react';
+import Link from 'next/link';
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -90,6 +91,13 @@ const LoginPage = () => {
             />
             Sign in with Google
           </Button>
+        </section>
+        <section className="flex justify-center">
+          <Link href={'/signup'}>
+            <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">
+              SignUp
+            </Button>
+          </Link>
         </section>
       </main>
     </>

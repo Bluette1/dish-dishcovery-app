@@ -1,7 +1,7 @@
-// pages/signup.tsx
 import { useState, FormEvent } from 'react';
-import styles from '../styles/auth.module.css'; // Import your CSS module
+import styles from '../styles/auth.module.css';
 import Meta from '@/components/meta';
+import { signIn } from 'next-auth/react';
 
 const SignupPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -22,18 +22,19 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await fetch('/api/signup', {
-        // Adjust API endpoint as needed
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        },
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        // Handle successful signup
-        // Redirect or show success message
+        signIn();
       } else {
         setError(data.message || 'Signup failed');
       }

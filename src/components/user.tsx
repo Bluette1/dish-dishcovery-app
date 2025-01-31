@@ -1,4 +1,3 @@
-// user.tsx
 import { User } from 'next-auth';
 import React from 'react';
 
@@ -11,11 +10,11 @@ const UserContent: React.FC<UserProps> = ({ user }) => {
     return <div>Please log in.</div>;
   }
   const {
-    user: { name },
+    user: { name, email },
   } = user;
   return (
     <div className="my-2">
-      <div>Welcome, {name}</div>
+      <div>Welcome, {name ? <span>{name}</span> : <span>{email}</span>}</div>
     </div>
   );
 };
