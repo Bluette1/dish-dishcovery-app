@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/auth.module.css';
 import Meta from '@/components/meta';
 import { Button } from '@headlessui/react';
+import Link from 'next/link';
 
 const ResetPasswordPage = () => {
   const router = useRouter();
@@ -25,13 +26,16 @@ const ResetPasswordPage = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token, password }),
         },
-        body: JSON.stringify({ token, password }),
-      });
+      );
 
       const data = await response.json();
 
@@ -40,9 +44,6 @@ const ResetPasswordPage = () => {
       }
 
       setSuccess(true);
-      setTimeout(() => {
-        router.push('/login');
-      }, 3000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -54,9 +55,13 @@ const ResetPasswordPage = () => {
     return (
       <div className={styles.container}>
         <h1 className="text-2xl font-bold mb-4">Password Reset Successful</h1>
-        <p className="text-gray-600">
-          Your password has been reset successfully. You will be redirected to the login page shortly.
+        <p className="text-gray-600 mb-6">
+          Your password has been reset successfully. You can now log in with
+          your new password.
         </p>
+        <Link href="/login">
+          <Button className={styles.button}>Go to Login</Button>
+        </Link>
       </div>
     );
   }

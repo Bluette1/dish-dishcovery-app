@@ -15,13 +15,16 @@ const ForgotPasswordPage = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/forgot-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/forgot-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
         },
-        body: JSON.stringify({ email }),
-      });
+      );
 
       const data = await response.json();
 
@@ -42,7 +45,8 @@ const ForgotPasswordPage = () => {
       <div className={styles.container}>
         <h1 className="text-2xl font-bold mb-4">Check your email</h1>
         <p className="text-gray-600">
-          If an account exists for {email}, you will receive a password reset link shortly.
+          If an account exists for {email}, you will receive a password reset
+          link shortly.
         </p>
       </div>
     );
@@ -58,7 +62,8 @@ const ForgotPasswordPage = () => {
       <main className={styles.container}>
         <h1 className="text-2xl font-bold mb-4">Forgot Password</h1>
         <p className="text-gray-600 mb-4">
-          Enter your email address and we'll send you a link to reset your password.
+          Enter your email address and we&apos;ll send you a link to reset your
+          password.
         </p>
         <form onSubmit={handleSubmit} className={styles.form}>
           <label htmlFor="email" className={styles.label}>
