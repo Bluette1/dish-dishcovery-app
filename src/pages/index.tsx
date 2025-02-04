@@ -59,7 +59,8 @@ const Home: NextPage = () => {
     }
   }, [mealsData, categoriesData, categories, meals, addCategories, addMeals]);
 
-  if (isLoadingCategories || isLoadingMeals) return <div className="min-h-96">Loading...</div>;
+  if (isLoadingCategories || isLoadingMeals)
+    return <div className="min-h-96">Loading...</div>;
 
   return (
     <>

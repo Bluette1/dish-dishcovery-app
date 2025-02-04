@@ -78,6 +78,13 @@ const LoginPage = () => {
           </Button>
           {error && <p className={styles.error}>{error}</p>}
         </form>
+        {/* Add this before the divider */}
+        <Link
+          href="/forgot-password"
+          className="text-sm text-blue-600 hover:text-blue-800 pt-1"
+        >
+          Forgotten account?
+        </Link>
 
         <div className={styles.divider}>or</div>
         <section className="flex justify-center">
