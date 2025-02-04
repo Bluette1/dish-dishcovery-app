@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden focus:outline-none"
+            className="lg:hidden focus:outline-none z-50"
           >
             {isMenuOpen ? (
               <XIcon className="w-6 h-6 cursor-pointer" />
@@ -193,7 +193,7 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Items */}
           <div
             ref={menuRef}
-            className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-50 transition-transform transform ${
+            className={`lg:hidden fixed inset-0 bg-gray-800 text-white bg-opacity-75 z-40 transition-transform transform ${
               isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
@@ -202,11 +202,11 @@ const Navbar: React.FC = () => {
               <div className="relative mt-6 pt-2">
                 <Menu
                   as="div"
-                  className="relative inline-block text-left w-1/2"
+                  className="relative inline-block text-left w-full"
                 >
                   <MenuButton
                     onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                    className="flex items-center text-xl px-4 py-2 hover:bg-gray-700 w-full mt-5"
+                    className="flex items-center text-xl px-4 py-2 w-full mt-5"
                   >
                     Categories
                     {isCategoriesOpen ? (
