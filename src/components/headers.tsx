@@ -112,7 +112,7 @@ const Navbar: React.FC = () => {
             className="lg:hidden focus:outline-none"
           >
             {isMenuOpen ? (
-              <XIcon className="w-6 h-6 cursor:pointer" />
+              <XIcon className="w-6 h-6 cursor-pointer" />
             ) : (
               <MenuIcon className="w-6 h-6" />
             )}
@@ -199,10 +199,10 @@ const Navbar: React.FC = () => {
           >
             <div className="flex flex-col h-full p-4">
               {/* Mobile Categories */}
-              <div className="relative mt-4 pt-2">
+              <div className="relative mt-6 pt-2">
                 <Menu
                   as="div"
-                  className="relative inline-block text-left w-full"
+                  className="relative inline-block text-left w-1/2"
                 >
                   <MenuButton
                     onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
