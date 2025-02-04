@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Center from './centerpiece';
+import styles from '../styles/centerpiece-collage.module.css'
 
 const Centerpiece: React.FC = () => {
   return (
-    <div className="relative h-screen">
-      <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-3 grid-rows-3 gap-2">
+    <div className={styles.centerpiece}>
+      <div className="absolute inset-0 grid grid-cols-1 lg:grid-cols-3 grid-rows-3 gap-2">
         {/* Centerpiece Image */}
         <Center />
         {/* Other Images */}

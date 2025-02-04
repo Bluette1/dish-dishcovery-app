@@ -50,8 +50,8 @@ const Navbar: React.FC = () => {
     <>
       <Header />
       {/* Main Navbar */}
-      <nav className="text-black mt-20 ">
-        <div className="container mx-auto p-4 flex items-center justify-between">
+      <nav className="text-black mt-16 md:mt-14 ">
+        <div className="container mx-auto px-4 pt-5 md:pt-1 flex items-center justify-between">
           {/* Left Side: Logo and Categories */}
           <div className="flex items-center">
             {/* Logo */}
@@ -199,7 +199,7 @@ const Navbar: React.FC = () => {
           >
             <div className="flex flex-col h-full p-4">
               {/* Mobile Categories */}
-              <div className="relative mt-4">
+              <div className="relative mt-4 pt-2">
                 <Menu
                   as="div"
                   className="relative inline-block text-left w-full"

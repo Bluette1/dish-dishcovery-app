@@ -51,7 +51,7 @@ function App({ Component, pageProps }: AppProps) {
             className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
           >
             <Headers />
-            <main className="pt-16">
+            <main className="pt-6">
               <Component {...pageProps} />
             </main>
             <Footer />
