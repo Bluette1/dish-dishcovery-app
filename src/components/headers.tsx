@@ -20,6 +20,7 @@ import {
 import Logo from './logo';
 import Header from './header';
 import { DataContext } from '../context/data';
+import { ShopContext } from '../context/shop';
 
 interface Category {
   name: string;
@@ -28,12 +29,13 @@ interface Category {
 }
 
 const Navbar: React.FC = () => {
-  const [cart, setCart] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
   const { categories } = useContext(DataContext);
+  const shop = useContext(ShopContext);
+  const { cart, clearContext } = shop;
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -106,13 +108,13 @@ const Navbar: React.FC = () => {
                 </Transition>
               </Menu>
             </div>
-            <div className="relative px-12">
-              <ShoppingCartIcon className="h-6 w-6" />
-              {cart.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {cart.length}
-                </span>
-              )}
+            <div className="relative px-1.5 mx-10 lg:mx-5 ">
+                <ShoppingCartIcon className="h-6 w-6" />
+                {cart.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    {cart.length}
+                  </span>
+                )}
             </div>
           </div>
 
@@ -184,6 +186,7 @@ const Navbar: React.FC = () => {
                       {({ active }) => (
                         <button
                           onClick={() => {
+                            clearContext();
                             signOut();
                           }}
                           className={`block w-full text-left px-4 py-2 ${

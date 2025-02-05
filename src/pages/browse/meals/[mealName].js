@@ -12,7 +12,8 @@ import { SWRConfig } from 'swr';
 import fetchMeals from '../../../services/meals';
 import useMeals from '../../../hooks/use-meals';
 import deslugify from '../../../helpers/deslugify';
-import { useRef, useState } from 'react';
+import { useContext, useRef } from 'react';
+import { ShopContext } from '../../../context/shop';
 
 export async function getStaticPaths() {
   const meals = await fetchMeals();
@@ -46,45 +47,16 @@ export async function getStaticProps({ params }) {
 
 const Meal = ({ name }) => {
   const { data: meals, isLoading } = useMeals({ name });
-  const [cart, setCart] = useState([]);
+  const shop = useContext(ShopContext);
+  const { cart, addToCart, removeFromCart, updateQuantity } = shop;
+
   const cartRef = useRef(null);
 
   const scrollToCart = () => {
     cartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const addToCart = (meal) => {
-    const existingItem = cart.find((item) => item.id === meal.id);
-    if (existingItem) {
-      setCart(
-        cart.map((item) =>
-          item.id === meal.id ? { ...item, quantity: item.quantity + 1 } : item,
-        ),
-      );
-    } else {
-      setCart([...cart, { ...meal, quantity: 1 }]);
-    }
-    // Add small delay to ensure DOM update before scrolling
-    setTimeout(scrollToCart, 100);
-  };
-
-  const removeFromCart = (mealId) => {
-    setCart(cart.filter((item) => item.id !== mealId));
-  };
-
-  const updateQuantity = (mealId, increment) => {
-    setCart(
-      cart.map((item) => {
-        if (item.id === mealId) {
-          const newQuantity = item.quantity + (increment ? 1 : -1);
-          return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
-        }
-        return item;
-      }),
-    );
-  };
-
-  const isInCart = (mealId) => cart.find((item) => item.id === mealId);
+  const isInCart = (mealId) => cart.find((item) => item._id === mealId);
 
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -149,10 +121,14 @@ const Meal = ({ name }) => {
                 </p>
               )}
               <button
-                onClick={() => addToCart(meal)}
+                onClick={() => {
+                  addToCart(meal);
+                  // Add small delay to ensure DOM update before scrolling
+                  setTimeout(scrollToCart, 100);
+                }}
                 className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
               >
-                {isInCart(meal.id) ? 'Add to Cart' : 'Order Now'}
+                {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
               </button>
             </div>
           </div>
@@ -164,7 +140,7 @@ const Meal = ({ name }) => {
           <div className="space-y-4">
             {cart.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="flex items-center justify-between border-b pb-4"
               >
                 <div>
@@ -176,21 +152,21 @@ const Meal = ({ name }) => {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => updateQuantity(item.id, false)}
+                      onClick={() => updateQuantity(item._id, false)}
                       className="p-1 rounded-full hover:bg-gray-100"
                     >
                       <MinusIcon className="h-4 w-4" />
                     </button>
                     <span>{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.id, true)}
+                      onClick={() => updateQuantity(item._id, true)}
                       className="p-1 rounded-full hover:bg-gray-100"
                     >
                       <PlusIcon className="h-4 w-4" />
                     </button>
                   </div>
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item._id)}
                     className="text-red-500 hover:text-red-700"
                   >
                     Remove
