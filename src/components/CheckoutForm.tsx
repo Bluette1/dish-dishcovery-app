@@ -6,7 +6,7 @@ import { ShopContext } from '../context/shop';
 const CheckoutForm: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const { cart } = useContext(ShopContext);
+  const { cart, emptyCart } = useContext(ShopContext);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -52,6 +52,7 @@ const CheckoutForm: React.FC = () => {
       setError(data.error);
       setIsLoading(false);
     } else {
+      emptyCart();
       window.location.href = '/checkout/success';
     }
   };
