@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Center from './centerpiece';
-import styles from '../styles/centerpiece-collage.module.css'
+import styles from '../styles/centerpiece-collage.module.css';
 
 const Centerpiece: React.FC = () => {
   return (

@@ -6,9 +6,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16', // Use the latest API version
 });
 
+interface CustomError {
+  message: string;
+}
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -18,8 +22,10 @@ export default async function handler(
     const { paymentMethodId, items } = req.body;
 
     // Calculate the total amount based on your items
-    const amount = items.reduce((acc: number, item: any) => 
-      acc + (item.price * item.quantity), 0);
+    const amount = items.reduce(
+      (acc: number, item: object) => acc + item.price * item.quantity,
+      0,
+    );
 
     // Create a payment intent
     const paymentIntent = await stripe.paymentIntents.create({
@@ -36,9 +42,11 @@ export default async function handler(
       clientSecret: paymentIntent.client_secret,
       status: paymentIntent.status,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const errorMessage =
+      (err as CustomError).message || 'An unknown error occurred.';
     res.status(500).json({
-      error: err.message,
+      error: errorMessage,
     });
   }
 }

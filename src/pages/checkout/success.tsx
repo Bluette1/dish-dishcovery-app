@@ -52,7 +52,7 @@ export default function Success() {
         </h1>
 
         <p className="text-gray-600 mb-8">
-          Thank you for your purchase. We'll send you a confirmation email
+          Thank you for your purchase. We&apos;ll send you a confirmation email
           shortly.
         </p>
 

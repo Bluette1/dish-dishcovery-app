@@ -69,7 +69,6 @@ const ShopProvider = ({ children }) => {
   const updateCart = async (newCart) => {
     try {
       if (session && userId) {
-
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}`,
           {
