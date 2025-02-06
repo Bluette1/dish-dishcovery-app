@@ -121,8 +121,8 @@ const Meal = ({ name }) => {
                 </p>
               )}
               <button
-                onClick={() => {
-                  addToCart(meal);
+                onClick={async () => {
+                  await addToCart(meal);
                   // Add small delay to ensure DOM update before scrolling
                   setTimeout(scrollToCart, 100);
                 }}
