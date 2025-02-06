@@ -19,6 +19,6 @@
     }
   },
   "plugins": [{ "name": "next" }],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types/**/*.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types/**/*.d.ts", "src/pages/browse/meals/[mealName].js"],
   "exclude": ["node_modules"]
 }
