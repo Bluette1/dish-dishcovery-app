@@ -6,6 +6,9 @@ import slugify from '../../../helpers/slugify';
 import fetchMeals from '../../../services/meals';
 import useMeals from '../../../hooks/use-meals';
 import { SWRConfig } from 'swr';
+import { useContext, useRef } from 'react';
+import { ShopContext } from '../../../context/shop';
+import Cart from '../../../components/cart';
 
 export async function getStaticProps() {
   const meals = await fetchMeals();
@@ -24,6 +27,16 @@ const Meals = () => {
   const { data: meals, isLoading } = useMeals();
 
   const [searchTerm, setSearchTerm] = useState('');
+  const shop = useContext(ShopContext);
+  const { cart, addToCart } = shop;
+
+  const cartRef = useRef(null);
+
+  const scrollToCart = () => {
+    cartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const isInCart = (mealId) => cart.find((item) => item._id === mealId);
 
   // Filter dishes based on the search term
   const filteredMeals =
@@ -63,15 +76,36 @@ const Meals = () => {
                           src={meal.imageUrl}
                           alt={meal.name}
                           fill
-                          className="object-cover transition-transform transform group-hover:scale-110"
+                          className="object-cover transition-opacity duration-300 group-hover:opacity-75"
                         />
                       </div>
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="text-white text-xl font-semibold">
-                          {meal.name}
-                        </span>
-                      </div>
                     </Link>
+                    <div className="p-4 flex justify-between items-center">
+                      <div className="flex flex-col">
+                        <Link
+                          href={`/browse/meals/${encodeURIComponent(
+                            slugify(meal.name),
+                          )}`}
+                          className="text-lg font-semibold text-gray-800"
+                        >
+                          {meal.name}
+                        </Link>
+                        <div className="text-lg font-bold text-gray-800">
+                          ${meal.price.toFixed(2)}
+                        </div>
+                      </div>
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation(); // Prevent navigation
+                          await addToCart(meal);
+                          // Add small delay to ensure DOM update before scrolling
+                          setTimeout(scrollToCart, 100);
+                        }}
+                        className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
+                      </button>
+                    </div>
                   </div>
                 ))
               ) : (
@@ -81,6 +115,9 @@ const Meals = () => {
               )}
             </div>
           </div>
+        </section>
+        <section ref={cartRef} className="scroll-mt-8">
+          <Cart />
         </section>
       </div>
     </>
