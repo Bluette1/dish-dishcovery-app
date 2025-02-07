@@ -4,7 +4,9 @@ import CheckoutForm from '../../components/CheckoutForm';
 import { loadStripe } from '@stripe/stripe-js';
 
 // Load Stripe outside of a component to avoid recreating the instance on every render
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || '');
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || '',
+);
 
 const appearance: { theme: 'stripe'; variables: Record<string, string> } = {
   theme: 'stripe',

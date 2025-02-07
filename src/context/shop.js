@@ -142,6 +142,8 @@ const ShopProvider = ({ children }) => {
     setUser(null);
   };
 
+  const isInCart = (mealId) => cart.find((item) => item._id === mealId);
+
   // Load initial cart data
   useEffect(() => {
     const loadCart = async () => {
@@ -165,12 +167,13 @@ const ShopProvider = ({ children }) => {
   }, [token, user, meals]);
 
   const contextValue = {
-    cart: cart.sort((a, b) => a._id.localeCompare(b._id)),
+    cart: cart.sort((a, b) => a.name.localeCompare(b.name)),
     addToCart,
     emptyCart,
     removeFromCart,
     updateQuantity,
     clearContext,
+    isInCart,
     user,
     isLoading: isUserLoading || isMealsLoading,
   };

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
 interface Item {
-  price: number;    
+  price: number;
   quantity: number;
 }
 

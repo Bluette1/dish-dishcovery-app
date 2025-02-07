@@ -44,15 +44,13 @@ export async function getStaticProps({ params }) {
 const Meal = ({ name }) => {
   const { data: meals, isLoading } = useMeals({ name });
   const shop = useContext(ShopContext);
-  const { cart, addToCart } = shop;
+  const { addToCart, isInCart } = shop;
 
   const cartRef = useRef(null);
 
   const scrollToCart = () => {
     cartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
-  const isInCart = (mealId) => cart.find((item) => item._id === mealId);
 
   let meal;
   if (meals) {

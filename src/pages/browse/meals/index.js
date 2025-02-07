@@ -28,15 +28,13 @@ const Meals = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const shop = useContext(ShopContext);
-  const { cart, addToCart } = shop;
+  const { isInCart, addToCart } = shop;
 
   const cartRef = useRef(null);
 
   const scrollToCart = () => {
     cartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
-  const isInCart = (mealId) => cart.find((item) => item._id === mealId);
 
   // Filter dishes based on the search term
   const filteredMeals =

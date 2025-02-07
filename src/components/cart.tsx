@@ -3,29 +3,48 @@ import { useContext } from 'react';
 import { ShopContext } from '../context/shop';
 import { PlusIcon, MinusIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
+import Image from 'next/image';
+
+interface Item {
+  _id: string;
+  price: number;
+  quantity: number;
+  name: string;
+  imageUrl: string;
+}
 
 export default function Cart() {
   const shop = useContext(ShopContext);
   const { cart, removeFromCart, updateQuantity } = shop;
 
   const cartTotal = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum: number, item: Item) => sum + item.price * item.quantity,
     0,
   );
+
   return cart.length > 0 ? (
     <div className="mt-8 border-t pt-8 pb-6 px-4">
       <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
       <div className="space-y-4">
-        {cart.map((item) => (
+        {cart.map((item: Item) => (
           <div
             key={item._id}
             className="flex items-center justify-between border-b pb-4"
           >
-            <div>
-              <h3 className="font-semibold">{item.name}</h3>
-              <p className="text-gray-600">
-                ${item.price} x {item.quantity}
-              </p>
+            <div className="flex items-center gap-4">
+              <Image
+                height={500}
+                width={500}
+                src={item.imageUrl}
+                alt={item.name}
+                className="w-16 h-16 object-cover rounded"
+              />
+              <div>
+                <h3 className="font-semibold">{item.name}</h3>
+                <p className="text-gray-600">
+                  ${item.price} x {item.quantity}
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
