@@ -55,7 +55,6 @@ const CheckoutForm: React.FC = () => {
       setIsLoading(false);
     } else {
       emptyCart();
-      window.location.href = '/checkout/success';
     }
   };
 
