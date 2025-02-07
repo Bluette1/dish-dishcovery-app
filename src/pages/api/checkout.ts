@@ -39,7 +39,7 @@ export default async function handler(
       payment_method: paymentMethodId,
       confirmation_method: 'manual',
       confirm: true,
-      return_url: `${req.headers.origin}/success`,
+      return_url: `${req.headers.origin}/checkout/success`,
     });
 
     // Send the client secret to the client
