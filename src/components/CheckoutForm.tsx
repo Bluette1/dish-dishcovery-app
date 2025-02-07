@@ -2,6 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useContext } from 'react';
 import { ShopContext } from '../context/shop';
+import { PaymentMethodResult } from '@stripe/stripe-js';
 
 const CheckoutForm: React.FC = () => {
   const stripe = useStripe();
@@ -23,11 +24,12 @@ const CheckoutForm: React.FC = () => {
       return;
     }
 
-    const { error: stripeError, paymentMethod } =
-      await stripe?.createPaymentMethod({
-        type: 'card',
-        card: cardElement,
-      });
+    const result = (await stripe?.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    })) as PaymentMethodResult & { error?: { message: string } };
+
+    const { error: stripeError, paymentMethod } = result;
 
     if (stripeError) {
       setError(stripeError.message);

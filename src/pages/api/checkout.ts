@@ -1,9 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
+interface Item {
+  price: number;    
+  quantity: number;
+}
+
 // Initialize Stripe with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16', // Use the latest API version
+  apiVersion: '2025-01-27.acacia', // Use the latest API version
 });
 
 interface CustomError {
@@ -23,7 +28,7 @@ export default async function handler(
 
     // Calculate the total amount based on your items
     const amount = items.reduce(
-      (acc: number, item: object) => acc + item.price * item.quantity,
+      (acc: number, item: Item) => acc + item.price * item.quantity,
       0,
     );
 
