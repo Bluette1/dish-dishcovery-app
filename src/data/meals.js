@@ -1,5 +1,6 @@
 const meals = [
   {
+    _id: 1,
     name: 'Pancakes',
     description: 'Fluffy pancakes served with syrup.',
     recipe: 'Mix ingredients, cook on a griddle, and serve with syrup.',
@@ -11,6 +12,7 @@ const meals = [
       'https://dishdiscovery.s3.us-east-1.amazonaws.com/images/meals/pancakes.jpg',
   },
   {
+    _id: 2,
     name: 'Avocado Toast',
     description: 'Toast topped with smashed avocado and seasonings.',
     recipe: 'Mash avocado on toast and season with salt and pepper.',
@@ -22,6 +24,7 @@ const meals = [
       'https://dishdiscovery.s3.us-east-1.amazonaws.com/images/meals/avocado-toast.jpg',
   },
   {
+    _id: 3,
     name: 'Chocolate Cake',
     description: 'Rich chocolate cake topped with icing.',
     recipe: 'Bake the cake and frost with chocolate icing.',
@@ -34,6 +37,7 @@ const meals = [
       'https://dishdiscovery.s3.us-east-1.amazonaws.com/images/meals/chocolate-cake.jpg',
   },
   {
+    _id: 4,
     name: 'Vegan Chili',
     description: 'Spicy chili made with beans and vegetables.',
     recipe: 'Simmer beans and vegetables with spices.',
@@ -45,6 +49,7 @@ const meals = [
       'https://dishdiscovery.s3.us-east-1.amazonaws.com/images/meals/vegan-chili.jpg',
   },
   {
+    _id: 5,
     name: 'Grilled Salmon',
     description: 'Delicious salmon fillet grilled to perfection.',
     recipe: 'Season salmon and grill until cooked through.',
@@ -56,6 +61,7 @@ const meals = [
       'https://dishdiscovery.s3.us-east-1.amazonaws.com/images/meals/grilled-salmon.jpg',
   },
   {
+    _id: 6,
     name: 'Tandoori Chicken',
     description: 'Spicy chicken marinated in yogurt and spices.',
     recipe: 'Marinate chicken and cook in a tandoor.',
@@ -67,6 +73,7 @@ const meals = [
       'https://dishdiscovery.s3.us-east-1.amazonaws.com/images/meals/tandoori-chicken.jpg',
   },
   {
+    _id: 7,
     name: 'Beef Bourguignon',
     description: 'Beef stew braised in red wine.',
     recipe: 'Cook beef with wine, carrots, and onions.',
@@ -78,6 +85,7 @@ const meals = [
       'https://dishdiscovery.s3.us-east-1.amazonaws.com/images/meals/beef-bourguignon.jpg',
   },
   {
+    _id: 8,
     name: 'Spaghetti Carbonara',
     description: 'Pasta with eggs, cheese, pancetta, and pepper.',
     recipe: 'Cook spaghetti and mix with egg and cheese mixture.',

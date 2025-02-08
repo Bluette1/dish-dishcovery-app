@@ -10,6 +10,7 @@ import LoadingSpinner from '../components/loading-spinner';
 import { SessionProvider } from 'next-auth/react';
 import { SWRProvider } from '../swr-provider';
 import DataProvider from '../context/data';
+import ShopProvider from '../context/shop';
 
 // Local font configuration
 const barlow = localFont({
@@ -46,16 +47,18 @@ function App({ Component, pageProps }: AppProps) {
         session={pageProps.session}
       >
         <DataProvider>
-          {loading && <LoadingSpinner />}
-          <section
-            className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
-          >
-            <Headers />
-            <main className="pt-6">
-              <Component {...pageProps} />
-            </main>
-            <Footer />
-          </section>
+          <ShopProvider>
+            {loading && <LoadingSpinner />}
+            <section
+              className={`${barlow.variable} font-[family-name:var(--font-barlow)]`}
+            >
+              <Headers />
+              <main className="pt-6">
+                <Component {...pageProps} />
+              </main>
+              <Footer />
+            </section>
+          </ShopProvider>
         </DataProvider>
       </SessionProvider>
     </SWRProvider>

@@ -7,6 +7,9 @@ import { SWRConfig } from 'swr';
 import fetchMeals from '../../../services/meals';
 import useMeals from '../../../hooks/use-meals';
 import deslugify from '../../../helpers/deslugify';
+import { useContext, useRef } from 'react';
+import { ShopContext } from '../../../context/shop';
+import Cart from '../../../components/cart';
 
 export async function getStaticPaths() {
   const meals = await fetchMeals();
@@ -40,6 +43,14 @@ export async function getStaticProps({ params }) {
 
 const Meal = ({ name }) => {
   const { data: meals, isLoading } = useMeals({ name });
+  const shop = useContext(ShopContext);
+  const { addToCart, isInCart } = shop;
+
+  const cartRef = useRef(null);
+
+  const scrollToCart = () => {
+    cartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   let meal;
   if (meals) {
@@ -98,12 +109,22 @@ const Meal = ({ name }) => {
                   <span className="font-semibold">Serves:</span> {meal.serves}
                 </p>
               )}
-              <button className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                Order Now
+              <button
+                onClick={async () => {
+                  await addToCart(meal);
+                  // Add small delay to ensure DOM update before scrolling
+                  setTimeout(scrollToCart, 100);
+                }}
+                className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              >
+                {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
               </button>
             </div>
           </div>
         </div>
+      </section>
+      <section ref={cartRef} className="scroll-mt-8">
+        <Cart />
       </section>
     </div>
   ) : (
