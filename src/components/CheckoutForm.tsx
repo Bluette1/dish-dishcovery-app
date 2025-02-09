@@ -48,14 +48,15 @@ const CheckoutForm: React.FC = () => {
       }),
     });
 
-    const data = await response.json();
+    if (!response.ok) {
+      setError('Error making Stripe payment '), setIsLoading(false);
+    }
 
-    if (data.error) {
-      setError(data.error);
-      setIsLoading(false);
-    } else {
+    const paymentIntent = await response.json();
+
+    if (paymentIntent.status == 'succeeded') {
       emptyCart();
-      window.location.href = '/checkout/success';
+      window.location.href = `/checkout/success?orderNumber=${paymentIntent.orderNumber}`;
     }
   };
 

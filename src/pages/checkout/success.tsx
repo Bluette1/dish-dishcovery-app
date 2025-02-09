@@ -7,8 +7,11 @@ export default function Success() {
   const [countdown, setCountdown] = useState(5);
   const [orderNumber, setOrderNumber] = useState('');
 
-  // Auto-redirect to home after 5 seconds
   useEffect(() => {
+    if (router.query.orderNumber) {
+      setOrderNumber(router.query.orderNumber as string);
+    }
+
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -21,12 +24,7 @@ export default function Success() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [router]);
-
-  // Generate order number on client side
-  useEffect(() => {
-    setOrderNumber(Math.random().toString(36).substr(2, 9).toUpperCase());
-  }, []);
+  }, [router.query]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4">

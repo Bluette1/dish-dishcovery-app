@@ -24,7 +24,7 @@ const saveMeal = async (meal: Meal, token: string) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || 'Failed to create category');
+    throw new Error(errorData.error || 'Failed to create meal');
   }
 
   const newMeal = await response.json();
@@ -53,7 +53,7 @@ const updateMeal = async (id: string, name: string) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || 'Failed to update category');
+    throw new Error(errorData.error || 'Failed to update meal');
   }
 
   const updatedMeal = await response.json();
@@ -67,7 +67,7 @@ const deleteMeal = async (id: string) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || 'Failed to delete category');
+    throw new Error(errorData.error || 'Failed to delete meal');
   }
 
   return { message: 'Meal deleted successfully' };
@@ -125,7 +125,7 @@ const handlers: Record<
       res.status(204).end();
     } catch (error) {
       res.status(500).json({
-        error: (error as Error).message || 'Failed to delete category',
+        error: (error as Error).message || 'Failed to delete meal',
       });
     }
   },
@@ -141,7 +141,7 @@ const handlers: Record<
       return res.status(200).json(updatedMeal);
     } catch (error) {
       return res.status(500).json({
-        error: (error as Error).message || 'Failed to update category',
+        error: (error as Error).message || 'Failed to update meal',
       });
     }
   },
