@@ -75,7 +75,7 @@ export default async function handler(
       orderNumber,
       stripePaymentIntentId: paymentIntent.id,
       amount,
-      status: OrderStatus.PENDING, // Set initial status
+      status: OrderStatus.PENDING,
       userId,
       items,
     };

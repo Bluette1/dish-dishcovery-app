@@ -58,11 +58,30 @@ const getOrders = async (token: string) => {
   return orders;
 };
 
-const updateOrder = async (id: string, body: object, token: string) => {
+export const updateOrder = async (id: string, body: object, token: string) => {
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to update order');
+  }
+
+  const updatedOrder = await response.json();
+  return updatedOrder;
+};
+
+export const updateOrderByPaymentIntent = async (id: string, body: object) => {
+  const response = await fetch(`${BASE_URL}/paymentIntent/${id}`, {
+    method: 'PUT',
+    headers: {
+      'x-api-key': `${process.env.API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
@@ -103,7 +122,6 @@ const handlers: Record<
 > = {
   POST: async (req, res) => {
     const order = req.body;
-    
 
     if (!order)
       return res.status(400).json({ error: 'Order body is required' });

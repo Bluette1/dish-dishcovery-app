@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 
-
 const BASE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/users`;
 export interface User {
   email: string;
@@ -86,10 +85,8 @@ const handlers: Record<
 > = {
   POST: async (req, res) => {
     const user = req.body;
-    
 
-    if (!user)
-      return res.status(400).json({ error: 'User body is required' });
+    if (!user) return res.status(400).json({ error: 'User body is required' });
     try {
       const newUser = await saveUser(user);
       res.status(201).json(newUser);
@@ -157,9 +154,7 @@ const handlers: Record<
       return res.status(401).json({ error: 'Authorization token is required' });
     }
 
-    const {
-      token: bearerToken,
-    } = token.user;
+    const { token: bearerToken } = token.user;
 
     if (!id || !body) {
       return res.status(400).json({ error: 'User ID and body are required' });
