@@ -30,7 +30,7 @@ export default async function handler(
   }
 
   try {
-    const { paymentMethodId, items, receiptEmail } = req.body;
+    const { paymentMethodId, items, email: receiptEmail } = req.body;
 
     // Calculate the total amount based on your items
     const amount = items.reduce(
@@ -76,7 +76,7 @@ export default async function handler(
       stripePaymentIntentId: paymentIntent.id,
       amount,
       status: OrderStatus.PENDING,
-      userId,
+      user: userId,
       items,
     };
     await saveOrder(order);

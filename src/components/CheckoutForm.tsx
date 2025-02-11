@@ -1,8 +1,9 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useMemo } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useContext } from 'react';
 import { ShopContext } from '../context/shop';
 import { PaymentMethodResult } from '@stripe/stripe-js';
+import { useSession } from 'next-auth/react';
 
 const CheckoutForm: React.FC = () => {
   const stripe = useStripe();
@@ -10,6 +11,14 @@ const CheckoutForm: React.FC = () => {
   const { cart, emptyCart } = useContext(ShopContext);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data: session } = useSession();
+  const [email, setEmail] = useState<string>('');
+
+  const userEmail = useMemo(() => {
+    return session?.user?.user?.email;
+  }, [session]);
+
+  userEmail && setEmail(userEmail);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -45,16 +54,19 @@ const CheckoutForm: React.FC = () => {
       body: JSON.stringify({
         paymentMethodId: paymentMethod?.id,
         items: cart,
+        email, // Include email in the request
       }),
     });
 
     if (!response.ok) {
-      setError('Error making Stripe payment '), setIsLoading(false);
+      setError('Error making Stripe payment');
+      setIsLoading(false);
+      return;
     }
 
     const paymentIntent = await response.json();
 
-    if (paymentIntent.status == 'succeeded') {
+    if (paymentIntent.status === 'succeeded') {
       emptyCart();
       window.location.href = `/checkout/success?orderNumber=${paymentIntent.orderNumber}`;
     }
@@ -88,6 +100,24 @@ const CheckoutForm: React.FC = () => {
           <div className="min-h-14">
             <CardElement options={cardElementOptions} className="p-4" />
           </div>
+          {!userEmail && (
+            <div className="mt-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email address
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          )}
         </div>
       </div>
 

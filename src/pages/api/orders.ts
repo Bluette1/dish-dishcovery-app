@@ -18,7 +18,7 @@ interface Order {
   stripePaymentIntentId: string;
   amount: number;
   status: OrderStatus;
-  userId: string;
+  user: string;
   items: OrderItem[];
 }
 
@@ -78,7 +78,7 @@ export const updateOrder = async (id: string, body: object, token: string) => {
 };
 
 export const updateOrderByPaymentIntent = async (id: string, body: object) => {
-  const response = await fetch(`${BASE_URL}/paymentIntent/${id}`, {
+  const response = await fetch(`${BASE_URL}/payment-intent/${id}`, {
     method: 'PUT',
     headers: {
       'x-api-key': `${process.env.API_KEY}`,
@@ -93,6 +93,7 @@ export const updateOrderByPaymentIntent = async (id: string, body: object) => {
   }
 
   const updatedOrder = await response.json();
+
   return updatedOrder;
 };
 
