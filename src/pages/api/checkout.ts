@@ -4,8 +4,14 @@ import { getToken } from 'next-auth/jwt';
 import { saveOrder, OrderStatus } from './orders';
 import { saveUser } from './users';
 
-interface Item {
+interface Meal {
+  _id: string;
+  name: string;
+  imageUrl: string;
   price: number;
+}
+interface Item {
+  meal: Meal;
   quantity: number;
 }
 
@@ -34,7 +40,7 @@ export default async function handler(
 
     // Calculate the total amount based on your items
     const amount = items.reduce(
-      (acc: number, item: Item) => acc + item.price * item.quantity,
+      (acc: number, item: Item) => acc + item.meal.price * item.quantity,
       0,
     );
 

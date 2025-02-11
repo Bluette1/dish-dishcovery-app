@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useMemo } from 'react';
+import React, { useState, FormEvent, useEffect, useMemo } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useContext } from 'react';
 import { ShopContext } from '../context/shop';
@@ -18,7 +18,11 @@ const CheckoutForm: React.FC = () => {
     return session?.user?.user?.email;
   }, [session]);
 
-  userEmail && setEmail(userEmail);
+  useEffect(() => {
+    if (userEmail) {
+      setEmail(userEmail);
+    }
+  }, [userEmail]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -54,7 +58,7 @@ const CheckoutForm: React.FC = () => {
       body: JSON.stringify({
         paymentMethodId: paymentMethod?.id,
         items: cart,
-        email, // Include email in the request
+        email,
       }),
     });
 

@@ -5,12 +5,15 @@ import { PlusIcon, MinusIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface Item {
+interface Meal {
   _id: string;
-  price: number;
-  quantity: number;
   name: string;
   imageUrl: string;
+  price: number;
+}
+interface Item {
+  meal: Meal;
+  quantity: number;
 }
 
 export default function Cart() {
@@ -18,7 +21,7 @@ export default function Cart() {
   const { cart, removeFromCart, updateQuantity } = shop;
 
   const cartTotal = cart.reduce(
-    (sum: number, item: Item) => sum + item.price * item.quantity,
+    (sum: number, item: Item) => sum + item.meal.price * item.quantity,
     0,
   );
 
@@ -28,42 +31,42 @@ export default function Cart() {
       <div className="space-y-4">
         {cart.map((item: Item) => (
           <div
-            key={item._id}
+            key={item.meal._id}
             className="flex items-center justify-between border-b pb-4"
           >
             <div className="flex items-center gap-4">
               <Image
                 height={500}
                 width={500}
-                src={item.imageUrl}
-                alt={item.name}
+                src={item.meal.imageUrl}
+                alt={item.meal.name}
                 className="w-16 h-16 object-cover rounded"
               />
               <div>
-                <h3 className="font-semibold">{item.name}</h3>
+                <h3 className="font-semibold">{item.meal.name}</h3>
                 <p className="text-gray-600">
-                  ${item.price} x {item.quantity}
+                  ${item.meal.price} x {item.quantity}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => updateQuantity(item._id, false)}
+                  onClick={() => updateQuantity(item.meal._id, false)}
                   className="p-1 rounded-full hover:bg-gray-100"
                 >
                   <MinusIcon className="h-4 w-4" />
                 </button>
                 <span>{item.quantity}</span>
                 <button
-                  onClick={() => updateQuantity(item._id, true)}
+                  onClick={() => updateQuantity(item.meal._id, true)}
                   className="p-1 rounded-full hover:bg-gray-100"
                 >
                   <PlusIcon className="h-4 w-4" />
                 </button>
               </div>
               <button
-                onClick={() => removeFromCart(item._id)}
+                onClick={() => removeFromCart(item.meal._id)}
                 className="text-red-500 hover:text-red-700"
               >
                 Remove
