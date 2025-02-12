@@ -9,6 +9,7 @@ import { SWRConfig } from 'swr';
 import { useContext, useRef } from 'react';
 import { ShopContext } from '../../../context/shop';
 import Cart from '../../../components/cart';
+import LoadingSpinner from '../../../components/loading-spinner';
 
 export async function getStaticProps() {
   const meals = await fetchMeals();
@@ -43,7 +44,13 @@ const Meals = () => {
       meal.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
-  if (isLoading) return <div className="min-h-96">Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <>

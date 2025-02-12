@@ -1,15 +1,10 @@
-import NextAuth, { User } from 'next-auth';
+import NextAuth, { User, Account, Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-/**
- * Takes a token, and returns a new token with updated
- * `accessToken` and `accessTokenExpires`. If an error occurs,
- * returns the old token and an error property
- */
 async function refreshAccessToken(token: JWT) {
   try {
     const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -54,7 +49,6 @@ async function refreshAccessToken(token: JWT) {
     };
   } catch (error) {
     console.log(error);
-
     return {
       ...token,
       error: 'RefreshAccessTokenError',
@@ -74,7 +68,7 @@ const login = async (email: string, password: string): Promise<User | null> => {
     const responseData = await response.json();
 
     if (!response.ok) {
-      throw new Error('Network response was not ok', responseData);
+      throw new Error('Network response was not ok');
     }
 
     return responseData;
@@ -84,7 +78,7 @@ const login = async (email: string, password: string): Promise<User | null> => {
   }
 };
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -124,19 +118,27 @@ export default NextAuth({
     signIn: '/login',
   },
   callbacks: {
-    async jwt({ token, account, user, trigger, session }) {
-      // Persist the user to the token right after signin
+    async jwt({
+      token,
+      account,
+      user,
+      trigger,
+      session,
+    }: {
+      token: JWT;
+      account: Account | null;
+      user?: User | null;
+      trigger?: 'signIn' | 'signUp' | 'update' | undefined;
+      session?: Session;
+    }) {
       if (account && user) {
         token.user = user;
 
         if (account.id_token) {
-          //Google signin
-          // Create the user on the backend
           token.idToken = account.id_token;
           token.accessToken = account.access_token;
-
           token.accessTokenExpires = account.expires_at
-            ? account.expires_at * 1000 // Convert to milliseconds
+            ? account.expires_at * 1000
             : undefined;
           token.refreshToken = account.refresh_token;
 
@@ -153,33 +155,28 @@ export default NextAuth({
           const responseData = await response.json();
 
           if (!response.ok) {
-            throw new Error('Network response was not ok', responseData);
+            throw new Error('Network response was not ok');
           }
 
-          //Override user with this user data
           token.user = { user: responseData, token: account.id_token };
-          try {
-          } catch (error) {
-            console.error('Error creating new user', error);
-          }
         }
       }
       if (trigger === 'update' && session) {
         token.user = session.user;
       }
 
-      // Check if the token has expired, and refresh it if necessary
       if (token.accessTokenExpires && Date.now() >= token.accessTokenExpires) {
         token = await refreshAccessToken(token);
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (token.user) {
         session.user = token.user;
       }
-
       return session;
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

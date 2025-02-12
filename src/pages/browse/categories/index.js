@@ -5,6 +5,7 @@ import slugify from '../../../helpers/slugify';
 import { SWRConfig } from 'swr';
 import fetchCategories from '../../../services/categories';
 import useCategories from '../../../hooks/use-categories';
+import LoadingSpinner from '../../../components/loading-spinner';
 
 export async function getStaticProps() {
   const categories = await fetchCategories();
@@ -22,8 +23,13 @@ export async function getStaticProps() {
 const Categories = () => {
   const { data: categories, isLoading } = useCategories();
 
-  if (isLoading) return <div className="min-h-96">Loading...</div>;
-
+  if (isLoading) {
+    return (
+      <div className="min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
   return (
     <div className={styles.container}>
       <ul className={styles.categoryList}>
