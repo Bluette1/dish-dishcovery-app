@@ -24,7 +24,9 @@
     "**/*.ts",
     "**/*.tsx",
     "types/**/*.d.ts",
-    "src/pages/browse/meals/[mealName].js"
-, "src/pages/profile/orders/index.jsx", "src/pages/profile/orders/[id].jsx", "src/components/orders.jsx", "src/components/order.jsx"  ],
+    "src/pages/browse/meals/[mealName].js",
+    "src/pages/profile/orders/index.jsx",
+    "src/pages/profile/orders/[id].jsx"
+  ],
   "exclude": ["node_modules"]
 }

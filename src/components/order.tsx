@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import useOrder from '../hooks/use-order';
 import { useSession } from 'next-auth/react';
 import LoadingSpinner from './loading-spinner';
+import Image from 'next/image';
+import { OrderItem } from '../../types/order';
 
 const Order = () => {
   const router = useRouter();
@@ -16,9 +18,9 @@ const Order = () => {
     return null;
   }, [session, status]);
 
-  const { data: order, isLoading, isError } = useOrder(token, id);
+  const { data: order, isLoading, error: isError } = useOrder(token, id);
 
-  if (isLoading || !order) {
+  if (isLoading) {
     return (
       <div className="min-h-screen">
         <LoadingSpinner />
@@ -48,15 +50,17 @@ const Order = () => {
 
       <h3 className="text-xl font-semibold mb-4">Items</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {order.items.map((item) => (
+        {order.items.map((item: OrderItem, idx: number) => (
           <div
-            key={item._id}
+            key={`order-item-${idx}`}
             className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 transition-transform hover:scale-[1.02]"
           >
             {item.meal && (
               <div className="flex flex-col h-full">
                 <div className="relative pt-[60%]">
-                  <img
+                  <Image
+                    width={500}
+                    height={500}
                     src={item.meal.imageUrl}
                     alt={item.meal.name}
                     className="absolute top-0 left-0 w-full h-full object-cover"
@@ -84,7 +88,9 @@ const Order = () => {
             {item.recipe && (
               <div className="flex flex-col h-full">
                 <div className="relative pt-[60%]">
-                  <img
+                  <Image
+                    width={500}
+                    height={500}
                     src={item.recipe.imageUrl}
                     alt={item.recipe.name}
                     className="absolute top-0 left-0 w-full h-full object-cover"
