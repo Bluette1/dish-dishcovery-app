@@ -9,6 +9,7 @@ import useMeals from '../../../hooks/use-meals';
 import { useContext, useRef } from 'react';
 import { ShopContext } from '../../../context/shop';
 import Cart from '../../../components/cart';
+import LoadingSpinner from '../../../components/loading-spinner';
 
 export async function getStaticPaths() {
   const categories = await fetchCategories();
@@ -46,7 +47,13 @@ const Category = ({ name }) => {
     cartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  if (isLoading) return <div className="min-h-96">Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="h-full">

@@ -10,6 +10,7 @@ import deslugify from '../../../helpers/deslugify';
 import { useContext, useRef } from 'react';
 import { ShopContext } from '../../../context/shop';
 import Cart from '../../../components/cart';
+import LoadingSpinner from '../../../components/loading-spinner';
 
 export async function getStaticPaths() {
   const meals = await fetchMeals();
@@ -57,7 +58,13 @@ const Meal = ({ name }) => {
     meal = meals[0];
   }
 
-  if (isLoading) return <div className="min-h-96">Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return meal ? (
     <div>

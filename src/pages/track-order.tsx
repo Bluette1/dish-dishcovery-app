@@ -23,7 +23,6 @@ const TrackOrderPage = () => {
     setError(null);
 
     try {
-      // Replace with your API endpoint
       const response = await fetch(
         `/api/track-order?orderNumber=${orderNumber}`,
       );
@@ -44,7 +43,7 @@ const TrackOrderPage = () => {
   };
 
   return (
-    <section className='min-h-96'>
+    <section className="min-h-96">
       <Meta
         title="Track Your Order | Dish Discovery"
         description="Track your order status and updates for Dish Discovery."

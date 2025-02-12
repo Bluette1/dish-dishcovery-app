@@ -8,17 +8,17 @@ import FlipCardsSection from '@/components/flip-cards-section';
 import Meta from '@/components/meta';
 import Link from 'next/link';
 import { SearchIcon, ArrowUpIcon } from '@heroicons/react/outline';
-import { DataContext } from '../context/data';
-import { useContext, useEffect, useState } from 'react';
 import fetchCategories from '../services/categories';
 import fetchMeals from '../services/meals';
+import { SWRConfig } from 'swr';
+import { DataContext } from '../context/data';
+import { useContext, useEffect } from 'react';
 import useMeals from '../hooks/use-meals';
 import useCategories from '../hooks/use-categories';
-import { SWRConfig } from 'swr';
+import LoadingSpinner from '../components/loading-spinner'; // Optional, for loading state
 
 export async function getStaticProps() {
   const categories = await fetchCategories();
-
   const meals = await fetchMeals();
 
   const urlCategories = `${process.env.NEXT_PUBLIC_BASE_URL}/categories`;
@@ -42,25 +42,24 @@ const Home: NextPage = () => {
   const { data: mealsData, isLoading: isLoadingMeals } = useMeals();
 
   const { addCategories, addMeals } = useContext(DataContext);
-  const [categories, setCategories] = useState(null);
-  const [meals, setMeals] = useState(null);
 
   useEffect(() => {
     if (mealsData) {
-      window.localStorage.setItem('meals', JSON.stringify(meals));
       addMeals(mealsData);
-      setMeals(mealsData);
     }
 
     if (categoriesData) {
-      window.localStorage.setItem('categories', JSON.stringify(categoriesData));
-      addCategories(categories);
-      setCategories(categoriesData);
+      addCategories(categoriesData);
     }
-  }, [mealsData, categoriesData, categories, meals, addCategories, addMeals]);
+  }, [mealsData, categoriesData, addCategories, addMeals]);
 
-  if (isLoadingCategories || isLoadingMeals)
-    return <div className="min-h-96">Loading...</div>;
+  if (isLoadingCategories || isLoadingMeals) {
+    return (
+      <div className="min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <>

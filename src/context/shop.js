@@ -43,23 +43,6 @@ const ShopProvider = ({ children }) => {
     },
   );
 
-  // Map cart items with meal details
-  const mapCartWithMeals = (cartItems, mealsData) => {
-    if (!cartItems || !mealsData) return [];
-
-    return cartItems
-      .map((cartItem) => {
-        const mealDetails = mealsData.find((meal) => meal._id === cartItem._id);
-        if (!mealDetails) return null;
-
-        return {
-          ...mealDetails,
-          quantity: cartItem.quantity,
-        };
-      })
-      .filter(Boolean); // Remove null items
-  };
-
   useEffect(() => {
     if (token && fetchedUser && !isUserLoading) {
       setUser(fetchedUser);
@@ -100,28 +83,28 @@ const ShopProvider = ({ children }) => {
   };
 
   const addToCart = (meal) => {
-    const existingItem = cart.find((item) => item._id === meal._id);
+    const existingItem = cart.find((item) => item.meal._id === meal._id);
 
     const updatedCart = existingItem
       ? cart.map((item) =>
-          item._id === meal._id
+          item.meal._id === meal._id
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         )
-      : [...cart, { ...meal, quantity: 1 }];
+      : [...cart, { meal, quantity: 1 }];
 
     updateCart(updatedCart);
   };
 
   const removeFromCart = (mealId) => {
-    const updatedCart = cart.filter((item) => item._id !== mealId);
+    const updatedCart = cart.filter((item) => item.meal._id !== mealId);
     updateCart(updatedCart);
   };
 
   const updateQuantity = (mealId, increment) => {
     const updatedCart = cart
       .map((item) => {
-        if (item._id === mealId) {
+        if (item.meal._id === mealId) {
           const newQuantity = item.quantity + (increment ? 1 : -1);
           return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
         }
@@ -142,16 +125,14 @@ const ShopProvider = ({ children }) => {
     setUser(null);
   };
 
-  const isInCart = (mealId) => cart.find((item) => item._id === mealId);
+  const isInCart = (mealId) => cart.find((item) => item.meal._id === mealId);
 
   // Load initial cart data
   useEffect(() => {
     const loadCart = async () => {
       try {
         if (token && user && meals) {
-          // For authenticated users, map cart items with meal details
-          const mappedCart = mapCartWithMeals(user.cart, meals);
-          setCart(mappedCart);
+          setCart(user.cart);
         } else {
           // For non-authenticated users, use localStorage
           const storedCart = localStorage.getItem('cart');
@@ -167,7 +148,7 @@ const ShopProvider = ({ children }) => {
   }, [token, user, meals]);
 
   const contextValue = {
-    cart: cart.sort((a, b) => a.name.localeCompare(b.name)),
+    cart: cart.sort((a, b) => a.meal.name.localeCompare(b.meal.name)),
     addToCart,
     emptyCart,
     removeFromCart,
