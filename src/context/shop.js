@@ -2,12 +2,12 @@ import React, { createContext, useState, useEffect, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import useUser from '../hooks/use-user';
 import { useSWRConfig } from 'swr';
-import useSWR from 'swr';
 
 export const ShopContext = createContext();
 
 const ShopProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [wishList, setWishList] = useState([]);
   const [user, setUser] = useState(null);
   const { mutate } = useSWRConfig();
 
@@ -27,21 +27,6 @@ const ShopProvider = ({ children }) => {
     id: userId,
     token,
   });
-
-  // Fetch meals data
-  const { data: meals, isLoading: isMealsLoading } = useSWR(
-    token ? [`${process.env.NEXT_PUBLIC_BASE_URL}/meals`, token] : null,
-    async ([url, token]) => {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      if (!response.ok) throw new Error('Failed to fetch meals');
-      return response.json();
-    },
-  );
 
   useEffect(() => {
     if (token && fetchedUser && !isUserLoading) {
@@ -82,6 +67,41 @@ const ShopProvider = ({ children }) => {
     }
   };
 
+  const updateWishList = async (newWishList) => {
+    try {
+      if (session && userId) {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              wishList: newWishList.map((item) => item._id),
+            }),
+          },
+        );
+
+        if (!response.ok) {
+          console.log('Failed to update wishList');
+          throw new Error('Failed to update wishList');
+        }
+
+        // Update SWR cache
+        await mutate(`${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}`);
+      } else {
+        // For non-authenticated users, store full meal details
+        localStorage.setItem('wishList', JSON.stringify(newWishList));
+      }
+
+      setWishList(newWishList);
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    }
+  };
+
   const addToCart = (meal) => {
     const existingItem = cart.find((item) => item.meal._id === meal._id);
 
@@ -94,11 +114,25 @@ const ShopProvider = ({ children }) => {
       : [...cart, { meal, quantity: 1 }];
 
     updateCart(updatedCart);
+    removeFromWishList(meal._id);
+  };
+
+  const addToWishList = (meal) => {
+    const existingItem = wishList.find((item) => item._id === meal._id);
+
+    const updatedWishList = existingItem ? wishList : [...wishList, meal];
+
+    updateWishList(updatedWishList);
   };
 
   const removeFromCart = (mealId) => {
     const updatedCart = cart.filter((item) => item.meal._id !== mealId);
     updateCart(updatedCart);
+  };
+
+  const removeFromWishList = (mealId) => {
+    const updatedWishList = wishList.filter((item) => item._id !== mealId);
+    updateWishList(updatedWishList);
   };
 
   const updateQuantity = (mealId, increment) => {
@@ -122,41 +156,52 @@ const ShopProvider = ({ children }) => {
   const clearContext = () => {
     localStorage.clear();
     setCart([]);
+    setWishList([]);
     setUser(null);
   };
 
   const isInCart = (mealId) => cart.find((item) => item.meal._id === mealId);
 
-  // Load initial cart data
+  const isInWishList = (mealId) => wishList.find((item) => item._id === mealId);
+
+  // Load initial cart and wishList data
   useEffect(() => {
     const loadCart = async () => {
       try {
-        if (token && user && meals) {
+        if (token && user) {
           setCart(user.cart);
+          setWishList(user.wishList);
         } else {
           // For non-authenticated users, use localStorage
           const storedCart = localStorage.getItem('cart');
           setCart(storedCart ? JSON.parse(storedCart) : []);
+
+          const storedWishList = localStorage.getItem('wishList');
+          setWishList(storedWishList ? JSON.parse(storedWishList) : []);
         }
       } catch (error) {
         console.error('Error loading cart:', error);
         setCart([]);
+        setWishList([]);
       }
     };
 
     loadCart();
-  }, [token, user, meals]);
+  }, [token, user]);
 
   const contextValue = {
     cart: cart.sort((a, b) => a.meal.name.localeCompare(b.meal.name)),
     addToCart,
+    addToWishList,
     emptyCart,
     removeFromCart,
+    removeFromWishList,
     updateQuantity,
     clearContext,
     isInCart,
+    isInWishList,
     user,
-    isLoading: isUserLoading || isMealsLoading,
+    isLoading: isUserLoading,
   };
 
   return (

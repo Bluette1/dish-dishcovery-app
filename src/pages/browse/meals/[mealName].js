@@ -45,7 +45,13 @@ export async function getStaticProps({ params }) {
 const Meal = ({ name }) => {
   const { data: meals, isLoading } = useMeals({ name });
   const shop = useContext(ShopContext);
-  const { addToCart, isInCart } = shop;
+  const {
+    addToCart,
+    isInCart,
+    addToWishList,
+    isInWishList,
+    removeFromWishList,
+  } = shop;
 
   const cartRef = useRef(null);
 
@@ -80,10 +86,29 @@ const Meal = ({ name }) => {
             </h2>
 
             <div className="flex items-center -mt-10 ">
-              <div className="relative">
-                <HeartIcon className="w-14 h-14 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out hover:opacity-0" />
-                <HeartIconSolid className="w-14 h-14 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100" />
-              </div>
+              {!isInWishList(meal._id) && (
+                <div
+                  className="relative"
+                  onClick={async () => {
+                    await addToWishList(meal);
+                  }}
+                >
+                  <HeartIcon className="w-14 h-14 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out hover:opacity-0" />
+                  <HeartIconSolid className="w-14 h-14 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100" />
+                </div>
+              )}
+
+              {isInWishList(meal._id) && (
+                <div
+                  className="relative group"
+                  onClick={async () => {
+                    await removeFromWishList(meal._id);
+                  }}
+                >
+                  <HeartIconSolid className="w-14 h-14 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out group-hover:opacity-0" />
+                  <HeartIcon className="w-14 h-14 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100" />
+                </div>
+              )}
             </div>
           </section>
 

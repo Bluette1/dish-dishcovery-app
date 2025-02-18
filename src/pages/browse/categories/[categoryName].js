@@ -10,6 +10,8 @@ import { useContext, useRef } from 'react';
 import { ShopContext } from '../../../context/shop';
 import Cart from '../../../components/cart';
 import LoadingSpinner from '../../../components/loading-spinner';
+import { HeartIcon } from '@heroicons/react/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid';
 
 export async function getStaticPaths() {
   const categories = await fetchCategories();
@@ -39,7 +41,13 @@ export async function getStaticProps({ params }) {
 const Category = ({ name }) => {
   const { data: meals, isLoading } = useMeals({ category: name });
   const shop = useContext(ShopContext);
-  const { addToCart, isInCart } = shop;
+  const {
+    addToCart,
+    isInCart,
+    isInWishList,
+    addToWishList,
+    removeFromWishList,
+  } = shop;
 
   const cartRef = useRef(null);
 
@@ -95,17 +103,44 @@ const Category = ({ name }) => {
                         ${meal.price.toFixed(2)}
                       </div>
                     </div>
-                    <button
-                      onClick={async (e) => {
-                        e.stopPropagation(); // Prevent navigation
-                        await addToCart(meal);
-                        // Add small delay to ensure DOM update before scrolling
-                        setTimeout(scrollToCart, 100);
-                      }}
-                      className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
-                    </button>
+                    <div className="flex flex-col">
+                      <div className="flex items-center">
+                        {!isInWishList(meal._id) && (
+                          <div
+                            className="relative"
+                            onClick={async () => {
+                              await addToWishList(meal);
+                            }}
+                          >
+                            <HeartIcon className="w-7 h-7 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out hover:opacity-0" />
+                            <HeartIconSolid className="w-7 h-7 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100" />
+                          </div>
+                        )}
+
+                        {isInWishList(meal._id) && (
+                          <div
+                            className="relative group"
+                            onClick={async () => {
+                              await removeFromWishList(meal._id);
+                            }}
+                          >
+                            <HeartIconSolid className="w-7 h-7 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out group-hover:opacity-0" />
+                            <HeartIcon className="w-7 h-7 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100" />
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={async (e) => {
+                          e.stopPropagation(); // Prevent navigation
+                          await addToCart(meal);
+                          // Add small delay to ensure DOM update before scrolling
+                          setTimeout(scrollToCart, 100);
+                        }}
+                        className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

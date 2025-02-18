@@ -10,6 +10,8 @@ import { useContext, useRef } from 'react';
 import { ShopContext } from '../../../context/shop';
 import Cart from '../../../components/cart';
 import LoadingSpinner from '../../../components/loading-spinner';
+import { HeartIcon } from '@heroicons/react/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid';
 
 export async function getStaticProps() {
   const meals = await fetchMeals();
@@ -29,7 +31,13 @@ const Meals = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const shop = useContext(ShopContext);
-  const { isInCart, addToCart } = shop;
+  const {
+    isInCart,
+    addToCart,
+    isInWishList,
+    addToWishList,
+    removeFromWishList,
+  } = shop;
 
   const cartRef = useRef(null);
 
@@ -67,7 +75,7 @@ const Meals = () => {
         </div>
         <section className="py-16 bg-gray-100">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredMeals && filteredMeals.length > 0 ? (
                 filteredMeals.map((meal) => (
                   <div key={meal._id} className="relative group">
@@ -99,17 +107,44 @@ const Meals = () => {
                           ${meal.price.toFixed(2)}
                         </div>
                       </div>
-                      <button
-                        onClick={async (e) => {
-                          e.stopPropagation(); // Prevent navigation
-                          await addToCart(meal);
-                          // Add small delay to ensure DOM update before scrolling
-                          setTimeout(scrollToCart, 100);
-                        }}
-                        className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
-                      </button>
+                      <div className="flex flex-col">
+                        <div className="flex items-center">
+                          {!isInWishList(meal._id) && (
+                            <div
+                              className="relative"
+                              onClick={async () => {
+                                await addToWishList(meal);
+                              }}
+                            >
+                              <HeartIcon className="w-7 h-7 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out hover:opacity-0" />
+                              <HeartIconSolid className="w-7 h-7 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100" />
+                            </div>
+                          )}
+
+                          {isInWishList(meal._id) && (
+                            <div
+                              className="relative group"
+                              onClick={async () => {
+                                await removeFromWishList(meal._id);
+                              }}
+                            >
+                              <HeartIconSolid className="w-7 h-7 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out group-hover:opacity-0" />
+                              <HeartIcon className="w-7 h-7 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100" />
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation(); // Prevent navigation
+                            await addToCart(meal);
+                            // Add small delay to ensure DOM update before scrolling
+                            setTimeout(scrollToCart, 100);
+                          }}
+                          className="my-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                          {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))
