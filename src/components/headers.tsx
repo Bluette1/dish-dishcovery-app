@@ -16,6 +16,7 @@ import {
   ChevronUpIcon,
   UserIcon,
   ShoppingCartIcon,
+  HeartIcon,
 } from '@heroicons/react/outline';
 import Logo from './logo';
 import Header from './header';
@@ -108,7 +109,7 @@ const Navbar: React.FC = () => {
                 </Transition>
               </Menu>
             </div>
-            <div className="relative px-1.5 mx-10 lg:mx-5 ">
+            <div className="relative px-1.5 mx-6 md:mx-10 lg:mx-4 ">
               <Link href={'/shopping/cart'}>
                 <ShoppingCartIcon className="h-6 w-6" />
                 {cart.length > 0 && (
@@ -116,6 +117,11 @@ const Navbar: React.FC = () => {
                     {cart.length}
                   </span>
                 )}
+              </Link>
+            </div>
+            <div className="relative px-1.5 lg:mx-5 ">
+              <Link href={'/shopping/wishlist'}>
+                <HeartIcon className="h-6 w-6" />
               </Link>
             </div>
           </div>
