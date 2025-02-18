@@ -30,13 +30,7 @@ const Meals = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const shop = useContext(ShopContext);
-  const {
-    isInCart,
-    addToCart,
-    isInWishList,
-    addToWishList,
-    removeFromWishList,
-  } = shop;
+  const { isInCart, addToCart } = shop;
 
   const cartRef = useRef(null);
 
@@ -77,7 +71,7 @@ const Meals = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredMeals && filteredMeals.length > 0 ? (
                 filteredMeals.map((meal) => (
-                  <div key={meal._id} className="relative group">
+                  <div key={meal._id} className="relative">
                     <Link
                       href={`/browse/meals/${encodeURIComponent(
                         slugify(meal.name),
@@ -88,7 +82,7 @@ const Meals = () => {
                           src={meal.imageUrl}
                           alt={meal.name}
                           fill
-                          className="object-cover transition-opacity duration-300 group-hover:opacity-75"
+                          className="object-cover transition-opacity duration-300 hover:opacity-75"
                         />
                       </div>
                     </Link>
@@ -101,23 +95,14 @@ const Meals = () => {
                           className="text-lg font-semibold text-gray-800"
                         >
                           {meal.name}
+                          <div className="text-lg font-bold text-gray-800">
+                            ${meal.price.toFixed(2)}
+                          </div>
                         </Link>
-                        <div className="text-lg font-bold text-gray-800">
-                          ${meal.price.toFixed(2)}
-                        </div>
                       </div>
                       <div className="flex flex-col">
-                        <div className="flex items-center">
-                          <WishListButton
-                            isInWishList={isInWishList(meal._id)}
-                            onToggle={async () => {
-                              if (isInWishList(meal._id)) {
-                                await removeFromWishList(meal._id);
-                              } else {
-                                await addToWishList(meal);
-                              }
-                            }}
-                          />
+                        <div className=" flex items-center ">
+                          <WishListButton meal={meal} />
                         </div>
                         <button
                           onClick={async (e) => {

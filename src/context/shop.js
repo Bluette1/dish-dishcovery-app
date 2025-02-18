@@ -201,6 +201,7 @@ const ShopProvider = ({ children }) => {
     isInCart,
     isInWishList,
     user,
+    wishList,
     isLoading: isUserLoading,
   };
 

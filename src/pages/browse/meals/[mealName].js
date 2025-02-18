@@ -45,13 +45,7 @@ export async function getStaticProps({ params }) {
 const Meal = ({ name }) => {
   const { data: meals, isLoading } = useMeals({ name });
   const shop = useContext(ShopContext);
-  const {
-    addToCart,
-    isInCart,
-    addToWishList,
-    isInWishList,
-    removeFromWishList,
-  } = shop;
+  const { addToCart, isInCart } = shop;
 
   const cartRef = useRef(null);
 
@@ -86,17 +80,7 @@ const Meal = ({ name }) => {
             </h2>
 
             <div className="flex items-center -mt-10 ">
-              <WishListButton
-                isInWishList={isInWishList(meal._id)}
-                onToggle={async () => {
-                  if (isInWishList(meal._id)) {
-                    await removeFromWishList(meal._id);
-                  } else {
-                    await addToWishList(meal);
-                  }
-                }}
-                size={14}
-              />
+              <WishListButton meal={meal} size={14} />
             </div>
           </section>
 
