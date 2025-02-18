@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { TruckIcon, HeartIcon } from '@heroicons/react/outline';
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/solid';
+import { TruckIcon } from '@heroicons/react/outline';
 import DishIcon from '../../../components/dish-icon';
 import slugify from '../../../helpers/slugify';
 import { SWRConfig } from 'swr';
@@ -11,6 +10,7 @@ import { useContext, useRef } from 'react';
 import { ShopContext } from '../../../context/shop';
 import Cart from '../../../components/cart';
 import LoadingSpinner from '../../../components/loading-spinner';
+import WishListButton from '../../../components/wishlistbutton';
 
 export async function getStaticPaths() {
   const meals = await fetchMeals();
@@ -86,29 +86,17 @@ const Meal = ({ name }) => {
             </h2>
 
             <div className="flex items-center -mt-10 ">
-              {!isInWishList(meal._id) && (
-                <div
-                  className="relative"
-                  onClick={async () => {
-                    await addToWishList(meal);
-                  }}
-                >
-                  <HeartIcon className="w-14 h-14 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out hover:opacity-0" />
-                  <HeartIconSolid className="w-14 h-14 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100" />
-                </div>
-              )}
-
-              {isInWishList(meal._id) && (
-                <div
-                  className="relative group"
-                  onClick={async () => {
+              <WishListButton
+                isInWishList={isInWishList(meal._id)}
+                onToggle={async () => {
+                  if (isInWishList(meal._id)) {
                     await removeFromWishList(meal._id);
-                  }}
-                >
-                  <HeartIconSolid className="w-14 h-14 mx-7 cursor-pointer transition-opacity duration-200 ease-in-out group-hover:opacity-0" />
-                  <HeartIcon className="w-14 h-14 mx-7 cursor-pointer absolute top-0 left-0 opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100" />
-                </div>
-              )}
+                  } else {
+                    await addToWishList(meal);
+                  }
+                }}
+                size={14}
+              />
             </div>
           </section>
 
