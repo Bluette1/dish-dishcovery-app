@@ -1,18 +1,20 @@
 // pages/track-order.tsx
 import { useState, FormEvent } from 'react';
-import styles from '../styles/trackorder.module.css'; // Import your CSS module
+import { useSession } from 'next-auth/react';
+import styles from '../styles/trackorder.module.css';
 import Meta from '@/components/meta';
+import Link from 'next/link';
 
-// Define the shape of the order status data
 interface OrderStatus {
+  _id: string;
   orderNumber: string;
   status: string;
-  estimatedDelivery: string;
-  details: string;
 }
 
 const TrackOrderPage = () => {
+  const { data: session } = useSession();
   const [orderNumber, setOrderNumber] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [orderStatus, setOrderStatus] = useState<OrderStatus | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +26,7 @@ const TrackOrderPage = () => {
 
     try {
       const response = await fetch(
-        `/api/track-order?orderNumber=${orderNumber}`,
+        `/api/track-order?orderNumber=${orderNumber}&email=${encodeURIComponent(email)}`, // Include email
       );
       const data: OrderStatus | { message: string } = await response.json();
 
@@ -63,6 +65,24 @@ const TrackOrderPage = () => {
             required
             className={styles.input}
           />
+
+          {/* Conditionally render email input if user is not logged in */}
+          {!session && (
+            <>
+              <label htmlFor="email" className={styles.label}>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className={styles.input}
+              />
+            </>
+          )}
+
           <button type="submit" disabled={loading} className={styles.button}>
             {loading ? 'Tracking...' : 'Track Order'}
           </button>
@@ -78,11 +98,28 @@ const TrackOrderPage = () => {
               <strong>Status:</strong> {orderStatus.status}
             </p>
             <p>
-              <strong>Estimated Delivery:</strong>{' '}
-              {orderStatus.estimatedDelivery}
+              <strong>Estimated Delivery:</strong> in approx. 1 hr
             </p>
             <p>
-              <strong>Details:</strong> {orderStatus.details}
+              <strong>Details:</strong>{' '}
+              {!session && (
+                <span>
+                  <Link href="/login" className="underline">
+                    Login
+                  </Link>{' '}
+                  to view details
+                </span>
+              )}
+              {session && (
+                <span>
+                  <Link
+                    href={`/profile/orders/${orderStatus._id}`}
+                    className="underline"
+                  >
+                    View details
+                  </Link>
+                </span>
+              )}
             </p>
           </div>
         )}
