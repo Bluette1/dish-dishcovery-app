@@ -10,6 +10,7 @@ import { useContext, useRef } from 'react';
 import { ShopContext } from '../../../context/shop';
 import Cart from '../../../components/cart';
 import LoadingSpinner from '../../../components/loading-spinner';
+import WishListButton from '../../../components/wishlistbutton';
 
 export async function getStaticProps() {
   const meals = await fetchMeals();
@@ -67,10 +68,10 @@ const Meals = () => {
         </div>
         <section className="py-16 bg-gray-100">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredMeals && filteredMeals.length > 0 ? (
                 filteredMeals.map((meal) => (
-                  <div key={meal._id} className="relative group">
+                  <div key={meal._id} className="relative">
                     <Link
                       href={`/browse/meals/${encodeURIComponent(
                         slugify(meal.name),
@@ -81,7 +82,7 @@ const Meals = () => {
                           src={meal.imageUrl}
                           alt={meal.name}
                           fill
-                          className="object-cover transition-opacity duration-300 group-hover:opacity-75"
+                          className="object-cover transition-opacity duration-300 hover:opacity-75"
                         />
                       </div>
                     </Link>
@@ -94,22 +95,27 @@ const Meals = () => {
                           className="text-lg font-semibold text-gray-800"
                         >
                           {meal.name}
+                          <div className="text-lg font-bold text-gray-800">
+                            ${meal.price.toFixed(2)}
+                          </div>
                         </Link>
-                        <div className="text-lg font-bold text-gray-800">
-                          ${meal.price.toFixed(2)}
-                        </div>
                       </div>
-                      <button
-                        onClick={async (e) => {
-                          e.stopPropagation(); // Prevent navigation
-                          await addToCart(meal);
-                          // Add small delay to ensure DOM update before scrolling
-                          setTimeout(scrollToCart, 100);
-                        }}
-                        className="my-8 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
-                      </button>
+                      <div className="flex flex-col">
+                        <div className=" flex items-center ">
+                          <WishListButton meal={meal} />
+                        </div>
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation(); // Prevent navigation
+                            await addToCart(meal);
+                            // Add small delay to ensure DOM update before scrolling
+                            setTimeout(scrollToCart, 100);
+                          }}
+                          className="my-3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                          {isInCart(meal._id) ? 'Add to Cart' : 'Order Now'}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))
